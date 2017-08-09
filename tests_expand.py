@@ -5,9 +5,11 @@ import networkx as nx
 class ExpandGraph(object):
     def __init__(self, graph):
         assert isinstance(graph, nx.DiGraph)
-        self.graph = graph
-        self.graph, self.additional_nodes = self.expand_graph()
-        self.matrix, self.vector = self.expand_activation_edge()
+        self.graph, self.additional_nodes = ExpandGraph.expand_graph(graph)
+        self.matrix = list()
+        self.vector = list()
+        self.initialize_matrix_and_vector()
+        self.fill_in_stoichiometric_matrix()
 
     def initialize_matrix_and_vector(self):
         rows = len(self.graph.nodes())
@@ -15,7 +17,15 @@ class ExpandGraph(object):
         self.matrix = self.generate_empty_stoichiometric_matrix(rows, columns)
         self.vector = [0 for _ in range(len(self.graph.edges()))]
 
-    def expand_activation_edge(self):
+    def fill_in_stoichiometric_matrix(self):
+        assert all('weight' in d.keys() for u, v, d in self.graph.edges(data=True)), \
+            "all nodes must have weights"
+        reaction_number = 0
+        for edge in self.graph.edges():
+            if self.graph.get_edge_data(*edge)['weight'] == 0:
+                reaction_number = self.add_activation_edge_reactions(edge, reaction_number)
+
+    def add_activation_edge_reactions(self, edge, reaction_number):
         """
         Given edge PKA -> GRK2
 
@@ -34,42 +44,39 @@ class ExpandGraph(object):
         PKA:GRK2        1           -1           0
 
         and reversibility vector [1, 0, 0]
-        :return matrix, vector
         """
-        reaction_number = 0
-        for edge in self.graph.edges():
-            u, v = edge
-            self.add_first_reaction(self.matrix, reaction_number, u, v)
-            reaction_number += 1
-            self.add_second_reaction(self.matrix, reaction_number, u, v)
-            reaction_number += 1
-            self.add_third_reaction(self.matrix, reaction_number, v)
-            reaction_number += 1
-        return self.matrix, self.vector
+        assert isinstance(edge, tuple)
+        u, v = edge
+        self.add_first_reaction(u, v, reaction_number)
+        reaction_number += 1
+        self.add_second_reaction(u, v, reaction_number)
+        reaction_number += 1
+        self.add_third_reaction(v, reaction_number)
+        return reaction_number
 
-    def add_third_reaction(self, matrix, reaction_number, v):
-        # print("Third Reaction: {} -> {}".format(v, self.additional_nodes[v]))
-        matrix[v - 1][reaction_number] = -1
-        matrix[self.additional_nodes[v] - 1][reaction_number] = 1
-
-    def add_second_reaction(self, matrix, reaction_number, u, v):
-        # print("Second Reaction: {} -> {} + {}".format(self.additional_nodes[(u, v)], u, v))
-        matrix[self.additional_nodes[(u, v)] - 1][reaction_number] = -1
-        matrix[u - 1][reaction_number] = 1
-        matrix[v - 1][reaction_number] = 1
-
-    def add_first_reaction(self, matrix, reaction_number, u, v):
+    def add_first_reaction(self, u, v, column):
         # print("First Reaction: {} + {} <-> {}".format(u, self.additional_nodes[v], self.additional_nodes[(u, v)]))
-        matrix[u - 1][reaction_number] = -1
-        matrix[self.additional_nodes[v] - 1][reaction_number] = -1
-        matrix[self.additional_nodes[(u, v)] - 1][reaction_number] = 1
+        self.matrix[u - 1][column] = -1
+        self.matrix[self.additional_nodes[v] - 1][column] = -1
+        self.matrix[self.additional_nodes[(u, v)] - 1][column] = 1
+
+    def add_second_reaction(self, u, v, column):
+        # print("Second Reaction: {} -> {} + {}".format(self.additional_nodes[(u, v)], u, v))
+        self.matrix[self.additional_nodes[(u, v)] - 1][column] = -1
+        self.matrix[u - 1][column] = 1
+        self.matrix[v - 1][column] = 1
+
+    def add_third_reaction(self, v, column):
+        # print("Third Reaction: {} -> {}".format(v, self.additional_nodes[v]))
+        self.matrix[v - 1][column] = -1
+        self.matrix[self.additional_nodes[v] - 1][column] = 1
 
     @staticmethod
     def generate_empty_stoichiometric_matrix(number_of_rows, number_of_columns):
         return [[0 for _ in range(number_of_columns)] for _ in range(number_of_rows)]
 
     @staticmethod
-    def add_composite_nodes(additional_nodes, graph): # TODO for negation it's different
+    def add_composite_nodes(additional_nodes, graph):  # TODO composite node
         next_node_number = max(graph.nodes())
         for edge in graph.edges():
             next_node_number += 1
@@ -87,10 +94,11 @@ class ExpandGraph(object):
                 additional_nodes[node] = next_node_number
         return graph, additional_nodes
 
-    def expand_graph(self):
+    @staticmethod
+    def expand_graph(graph):
         additional_nodes = dict()
-        graph, additional_nodes = self.add_negation_of_nodes(additional_nodes, self.graph)
-        graph, additional_nodes = self.add_composite_nodes(additional_nodes, self.graph)
+        graph, additional_nodes = ExpandGraph.add_negation_of_nodes(additional_nodes, graph)
+        graph, additional_nodes = ExpandGraph.add_composite_nodes(additional_nodes, graph)
         return graph, additional_nodes
 
 
@@ -99,7 +107,7 @@ class TestsExpansionStep(unittest.TestCase):
     def test_expand_activation_edge(self):
         g = nx.DiGraph()
         g.add_nodes_from([1, 2])
-        g.add_edge(1, 2)
+        g.add_edge(1, 2, weight=0)
 
         matrix_gold = [
             [-1, 1, 0],
