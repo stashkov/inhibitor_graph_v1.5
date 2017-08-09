@@ -83,6 +83,7 @@ class ExpandGraph(object):
         self.add_second_activation_reaction(u, v, reaction_number)
         reaction_number += 1
         self.add_third_activation_reaction(v, reaction_number)
+        reaction_number += 1
         return reaction_number
 
     def add_inhibition_edge_reactions(self, edge, reaction_number):
@@ -111,6 +112,7 @@ class ExpandGraph(object):
         self.vector[reaction_number] = reversible_reaction
         reaction_number += 1
         self.add_second_inhibition_reaction(u, v, reaction_number)
+        reaction_number += 1
         return reaction_number
 
     def add_first_inhibition_reaction(self, u, v, column):
@@ -167,7 +169,7 @@ class ExpandGraph(object):
         for node in graph.nodes():
             if graph.in_degree(node) > 0:
                 next_node_number += 1
-                graph.add_node(next_node_number, label='Composite of ' + str(node))
+                graph.add_node(next_node_number, label='Negation of ' + str(node))
                 additional_nodes[node] = next_node_number
         return graph, additional_nodes
 
@@ -217,6 +219,39 @@ class TestsExpansionStep(unittest.TestCase):
         result = ExpandGraph(g)
         matrix_lead = result.matrix
         vector_lead = result.vector
+        self.assertEqual(matrix_lead, matrix_gold)
+        self.assertEqual(vector_lead, vector_gold)
+
+    def test_expand_inhibition_and_activation_separate(self):
+        """
+        two separate edges 1->2 and 3->4
+        """
+        g = nx.DiGraph()
+        g.add_nodes_from([1, 2])
+        g.add_edge(1, 2, weight=0)
+        g.add_nodes_from([3, 4])
+        g.add_edge(3, 4, weight=1)
+
+        matrix_gold = [
+            [-1, 1, 0, 0, 0],
+            [0, 1, -1, 0, 0],
+            [0, 0, 0, -1, 1],
+            [0, 0, 0, -1, 0],
+            [-1, 0, 1, 0, 0],
+            [0, 0, 0, 0, 1],
+            [1, -1, 0, 0, 0],
+            [0, 0, 0, 1, -1]
+        ]
+        vector_gold = [1, 0, 0, 1, 0]
+
+        result = ExpandGraph(g)
+        matrix_lead = result.matrix
+        vector_lead = result.vector
+
+        print result.graph.edges(data=True)
+        print result.graph.nodes(data=True)
+        print result.additional_nodes
+
         self.assertEqual(matrix_lead, matrix_gold)
         self.assertEqual(vector_lead, vector_gold)
 
