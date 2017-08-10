@@ -8,6 +8,7 @@ class ExpandGraph(object):
         assert all('weight' in d.keys() for u, v, d in graph.edges(data=True)), \
             "all edges must have weights"
         self.graph, self.additional_nodes = ExpandGraph.expand_graph(graph)
+        self.backward_reactions = list()  # track reactions
         self.matrix = list()
         self.vector = list()
         self.initialize_matrix_and_vector()
@@ -32,14 +33,13 @@ class ExpandGraph(object):
     def initialize_matrix_and_vector(self):
         """
         As per article,
-            each activation gives us 3 reactions
+            each activation gives us 2 * n + 1 reactions ( where n is # of edges)
             each inhibition gives us 2 reactions
         """
         rows = len(self.graph.nodes())
-        activation_constant = 3
         inhibition_constant = 2
-        n_of_activation_reactions = \
-            activation_constant * sum(1 for _, _, d in self.graph.edges(data=True) if d['weight'] == 0)
+        n_of_activation_edges = sum(1 for _, _, d in self.graph.edges(data=True) if d['weight'] == 0)
+        n_of_activation_reactions = 2 * n_of_activation_edges + 1 if n_of_activation_edges != 0 else 0
         n_of_inhibition_reactions = \
             inhibition_constant * sum(1 for _, _, d in self.graph.edges(data=True) if d['weight'] == 1)
         columns = n_of_activation_reactions + n_of_inhibition_reactions
@@ -82,8 +82,9 @@ class ExpandGraph(object):
         reaction_number += 1
         self.add_second_activation_reaction(u, v, reaction_number)
         reaction_number += 1
-        self.add_third_activation_reaction(v, reaction_number)
-        reaction_number += 1
+        if v not in self.backward_reactions:
+            self.add_third_activation_reaction(v, reaction_number)
+            reaction_number += 1
         return reaction_number
 
     def add_inhibition_edge_reactions(self, edge, reaction_number):
@@ -143,6 +144,7 @@ class ExpandGraph(object):
         # print("Third Reaction: {} -> {}".format(v, self.additional_nodes[v]))
         self.matrix[v - 1][column] = self.reactant
         self.matrix[self.additional_nodes[v] - 1][column] = self.product
+        self.backward_reactions.append(v)
 
     @staticmethod
     def generate_empty_stoichiometric_matrix(number_of_rows, number_of_columns):
@@ -183,46 +185,64 @@ class ExpandGraph(object):
         return graph, additional_nodes
 
 
-class TestsExpansionStep(unittest.TestCase):
-    def test_expand_activation_edge(self):
+class TestsExpansionStepSingleActivation(unittest.TestCase):
+    def setUp(self):
+        """
+        activation edge 1 -> 2
+        """
         g = nx.DiGraph()
         g.add_nodes_from([1, 2])
         g.add_edge(1, 2, weight=0)
 
-        matrix_gold = [
+        self.matrix_gold = [
             [-1, 1, 0],
             [0, 1, -1],
             [-1, 0, 1],
             [1, -1, 0]
         ]
-        vector_gold = [1, 0, 0]
+        self.vector_gold = [1, 0, 0]
 
         result = ExpandGraph(g)
-        matrix_lead = result.matrix
-        vector_lead = result.vector
-        self.assertEqual(matrix_lead, matrix_gold)
-        self.assertEqual(vector_lead, vector_gold)
+        self.matrix_lead = result.matrix
+        self.vector_lead = result.vector
 
-    def test_expand_inhibition_edge(self):
+    def test_expand_activation_edge_matrix(self):
+        self.assertEqual(self.matrix_lead, self.matrix_gold)
+
+    def test_expand_activation_edge_vector(self):
+        self.assertEqual(self.vector_lead, self.vector_gold)
+
+
+class TestsExpansionStepSingleInhibition(unittest.TestCase):
+    def setUp(self):
+        """
+        inhibition edge 1 -| 2
+        """
         g = nx.DiGraph()
         g.add_nodes_from([1, 2])
         g.add_edge(1, 2, weight=1)
 
-        matrix_gold = [
+        self.matrix_gold = [
             [-1, 1],
             [-1, 0],
             [0, 1],
             [1, -1]
         ]
-        vector_gold = [1, 0]
+        self.vector_gold = [1, 0]
 
         result = ExpandGraph(g)
-        matrix_lead = result.matrix
-        vector_lead = result.vector
-        self.assertEqual(matrix_lead, matrix_gold)
-        self.assertEqual(vector_lead, vector_gold)
+        self.matrix_lead = result.matrix
+        self.vector_lead = result.vector
 
-    def test_expand_inhibition_and_activation_separate(self):
+    def test_expand_inhibition_edge_matrix(self):
+        self.assertEqual(self.matrix_lead, self.matrix_gold)
+
+    def test_expand_inhibition_edge_vector(self):
+        self.assertEqual(self.vector_lead, self.vector_gold)
+
+
+class TestsExpansionStepSingleInhibitionAndActivationSeparate(unittest.TestCase):
+    def setUp(self):
         """
         two separate edges 1->2 and 3->4
         """
@@ -232,7 +252,7 @@ class TestsExpansionStep(unittest.TestCase):
         g.add_nodes_from([3, 4])
         g.add_edge(3, 4, weight=1)
 
-        matrix_gold = [
+        self.matrix_gold = [
             [-1, 1, 0, 0, 0],
             [0, 1, -1, 0, 0],
             [0, 0, 0, -1, 1],
@@ -242,18 +262,188 @@ class TestsExpansionStep(unittest.TestCase):
             [1, -1, 0, 0, 0],
             [0, 0, 0, 1, -1]
         ]
-        vector_gold = [1, 0, 0, 1, 0]
+        self.vector_gold = [1, 0, 0, 1, 0]
 
         result = ExpandGraph(g)
-        matrix_lead = result.matrix
-        vector_lead = result.vector
+        self.matrix_lead = result.matrix
+        self.vector_lead = result.vector
 
-        print result.graph.edges(data=True)
-        print result.graph.nodes(data=True)
-        print result.additional_nodes
+    def test_matrix(self):
+        self.assertEqual(self.matrix_lead, self.matrix_gold)
 
-        self.assertEqual(matrix_lead, matrix_gold)
-        self.assertEqual(vector_lead, vector_gold)
+    def test_vector(self):
+        self.assertEqual(self.vector_lead, self.vector_gold)
+
+
+class TestsExpansionStepTwoActivationEdges(unittest.TestCase):
+    def setUp(self):
+        """
+        edges
+            A->C
+            B->C
+
+        Reactions:
+            A + not(C) <-> A:C
+            A:C -> A + C
+            C -> not(C)
+            B + not(C) <-> B:C
+            B:C -> B + C
+        """
+        g = nx.DiGraph()
+        g.add_nodes_from([1, 2, 3])
+        g.add_edge(1, 3, weight=0)
+        g.add_edge(2, 3, weight=0)
+
+        self.matrix_gold = [
+            [-1, 1, 0, 0, 0],
+            [0, 0, 0, -1, 1],
+            [0, 1, -1, 0, 1],
+            [-1, 0, 1, -1, 0],
+            [1, -1, 0, 0, 0],
+            [0, 0, 0, 1, -1]
+        ]
+        self.vector_gold = [1, 0, 0, 1, 0]
+
+        result = ExpandGraph(g)
+        self.matrix_lead = result.matrix
+        self.vector_lead = result.vector
+
+    def test_matrix(self):
+        self.assertEqual(self.matrix_lead, self.matrix_gold)
+
+    def test_vector(self):
+        self.assertEqual(self.vector_lead, self.vector_gold)
+
+
+class TestsExpansionStepTwoInhibitionEdges(unittest.TestCase):
+    def setUp(self):
+        """
+        edges
+            A-|C
+            B-|C
+
+        Reactions:
+            A + C <-> A:not(C)
+            A:not(C) -> A + not(C)
+            B + C <-> B:not(C)
+            B:not(C) -> B + not(C)
+        """
+        g = nx.DiGraph()
+        g.add_nodes_from([1, 2, 3])
+        g.add_edge(1, 3, weight=1)
+        g.add_edge(2, 3, weight=1)
+
+        self.matrix_gold = [
+            [-1, 1, 0, 0],  # A
+            [0, 0, -1, 1],  # B
+            [-1, 0, -1, 0],  # C
+            [0, 1, 0, 1],  # not(C)
+            [1, -1, 0, 0],  # A:not(C)
+            [0, 0, 1, -1]  # B:not(C)
+        ]
+        self.vector_gold = [1, 0, 1, 0]
+
+        result = ExpandGraph(g)
+        self.matrix_lead = result.matrix
+        self.vector_lead = result.vector
+
+    def test_matrix(self):
+        self.assertEqual(self.matrix_lead, self.matrix_gold)
+
+    def test_vector(self):
+        self.assertEqual(self.vector_lead, self.vector_gold)
+
+
+class TestsExpansionStepInhibitionAndActivationEdges(unittest.TestCase):
+    def setUp(self):
+        """
+        edges
+            A->C
+            B-|C
+
+        Reactions:
+            A + not(C) <-> A:C
+            A:C -> A + C
+            C -> not(C)
+            B + C <-> B:not(C)
+            B:not(C) -> B + not(C)
+        Nodes:
+            A
+            B
+            C
+            not(C)
+            A:C
+            B:not(C)
+
+        """
+        g = nx.DiGraph()
+        g.add_nodes_from([1, 2, 3])
+        g.add_edge(1, 3, weight=0)
+        g.add_edge(2, 3, weight=1)
+
+        self.matrix_gold = [
+            [-1, 1, 0, 0, 0],  # A
+            [0, 0, 0, -1, 1],  # B
+            [0, 1, -1, -1, 0],  # C
+            [-1, 0, 1, 0, 1],  # not(C)
+            [1, -1, 0, 0, 0],  # A:C
+            [0, 0, 0, 1, -1],  # B:not(C)
+        ]
+        self.vector_gold = [1, 0, 0, 1, 0]
+
+        result = ExpandGraph(g)
+        self.matrix_lead = result.matrix
+        self.vector_lead = result.vector
+
+    def test_matrix(self):
+        self.assertEqual(self.matrix_lead, self.matrix_gold)
+
+    def test_vector(self):
+        self.assertEqual(self.vector_lead, self.vector_gold)
+
+
+class TestsExpansionStepThreeActivationEdges(unittest.TestCase):
+    def setUp(self):
+        """
+        edges
+            A->C
+            B->C
+            D->C
+
+        Reactions:
+            A + not(C) <-> A:C
+            A:C -> A + C
+            C -> not(C)
+            B + not(C) <-> B:C
+            B:C -> B + C
+            D + not(C) <-> D:C
+            D:C -> D + C
+        """
+        g = nx.DiGraph()
+        g.add_nodes_from([1, 2, 3, 4])
+        g.add_edge(1, 3, weight=0)
+        g.add_edge(2, 3, weight=0)
+        g.add_edge(4, 3, weight=0)
+
+        self.matrix_gold = [[-1, 1, 0, 0, 0, 0, 0],  # A
+                            [0, 0, 0, -1, 1, 0, 0],  # B
+                            [0, 1, -1, 0, 1, 0, 1],  # C
+                            [0, 0, 0, 0, 0, -1, 1],  # D
+                            [-1, 0, 1, -1, 0, -1, 0],  # not(C)
+                            [1, -1, 0, 0, 0, 0, 0],  # A:C
+                            [0, 0, 0, 1, -1, 0, 0],  # B:C
+                            [0, 0, 0, 0, 0, 1, -1]]  # D:C
+        self.vector_gold = [1, 0, 0, 1, 0, 1, 0]
+
+        result = ExpandGraph(g)
+        self.matrix_lead = result.matrix
+        self.vector_lead = result.vector
+
+    def test_matrix(self):
+        self.assertEqual(self.matrix_lead, self.matrix_gold)
+
+    def test_vector(self):
+        self.assertEqual(self.vector_lead, self.vector_gold)
 
 
 class TestStoichiometricMatrix(unittest.TestCase):
