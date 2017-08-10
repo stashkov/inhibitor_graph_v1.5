@@ -14,7 +14,9 @@ This file contains examples of input graphs and
 corresponding output of stoichiometric matrices.
 
 # How do I use it?
-Right now this is empty, unfortunately
+#### How to import a graph
+Refer to networkx documentation on how to read graph from a file
+https://networkx.github.io/documentation/networkx-1.10/reference/readwrite.html
 
 
 
