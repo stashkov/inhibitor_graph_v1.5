@@ -1,5 +1,6 @@
 import networkx as nx
 from stoic.generate_stoic import ExpandGraph
+import pytest
 
 
 class TestStoichiometricMatrix(object):
@@ -24,54 +25,55 @@ class TestStoichiometricMatrix(object):
         gold = list()
         assert lead == gold
 
+#
+# class TestsAddNegationOfNodes(object):
+#     def test_add_negation_of_nodes(self):
+#         """
+#         given graph 1 - > 2
+#         we need to get
+#         - graph 1 -> 2
+#         - additional node 3
+#         - node 3 should be stored as negation of node 2
+#         """
+#         g = nx.DiGraph()
+#         g.add_nodes_from([1, 2])
+#         g.add_edge(1, 2)
+#
+#         g_gold = nx.DiGraph()
+#         g_gold.add_nodes_from([1, 2, 3])
+#         g_gold.add_edge(1, 2)
+#         additional_nodes_gold = {2: 3}
+#
+#         additional_nodes_lead = dict()
+#         graph_lead, additional_nodes_lead = \
+#             ExpandGraph.add_negation_of_nodes(additional_nodes=additional_nodes_lead, graph=g)
+#         assert graph_lead.edges() == g_gold.edges()
+#         assert graph_lead.nodes() == g_gold.nodes()
+#         assert additional_nodes_lead == additional_nodes_gold
 
-class TestsAddNegationOfNodes(object):
-    def test_add_negation_of_nodes(self):
-        """
-        given graph 1 - > 2
-        we need to get
-        - graph 1 -> 2
-        - additional node 3
-        - node 3 should be stored as negation of node 2
-        """
-        g = nx.DiGraph()
-        g.add_nodes_from([1, 2])
-        g.add_edge(1, 2)
-
-        g_gold = nx.DiGraph()
-        g_gold.add_nodes_from([1, 2, 3])
-        g_gold.add_edge(1, 2)
-        additional_nodes_gold = {2: 3}
-
-        additional_nodes_lead = dict()
-        graph_lead, additional_nodes_lead = \
-            ExpandGraph.add_negation_of_nodes(additional_nodes=additional_nodes_lead, graph=g)
-        assert graph_lead.edges() == g_gold.edges()
-        assert graph_lead.nodes() == g_gold.nodes()
-        assert additional_nodes_lead == additional_nodes_gold
 
 
-class TestAddCompositeNodes(object):
-    def test_add_composite_nodes(self):
-        """
-        given graph 1 - > 2
-        we need to get
-        - graph 1 -> 2
-        - additional node 3
-        - node 3 should be stored as composite of nodes 1 and 2
-        """
-        g = nx.DiGraph()
-        g.add_nodes_from([1, 2])
-        g.add_edge(1, 2, weight=0)
-
-        g_gold = nx.DiGraph()
-        g_gold.add_nodes_from([1, 2, 3])
-        g_gold.add_edge(1, 2, weight=0)
-        additional_nodes_gold = {(1, 2): 3}
-
-        additional_nodes_lead = dict()
-        graph_lead, additional_nodes_lead = \
-            ExpandGraph.add_composite_nodes(additional_nodes=additional_nodes_lead, graph=g)
-        assert graph_lead.edges() == g_gold.edges()
-        assert graph_lead.nodes() == g_gold.nodes()
-        assert additional_nodes_lead == additional_nodes_gold
+# class TestAddCompositeNodes(object):
+#     def test_add_composite_nodes(self):
+#         """
+#         given graph 1 - > 2
+#         we need to get
+#         - graph 1 -> 2
+#         - additional node 3
+#         - node 3 should be stored as composite of nodes 1 and 2
+#         """
+#         g = nx.DiGraph()
+#         g.add_nodes_from([1, 2])
+#         g.add_edge(1, 2, weight=0)
+#
+#         g_gold = nx.DiGraph()
+#         g_gold.add_nodes_from([1, 2, 3])
+#         g_gold.add_edge(1, 2, weight=0)
+#         additional_nodes_gold = {(1, 2): 3}
+#
+#         additional_nodes_lead = dict()
+#         graph_lead, additional_nodes_lead = \
+#             ExpandGraph.add_composite_nodes(additional_nodes=additional_nodes_lead, graph=g)
+#         assert graph_lead.edges() == g_gold.edges()
+#         assert graph_lead.nodes() == g_gold.nodes()
+#         assert additional_nodes_lead == additional_nodes_gold
