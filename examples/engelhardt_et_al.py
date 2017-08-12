@@ -33,6 +33,8 @@ def reaction_graph():
     g.add_edge(7, 6, weight=1, reaction=7)
     g.add_edge(7, 5, weight=1, reaction=8)
     g.add_edge(3, 9, weight=0, reaction=9)
+    g.add_edge(3, 8, weight=0, reaction=9)
+
     g.add_edge(6, 9, weight=1, reaction=10)
 
     g.add_edge(2, 8, weight=0, reaction=11)
