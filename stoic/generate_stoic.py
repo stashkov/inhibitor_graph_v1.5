@@ -15,6 +15,7 @@ class ExpandGraph(object):
         self.reactants = list()
         self.initialize_matrix_and_vector()
         self.fill_in_stoichiometric_matrix()
+        self.cure_matrix()
 
     @property
     def reactant(self):
@@ -212,3 +213,17 @@ class ExpandGraph(object):
         graph, additional_nodes = self.add_negation_of_nodes(additional_nodes, graph)
         graph, additional_nodes = self.add_composite_nodes(additional_nodes, graph)
         return graph, additional_nodes
+
+    def cure_matrix(self):
+        m = zip(*self.matrix)
+        rows_to_delete = list()
+        for i, row in enumerate(m):
+            if all(element == 0 for element in row):
+                rows_to_delete.append(i)
+        for i in reversed(rows_to_delete):
+            del m[i]
+        for i in reversed(rows_to_delete):
+            del self.vector[i]
+
+        self.matrix = [list(row) for row in zip(*m)]
+
