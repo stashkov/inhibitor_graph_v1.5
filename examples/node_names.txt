@@ -1,0 +1,15 @@
+ACM2
+G-Protein beta/gamma
+G-Protein alpha-s
+GRK 6
+G-Protein alpha -o
+G-Protein alpha -i
+RGS 14
+Adenylate cyclase subtypes II/IV/VII
+Adenylate cyclase subtypes V/VI
+cAMP-GEF1
+PKA (cAMP dependent)
+GRK 2
+cAMP
+AMP
+Tubulin Actin
