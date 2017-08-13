@@ -13,23 +13,26 @@ In short:
 4. Based on the matrix calculate EFMs
 
 
-# How do I use it?
+# How to use it?
 #### Execute
 `python main.py node_names.txt edge_list.txt`
 
 #### What should be inside node file?
 File with node suppose to be node names.
 
-For example I have 3 nodes,
-each of which represent an enzyme. cAMP, GRK2 and GEF1.
-Therefore my file should look like this:
+For example we have graph with 3 nodes,
+each of which represent an enzyme: cAMP, GRK2 and GEF1.
+Therefore the file should look like this:
 ```
 cAMP
 GRK2
 GEF1
 ```
 
-It will assign GRK2 to node 1, and cAMP to node 2.
+It will assign
+- cAMP to node 1
+- GRK2 to node 2
+- GEF1 to node 3
 
 Example file can be found in `examples` folder
 
