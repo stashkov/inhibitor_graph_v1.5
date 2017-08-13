@@ -3,7 +3,7 @@ It's a biological tool, that helps to calculate all
 EFM (elementary flux modes) in a given metabolic pathway.
 
 
-# How does it expand a metabolic pathway?
+# How does it work?
 For detailed explanation please refer to the article [article_name]
 
 In short:
