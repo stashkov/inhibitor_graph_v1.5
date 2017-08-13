@@ -14,12 +14,10 @@ class ExpandGraph(object):
         self.graph = graph
         self.graph, self.additional_nodes = self.expand_graph(graph)
         self.backward_reactions = list()  # track reactions
-        self.matrix = list()
-        self.vector = list()
+        self.matrix , self.vector = self.initialize_matrix_and_vector()
         self.reactions = list()
         self.reactants = list()
 
-        self.initialize_matrix_and_vector()
         self.fill_in_stoichiometric_matrix()
         self.cure_matrix_and_vector()
 
@@ -33,6 +31,7 @@ class ExpandGraph(object):
         columns = len(list(self.graph.edges())) * 2 + len(list(self.graph.nodes()))
         self.matrix = self.generate_empty_stoichiometric_matrix(rows, columns)
         self.vector = [0 for _ in range(columns)]
+        return self.matrix, self.vector
 
     def fill_in_stoichiometric_matrix(self):
         reaction_number = 0
