@@ -15,7 +15,7 @@ In short:
 
 # How do I use it?
 #### Execute
-`python main.py path_to_file_with_nodes.txt path_to_file_with_edges.txt`
+`python main.py node_names.txt edge_list.txt`
 
 #### What should be inside node file?
 File with node suppose to be node names.
@@ -31,6 +31,7 @@ GEF1
 
 It will assign GRK2 to node 1, and cAMP to node 2.
 
+Example file can be found in `examples` folder
 
 #### What should be inside edges file?
 Suppose
@@ -48,6 +49,8 @@ we can represent these edges as follows:
 It will create
 - edge 1 to 2 with weight 0
 - edge 2 to 3 with weight 1
+
+Example file can be found in `examples` folder
 
 #### What is the result?
 Result is reactions, that correspond to chosen EFMs.
