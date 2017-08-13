@@ -2,6 +2,11 @@ import networkx as nx
 
 
 class ExpandGraph(object):
+    INHIBITION = 1  # edges in a graph that have weight 1 are considered inhibition edges
+    ACTIVATION = 0  # edges in a graph that have weight 1 are considered activation edges
+    REACTANT = -1  # terms that are on the left in chemical equation in stoichiometric matrices denoted by -1
+    PRODUCT = 1  # terms that are on the right in chemical equation in stoichiometric matrices denoted by -1
+
     def __init__(self, graph):
         assert isinstance(graph, nx.DiGraph)
         assert all('weight' in d.keys() for u, v, d in graph.edges(data=True)), \
@@ -13,25 +18,10 @@ class ExpandGraph(object):
         self.vector = list()
         self.reactions = list()
         self.reactants = list()
+
         self.initialize_matrix_and_vector()
         self.fill_in_stoichiometric_matrix()
-        self.cure_matrix()
-
-    @property
-    def reactant(self):
-        """
-        terms that are on the left in chemical equation
-        in stoichiometric matrices denoted by -1
-        """
-        return -1
-
-    @property
-    def product(self):
-        """
-        terms that are on the right in chemical equation
-        in stoichiometric matrices denoted by 1
-        """
-        return 1
+        self.cure_matrix_and_vector()
 
     def initialize_matrix_and_vector(self):
         """
@@ -40,12 +30,7 @@ class ExpandGraph(object):
             each inhibition gives us 2 reactions
         """
         rows = len(self.graph.nodes())
-        inhibition_constant = 2
-        n_of_activation_edges = sum(1 for _, _, d in self.graph.edges(data=True) if d['weight'] == 0)
-        n_of_activation_reactions = 2 * n_of_activation_edges + 1 if n_of_activation_edges != 0 else 0
-        n_of_inhibition_reactions = \
-            inhibition_constant * sum(1 for _, _, d in self.graph.edges(data=True) if d['weight'] == 1)
-        columns = n_of_activation_reactions + n_of_inhibition_reactions + 13
+        columns = len(list(self.graph.edges())) * 2 + len(list(self.graph.nodes()))
         self.matrix = self.generate_empty_stoichiometric_matrix(rows, columns)
         self.vector = [0 for _ in range(columns)]
 
@@ -54,9 +39,9 @@ class ExpandGraph(object):
         for i, edge in enumerate(self.graph.edges()):
             # print "edges number is %s" % i
             # print "reaction number is %s" % reaction_number
-            if self.graph.get_edge_data(*edge)['weight'] == 0:
+            if self.graph.get_edge_data(*edge)['weight'] == self.ACTIVATION:
                 reaction_number = self.add_activation_edge_reactions(edge, reaction_number)
-            if self.graph.get_edge_data(*edge)['weight'] == 1:
+            if self.graph.get_edge_data(*edge)['weight'] == self.INHIBITION:
                 reaction_number = self.add_inhibition_edge_reactions(edge, reaction_number)
 
     def add_activation_edge_reactions(self, edge, reaction_number):
@@ -127,9 +112,9 @@ class ExpandGraph(object):
             self.node_info(v),
             self.node_info(self.additional_nodes[(u, v)]))
         self.reactions.append(name)
-        self.matrix[u - 1][column] = self.reactant
-        self.matrix[v - 1][column] = self.reactant
-        self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.product
+        self.matrix[u - 1][column] = self.REACTANT
+        self.matrix[v - 1][column] = self.REACTANT
+        self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.PRODUCT
 
     def add_second_inhibition_reaction(self, u, v, column):
         name = "Second Reaction: {} -> {} + {}".format(self.node_info(
@@ -137,9 +122,9 @@ class ExpandGraph(object):
             self.node_info(u),
             self.node_info(self.additional_nodes[v]))
         self.reactions.append(name)
-        self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.reactant
-        self.matrix[u - 1][column] = self.product
-        self.matrix[self.additional_nodes[v] - 1][column] = self.product
+        self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.REACTANT
+        self.matrix[u - 1][column] = self.PRODUCT
+        self.matrix[self.additional_nodes[v] - 1][column] = self.PRODUCT
 
     def add_first_activation_reaction(self, u, v, column):
         name = "First Reaction: {} + {} <-> {}".format(
@@ -148,9 +133,9 @@ class ExpandGraph(object):
             self.node_info(self.additional_nodes[(u, v)]))
         self.reactions.append(name)
 
-        self.matrix[u - 1][column] = self.reactant
-        self.matrix[self.additional_nodes[v] - 1][column] = self.reactant
-        self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.product
+        self.matrix[u - 1][column] = self.REACTANT
+        self.matrix[self.additional_nodes[v] - 1][column] = self.REACTANT
+        self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.PRODUCT
 
     def add_second_activation_reaction(self, u, v, column):
         name = "Second Reaction: {} -> {} + {}".format(
@@ -158,17 +143,17 @@ class ExpandGraph(object):
             self.node_info(u),
             self.node_info(v))
         self.reactions.append(name)
-        self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.reactant
-        self.matrix[u - 1][column] = self.product
-        self.matrix[v - 1][column] = self.product
+        self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.REACTANT
+        self.matrix[u - 1][column] = self.PRODUCT
+        self.matrix[v - 1][column] = self.PRODUCT
 
     def add_third_activation_reaction(self, v, column):
         name = "Third Reaction: {} -> {}".format(
             self.node_info(v),
             self.node_info(self.additional_nodes[v]))
         self.reactions.append(name)
-        self.matrix[v - 1][column] = self.reactant
-        self.matrix[self.additional_nodes[v] - 1][column] = self.product
+        self.matrix[v - 1][column] = self.REACTANT
+        self.matrix[self.additional_nodes[v] - 1][column] = self.PRODUCT
         self.backward_reactions.append(v)
 
     def node_info(self, v):
@@ -214,7 +199,7 @@ class ExpandGraph(object):
         graph, additional_nodes = self.add_composite_nodes(additional_nodes, graph)
         return graph, additional_nodes
 
-    def cure_matrix(self):
+    def cure_matrix_and_vector(self):
         m = zip(*self.matrix)
         rows_to_delete = list()
         for i, row in enumerate(m):
@@ -222,8 +207,8 @@ class ExpandGraph(object):
                 rows_to_delete.append(i)
         for i in reversed(rows_to_delete):
             del m[i]
+        # cure vector
         for i in reversed(rows_to_delete):
             del self.vector[i]
 
         self.matrix = [list(row) for row in zip(*m)]
-
