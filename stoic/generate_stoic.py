@@ -1,4 +1,5 @@
 import networkx as nx
+from collections import namedtuple
 
 
 class ExpandGraph(object):
@@ -6,6 +7,8 @@ class ExpandGraph(object):
     ACTIVATION = 0  # edges in a graph that have weight 1 are considered activation edges
     REACTANT = -1  # terms that are on the left in chemical equation in stoichiometric matrices denoted by -1
     PRODUCT = 1  # terms that are on the right in chemical equation in stoichiometric matrices denoted by -1
+    REVERSIBLE_REACTION = 1  # reaction that is reversible in reversibility vector (otherwise its 0)
+    Reaction = namedtuple('Reaction', 'reactants, products')
 
     def __init__(self, graph):
         assert isinstance(graph, nx.DiGraph)
@@ -61,11 +64,9 @@ class ExpandGraph(object):
 
         and reversibility vector [1, 0, 0]
         """
-        reversible_reaction = 1
         assert isinstance(edge, tuple)
         u, v = edge
         self.add_first_activation_reaction(u, v, reaction_number)
-        self.vector[reaction_number] = reversible_reaction
         reaction_number += 1
         self.add_second_activation_reaction(u, v, reaction_number)
         reaction_number += 1
@@ -93,62 +94,48 @@ class ExpandGraph(object):
 
         and reversibility vector [1, 0, 0]
         """
-        reversible_reaction = 1
         assert isinstance(edge, tuple)
         u, v = edge
         self.add_first_inhibition_reaction(u, v, reaction_number)
-        self.vector[reaction_number] = reversible_reaction
         reaction_number += 1
         self.add_second_inhibition_reaction(u, v, reaction_number)
         reaction_number += 1
         return reaction_number
 
     def add_first_inhibition_reaction(self, u, v, column):
-        name = "First Reaction: {} + {} <-> {}".format(
-            self.node_name(u),
-            self.node_name(v),
-            self.node_name(self.additional_nodes[(u, v)]))
-        self.reactions.append(name)
+        reaction = self.Reaction([u, v], [self.additional_nodes[(u, v)]])
+        self.reactions.append(reaction)
         self.matrix[u - 1][column] = self.REACTANT
         self.matrix[v - 1][column] = self.REACTANT
         self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.PRODUCT
+        self.vector[column] = self.REVERSIBLE_REACTION
+
 
     def add_second_inhibition_reaction(self, u, v, column):
-        name = "Second Reaction: {} -> {} + {}".format(
-            self.node_name(self.additional_nodes[(u, v)]),
-            self.node_name(u),
-            self.node_name(self.additional_nodes[v]))
-        self.reactions.append(name)
+        reaction = self.Reaction([self.additional_nodes[(u, v)], u], [self.additional_nodes[v]])
+        self.reactions.append(reaction)
         self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.REACTANT
         self.matrix[u - 1][column] = self.PRODUCT
         self.matrix[self.additional_nodes[v] - 1][column] = self.PRODUCT
 
     def add_first_activation_reaction(self, u, v, column):
-        name = "First Reaction: {} + {} <-> {}".format(
-            self.node_name(u),
-            self.node_name(self.additional_nodes[v]),
-            self.node_name(self.additional_nodes[(u, v)]))
-        self.reactions.append(name)
-
+        reaction = self.Reaction([u, self.additional_nodes[v]], [self.additional_nodes[(u, v)]])
+        self.reactions.append(reaction)
         self.matrix[u - 1][column] = self.REACTANT
         self.matrix[self.additional_nodes[v] - 1][column] = self.REACTANT
         self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.PRODUCT
+        self.vector[column] = self.REVERSIBLE_REACTION
 
     def add_second_activation_reaction(self, u, v, column):
-        name = "Second Reaction: {} -> {} + {}".format(
-            self.node_name(self.additional_nodes[(u, v)]),
-            self.node_name(u),
-            self.node_name(v))
-        self.reactions.append(name)
+        reaction = self.Reaction([self.additional_nodes[(u, v)]], [u, v])
+        self.reactions.append(reaction)
         self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.REACTANT
         self.matrix[u - 1][column] = self.PRODUCT
         self.matrix[v - 1][column] = self.PRODUCT
 
     def add_third_activation_reaction(self, v, column):
-        name = "Third Reaction: {} -> {}".format(
-            self.node_name(v),
-            self.node_name(self.additional_nodes[v]))
-        self.reactions.append(name)
+        reaction = self.Reaction([v], [self.additional_nodes[v]])
+        self.reactions.append(reaction)
         self.matrix[v - 1][column] = self.REACTANT
         self.matrix[self.additional_nodes[v] - 1][column] = self.PRODUCT
         self.backward_reactions.append(v)
@@ -160,6 +147,31 @@ class ExpandGraph(object):
             return nx.get_node_attributes(self.graph, 'name')[v]
         else:
             return "node %s has no name" % v
+
+    def human_readable_reaction(self, reaction):
+        """given Reaction (namedtuple) show it it human readable format"""
+        reactants, products = reaction
+        reactants = [self.node_name(r) for r in reactants]
+        products = [self.node_name(p) for p in products]
+        # TODO add reversibility of the reaction to namedtuple
+        left_side = self.reaction_representation(reactants)
+        right_side = self.reaction_representation(products)
+        left_side = left_side.format(*reactants)
+        right_side = right_side.format(*products)
+        return left_side + " -> " + right_side
+
+    @staticmethod
+    def reaction_representation(reagents):
+        """
+        Dynamically construct a reaction equation based on number of reagent
+
+        Example:
+        >>> r = [1,2]
+        >>> reaction_representation([1,2])
+        '{} + {}'
+        """
+        assert isinstance(reagents, list)
+        return "{}" + ("" if len(reagents) == 1 else " + {}" * (len(reagents) - 1))
 
     @staticmethod
     def generate_empty_stoichiometric_matrix(number_of_rows, number_of_columns):
