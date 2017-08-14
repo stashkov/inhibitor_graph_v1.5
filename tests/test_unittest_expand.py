@@ -52,7 +52,6 @@ class TestStoichiometricMatrix(object):
 #         assert additional_nodes_lead == additional_nodes_gold
 
 
-
 # class TestAddCompositeNodes(object):
 #     def test_add_composite_nodes(self):
 #         """
