@@ -9,7 +9,7 @@ class ExpandGraph(object):
 
     def __init__(self, graph):
         assert isinstance(graph, nx.DiGraph)
-        assert all('weight' in d.keys() for u, v, d in graph.edges(data=True)), \
+        assert all('weight' in d.keys() for _, _, d in graph.edges(data=True)), \
             "all edges must have weights"
         self.graph = graph
         self.graph, self.additional_nodes = self.expand_graph(graph)
@@ -36,8 +36,6 @@ class ExpandGraph(object):
     def fill_in_stoichiometric_matrix(self):
         reaction_number = 0
         for i, edge in enumerate(self.graph.edges()):
-            # print "edges number is %s" % i
-            # print "reaction number is %s" % reaction_number
             if self.graph.get_edge_data(*edge)['weight'] == self.ACTIVATION:
                 reaction_number = self.add_activation_edge_reactions(edge, reaction_number)
             if self.graph.get_edge_data(*edge)['weight'] == self.INHIBITION:
