@@ -110,7 +110,6 @@ class ExpandGraph(object):
         self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.PRODUCT
         self.vector[column] = self.REVERSIBLE_REACTION
 
-
     def add_second_inhibition_reaction(self, u, v, column):
         reaction = self.Reaction([self.additional_nodes[(u, v)], u], [self.additional_nodes[v]])
         self.reactions.append(reaction)
@@ -166,7 +165,6 @@ class ExpandGraph(object):
         Dynamically construct a reaction equation based on number of reagent
 
         Example:
-        >>> r = [1,2]
         >>> reaction_representation([1,2])
         '{} + {}'
         """
