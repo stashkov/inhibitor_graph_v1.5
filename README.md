@@ -14,7 +14,7 @@ In short:
 
 
 # How to use it?
-### Execute
+### Getting started
 `pip install -r requirements.txt`
 
 `git clone git@github.com:stashkov/inhibitor_graph_v1.5.git`
