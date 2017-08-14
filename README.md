@@ -14,12 +14,10 @@ In short:
 
 
 # How to use it?
-#### Execute
+### Execute
 `python main.py node_names.txt edge_list.txt`
 
-#### What should be inside node file?
-File with node suppose to be node names.
-
+### How to create node names file?
 For example we have graph with 3 nodes,
 each of which represent an enzyme: cAMP, GRK2 and GEF1.
 Therefore the file should look like this:
@@ -36,7 +34,7 @@ It will assign
 
 Example file can be found in `examples` folder
 
-#### What should be inside edges file?
+### How to create edge list?
 Suppose
 GRK2 is activated by cAMP and GEF1 is inhibited by GRK2.
 
@@ -55,8 +53,9 @@ It will create
 
 Example file can be found in `examples` folder
 
-#### What is the result?
-Result is reactions, that correspond to chosen EFMs.
+### What is the result?
+Result is reactions, that correspond to chosen EFMs. (see below)
+
 
 # Example output
 ```
