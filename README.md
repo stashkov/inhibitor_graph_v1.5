@@ -15,6 +15,12 @@ In short:
 
 # How to use it?
 ### Execute
+`pip install -r requirements.txt`
+
+`git clone git@github.com:stashkov/inhibitor_graph_v1.5.git`
+
+`cd inhibitor_graph_v1.5`
+
 `python main.py node_names.txt edge_list.txt`
 
 ### How to create node names file?
