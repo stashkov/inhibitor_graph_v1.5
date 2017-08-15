@@ -20,6 +20,7 @@ class ExpandGraph(object):
         self.matrix, self.vector = self.initialize_matrix_and_vector()
         self.reactions = list()
         self.reactants = list()
+        self.deleted_rows_count = 0
 
         self.fill_in_stoichiometric_matrix()
         self.cure_matrix_and_vector()
@@ -219,3 +220,4 @@ class ExpandGraph(object):
             del self.vector[i]
 
         self.matrix = [list(row) for row in zip(*m)]
+        self.deleted_rows_count = len(rows_to_delete)
