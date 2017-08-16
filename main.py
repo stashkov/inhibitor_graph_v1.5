@@ -2,7 +2,10 @@ from stoic.generate_stoic import ExpandGraph
 from sampler.sampler import Sampler
 from stoic.graph_reader import GraphReader
 
+from examples.engelhardt_et_al import reaction_graph
+
 import argparse
+import networkx as nx
 
 
 def pars():
@@ -21,7 +24,8 @@ if __name__ == '__main__':
     # feed stoichiometric matrix and reaction vector to EFM Sampler
     r = Sampler(expanded_graph.matrix, expanded_graph.vector)
     # print results
-    # TODO output graph as GraphML format
+    nx.write_graphml(graph, "imported_graph.graphml")
+    nx.write_graphml(expanded_graph.graph, "expanded_graph.graphml")
     # TODO output stoichiometric matrix in SBML format (not sure how)
     # TODO output result # of EFM as a matrix
     # TODO output result # of EFM as txt file with reactions
