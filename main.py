@@ -2,8 +2,6 @@ from stoic.generate_stoic import ExpandGraph
 from sampler.sampler import Sampler
 from stoic.graph_reader import GraphReader
 
-from examples.engelhardt_et_al import reaction_graph
-
 import argparse
 import networkx as nx
 
