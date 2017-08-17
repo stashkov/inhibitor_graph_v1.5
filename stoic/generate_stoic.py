@@ -170,7 +170,8 @@ class ExpandGraph(object):
         '{} + {}'
         """
         assert isinstance(reagents, list)
-        return "{}" + ("" if len(reagents) == 1 else " + {}" * (len(reagents) - 1))
+        reagents_count = len(reagents)
+        return "{}" + ("" if reagents_count == 1 else " + {}" * (reagents_count - 1))
 
     @staticmethod
     def generate_empty_stoichiometric_matrix(number_of_rows, number_of_columns):
