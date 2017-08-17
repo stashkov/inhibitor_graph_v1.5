@@ -15,6 +15,30 @@ def pars():
     return p
 
 
+def export_efm_human_readable():
+    with open('result/EFM_human.txt', 'w') as f:
+        f.writelines("Total number of EFMs: %s\n" % len(r.result))
+        for i, efms in enumerate(r.result, start=1):
+            f.write('EFM #%s\n' % str(i))
+            for index, reaction in enumerate(efms):
+                if reaction == 1:
+                    f.write(expanded_graph.human_readable_reaction(expanded_graph.reactions[index]))
+                    f.write('\n')
+            f.write('\n')
+
+
+def export_efm_reaction_numbers():
+    with open('result/EFM_reactions.txt', 'w') as f:
+        f.writelines("Total number of EFMs: %s\n" % len(r.result))
+        for i, efms in enumerate(r.result, start=1):
+            f.write('EFM #%s\n' % str(i))
+            for index, reaction in enumerate(efms):
+                if reaction == 1:
+                    f.write(str(expanded_graph.reactions[index]))
+                    f.write('\n')
+            f.write('\n')
+
+
 if __name__ == '__main__':
     parser = pars()
     args = parser.parse_args()
@@ -24,11 +48,9 @@ if __name__ == '__main__':
     # feed stoichiometric matrix and reaction vector to EFM Sampler
     r = Sampler(expanded_graph.matrix, expanded_graph.vector)
     # print results
-    nx.write_graphml(graph, "imported_graph.graphml")
-    nx.write_graphml(expanded_graph.graph, "expanded_graph.graphml")
+    nx.write_graphml(graph, "result/imported_graph.graphml")
+    nx.write_graphml(expanded_graph.graph, "result/expanded_graph.graphml")
     # TODO output stoichiometric matrix in SBML format (not sure how)
-    # TODO output result # of EFM as a matrix
-    # TODO output result # of EFM as txt file with reactions
 
     # print expanded_graph.vector
     # for reaction in expanded_graph.reactions:
@@ -49,10 +71,5 @@ if __name__ == '__main__':
     #     print i, r
 
     r = Sampler(expanded_graph.matrix, expanded_graph.vector)
-    print "\nTotal number of EFMs: %s" % len(r.result)
-    for i, efms in enumerate(r.result, start=1):
-        print 'EFM #%s' % str(i)
-        for index, reaction in enumerate(efms):
-            if reaction == 1:
-                print expanded_graph.human_readable_reaction(expanded_graph.reactions[index])
-        print
+    export_efm_human_readable()
+    export_efm_reaction_numbers()
