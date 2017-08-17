@@ -42,7 +42,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     graph = GraphReader(args.node_names, args.edge_list).create_graph()
     expanded_graph = ExpandGraph(graph)  # expand graph
-    print "I've deleted rows %s with all zeroes" % expanded_graph.deleted_rows_count
+    print("I've deleted rows %s with all zeroes" % expanded_graph.deleted_rows_count)
     # feed stoichiometric matrix and reaction vector to EFM Sampler
     r = Sampler(expanded_graph.matrix, expanded_graph.vector)
     # print results
@@ -50,13 +50,19 @@ if __name__ == '__main__':
     nx.write_graphml(expanded_graph.graph, "result/expanded_graph.graphml")
     # TODO output stoichiometric matrix in SBML format (not sure how)
 
+    r = Sampler(expanded_graph.matrix, expanded_graph.vector)
+    export_efm_human_readable()
+    export_efm_reaction_numbers()
+
     # print expanded_graph.vector
     # for reaction in expanded_graph.reactions:
     #     print reaction
 
     # for r in [r for v, r in zip(expanded_graph.vector, expanded_graph.reactions) if v == 1]:
     #     print r
-    print len(expanded_graph.matrix), 'x', len(expanded_graph.matrix[0])
+
+    # print('size of the generated matrix')
+    # print(len(expanded_graph.matrix), 'x', len(expanded_graph.matrix[0]))
 
     # look for columns in stoichiometric matrix that have all 0s
     # m = zip(*expanded_graph.matrix)
@@ -68,6 +74,3 @@ if __name__ == '__main__':
     # for i, r in enumerate(expanded_graph.reactions, start=1):
     #     print i, r
 
-    r = Sampler(expanded_graph.matrix, expanded_graph.vector)
-    export_efm_human_readable()
-    export_efm_reaction_numbers()
