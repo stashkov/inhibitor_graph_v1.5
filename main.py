@@ -44,10 +44,8 @@ if __name__ == '__main__':
     expanded_graph = ExpandGraph(graph)  # expand graph
     print("I've deleted rows %s with all zeroes" % expanded_graph.deleted_rows_count)
     # feed stoichiometric matrix and reaction vector to EFM Sampler
-    print(expanded_graph.matrix)
-    print(expanded_graph.vector)
     r = Sampler(expanded_graph.matrix, expanded_graph.vector)
-    # print results
+
     nx.write_graphml(graph, "result/imported_graph.graphml")
     nx.write_graphml(expanded_graph.graph, "result/expanded_graph.graphml")
     # TODO output stoichiometric matrix in SBML format (not sure how)
