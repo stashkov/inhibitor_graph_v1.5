@@ -3,10 +3,11 @@ try:
 except ImportError:
     from fractions import gcd
 
+from functools import reduce
 from random import random
+
 import numpy as np
 from numpy.linalg import matrix_rank
-from functools import reduce
 
 
 class Sampler(object):
@@ -157,8 +158,7 @@ class Sampler(object):
         return irr
 
     def get_nrev(self, zero_columns):
-        nrev = len(np.nonzero(self.rev_vector[zero_columns])[
-                       0])  # will always be 0 because of my reversibility vector = 0
+        nrev = len(np.nonzero(self.rev_vector[zero_columns])[0])
         assert isinstance(nrev, int)
         return nrev
 

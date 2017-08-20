@@ -1,5 +1,6 @@
-import networkx as nx
 from collections import namedtuple
+
+import networkx as nx
 
 
 class ExpandGraph(object):
