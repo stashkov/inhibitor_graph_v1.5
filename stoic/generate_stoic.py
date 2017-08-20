@@ -145,7 +145,7 @@ class ExpandGraph(object):
     def node_name(self, v):
         # assert all('name' in d.keys() for _, d in self.graph.nodes(data=True)), \
         #     "all nodes must have name"
-        if 'name' in self.graph.nodes(v)[0][1]:
+        if 'name' in self.graph.node[v]:
             return nx.get_node_attributes(self.graph, 'name')[v]
         else:
             return "node %s has no name" % v
