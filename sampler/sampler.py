@@ -1,10 +1,16 @@
 import sys
-from fractions import gcd
+
+try:
+    from math import gcd
+except ImportError:
+    from fractions import gcd
+
 from time import time
 from random import random
 import numpy as np
 from numpy.linalg import matrix_rank
 from scipy.io import savemat
+from functools import reduce
 
 
 class Sampler(object):
@@ -28,7 +34,7 @@ class Sampler(object):
         m, n = self.matrix.shape
         T = np.hstack((self.matrix.T, np.eye(n)))
 
-        for i in xrange(m):
+        for i in range(m):
             T2, first_i_rows, nonzero_columns, npairs, pairs, revT2 = self.prepare_vars(T, i)
 
             # print 'line {} of {} - keep: {} combinations: {}'.format(i + 1, m, nonzero_columns.shape[0], npairs),
@@ -59,8 +65,8 @@ class Sampler(object):
         return T2, revT2
 
     def normalize_and_make_into_list(self, T):
-        E = map(self._normalize, T)
-        E = map(lambda e: e.tolist(), E)
+        E = list(map(self._normalize, T))
+        E = [e.tolist() for e in E]
         return E
 
     def hstack_revandrevT2_based_on_selection(self, nonzero_columns, revT2, selection):
@@ -73,7 +79,7 @@ class Sampler(object):
 
     def filter_rows_based_on_probability(self, T2):
         p = self.probability(T2.shape[0]) if T2.shape[0] else 0
-        return [i for i in xrange(T2.shape[0]) if random() <= p]
+        return [i for i in range(T2.shape[0]) if random() <= p]
 
     def prepare_vars(self, T, i):
         nonzero_columns = np.nonzero(T[:, 0] == 0)[0]
@@ -126,7 +132,7 @@ class Sampler(object):
         return pairs
 
     def get_npairs(self, nneg, npos, nrev):
-        npairs = nrev * (nrev - 1) / 2 + nrev * (npos + nneg) + npos * nneg
+        npairs = int(nrev * (nrev - 1) / 2 + nrev * (npos + nneg) + npos * nneg)
         assert isinstance(npairs, int)
         return npairs
 
@@ -162,7 +168,18 @@ class Sampler(object):
         return self.matrix[order, :]
 
     def probability(self, x):
-        return (lambda x: self.k / (self.k + float(x))) if self.k else (lambda x: 1)
+        p = (lambda x: self.k / (self.k + float(x))) if self.k else 1
+        # print(lambda x:1)
+        # print(p)
+        # print(type(p))
+        # print(dir(p))
+        # print(str(p))
+        try:
+            p = int(p)
+        except ValueError:
+            print("Could not convert {} to int" % p)
+            raise
+        return p
 
     @staticmethod
     def _rank_test(S, Sjk):
@@ -174,10 +191,20 @@ class Sampler(object):
     @staticmethod
     def _normalize(e):
         support = abs(e[np.nonzero(e)[0]])
+        try:
+            support = support.astype(int)
+        except ValueError:
+            print("Could not convert {} to array of int" % support)
+            raise
+
+        # print(gcd)
+        # print(support)
         n1 = reduce(gcd, support)  # greatest common denominator
+        # print(n1)
         n2 = (min(support) * max(support)) ** 0.5  # geometric mean
         n = n1 if (1e-6 < n1 < 1e6) and (1e-6 < n2 < 1e6) else n2
         return e / n
+
 
 #matrix = EFMSummary.read_stoic_matrix(filename)
 #rev_vector = [0 for i in range(len(matrix[0]))]

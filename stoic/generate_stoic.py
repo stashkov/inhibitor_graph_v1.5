@@ -209,7 +209,7 @@ class ExpandGraph(object):
         return graph, additional_nodes
 
     def cure_matrix_and_vector(self):
-        m = zip(*self.matrix)
+        m = list(zip(*self.matrix))
         rows_to_delete = list()
         for i, row in enumerate(m):
             if all(element == 0 for element in row):
