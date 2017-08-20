@@ -1,15 +1,11 @@
-import sys
-
 try:
     from math import gcd
 except ImportError:
     from fractions import gcd
 
-from time import time
 from random import random
 import numpy as np
 from numpy.linalg import matrix_rank
-from scipy.io import savemat
 from functools import reduce
 
 
@@ -169,11 +165,6 @@ class Sampler(object):
 
     def probability(self, x):
         p = (lambda x: self.k / (self.k + float(x))) if self.k else 1
-        # print(lambda x:1)
-        # print(p)
-        # print(type(p))
-        # print(dir(p))
-        # print(str(p))
         try:
             p = int(p)
         except ValueError:
@@ -196,16 +187,8 @@ class Sampler(object):
         except ValueError:
             print("Could not convert {} to array of int" % support)
             raise
-
-        # print(gcd)
-        # print(support)
         n1 = reduce(gcd, support)  # greatest common denominator
-        # print(n1)
+
         n2 = (min(support) * max(support)) ** 0.5  # geometric mean
         n = n1 if (1e-6 < n1 < 1e6) and (1e-6 < n2 < 1e6) else n2
         return e / n
-
-
-#matrix = EFMSummary.read_stoic_matrix(filename)
-#rev_vector = [0 for i in range(len(matrix[0]))]
-#sampler = Sampler(matrix, rev_vector)
