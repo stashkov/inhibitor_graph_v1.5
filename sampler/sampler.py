@@ -174,13 +174,8 @@ class Sampler(object):
         return self.matrix[order, :]
 
     def probability(self, x):
-        p = (lambda x: self.k / (self.k + float(x))) if self.k else 1
-        try:
-            p = int(p)
-        except ValueError:
-            print("Could not convert {} to int".format(p))
-            raise
-        return p
+        assert isinstance(x, int)
+        return int(self.k / (self.k + float(x))) if self.k else 1
 
     @staticmethod
     def _rank_test(S, Sjk):
