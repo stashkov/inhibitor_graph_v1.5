@@ -1,5 +1,3 @@
-import py.test
-
 import networkx as nx
 
 from stoic.generate_stoic import ExpandGraph
