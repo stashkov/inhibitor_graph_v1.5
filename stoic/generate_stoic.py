@@ -39,7 +39,8 @@ class ExpandGraph(object):
 
     def fill_in_stoichiometric_matrix(self):
         reaction_number = 0
-        for i, edge in enumerate(self.graph.edges()):
+        # TODO remove sorted, if Sampler does not provide ordered number of EFMs
+        for i, edge in enumerate(sorted(self.graph.edges())):
             if self.graph.get_edge_data(*edge)['weight'] == self.ACTIVATION:
                 reaction_number = self.add_activation_edge_reactions(edge, reaction_number)
             if self.graph.get_edge_data(*edge)['weight'] == self.INHIBITION:
@@ -181,7 +182,8 @@ class ExpandGraph(object):
         assert all('weight' in d.keys() for _, _, d in graph.edges(data=True)), \
             "all edges must have weights"
         next_node_number = max(graph.nodes())
-        for edge in graph.edges():
+        # TODO remove sorted, if Sampler does not provide ordered number of EFMs
+        for edge in sorted(graph.edges()):
             next_node_number += 1
             u, v = edge
             if graph.get_edge_data(*edge)['weight'] == self.ACTIVATION:
@@ -193,7 +195,8 @@ class ExpandGraph(object):
 
     def add_negation_of_nodes(self, additional_nodes, graph):
         next_node_number = max(graph.nodes())
-        for node in graph.nodes():
+        # TODO remove sorted, if Sampler does not provide ordered number of EFMs
+        for node in sorted(graph.nodes()):
             if graph.in_degree(node) > 0:
                 next_node_number += 1
                 graph.add_node(next_node_number, name='not ' + self.node_name(node))
