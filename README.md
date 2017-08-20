@@ -14,6 +14,10 @@ In short:
 
 
 # How to use it?
+### Python version
+Main interpreter is python3,
+but I try to keep it compatible with python 2 as well
+
 ### Getting started
 `pip install -r requirements.txt`
 
