@@ -54,7 +54,8 @@ class Sampler(object):
 
         return E
 
-    def recalculate_T2_and_revT2_if_minimal_exist(self, T2, Tjk, minimal, revT2, revTjk):
+    @staticmethod
+    def recalculate_T2_and_revT2_if_minimal_exist(T2, Tjk, minimal, revT2, revTjk):
         if minimal:
             T2 = np.vstack((T2, Tjk))
             revT2 = np.hstack((revT2, revTjk))
@@ -69,7 +70,8 @@ class Sampler(object):
         return np.hstack((self.rev_vector[nonzero_columns], revT2[selection])) \
             if selection else self.rev_vector[nonzero_columns]
 
-    def vstack_TandT2_based_on_selection(self, T, T2, nonzero_columns, selection):
+    @staticmethod
+    def vstack_TandT2_based_on_selection(T, T2, nonzero_columns, selection):
         T = np.vstack((T[nonzero_columns, 1:], T2[selection, :])) if selection else T[nonzero_columns, 1:]
         return T
 
@@ -78,6 +80,8 @@ class Sampler(object):
         return [i for i in range(T2.shape[0]) if random() <= p]
 
     def prepare_vars(self, T, i):
+        assert isinstance(T, np.ndarray)
+        assert isinstance(i, int)
         nonzero_columns = np.nonzero(T[:, 0] == 0)[0]
         zero_columns = np.nonzero(T[:, 0])[0]
         T2 = np.zeros((0, T.shape[1] - 1))
@@ -94,13 +98,15 @@ class Sampler(object):
     def get_minimal(self, Tj, Tjk, Tk, first_i_rows, i, m):
         minimal = all(np.abs(Tj[(m - i - 1):]) + np.abs(Tk[(m - i - 1):]) == np.abs(Tjk[(m - i - 1):])) \
                   and self._rank_test(first_i_rows, np.nonzero(Tjk[(m - i - 1):])[0])
+        assert isinstance(minimal, np.bool_)
         return minimal
 
     def get_revTjk(self, j, k):
         revTjk = self.rev_vector[j] and self.rev_vector[k]  # will always be 0
         return revTjk
 
-    def get_Tj_Tk(self, T, cj, ck, j, k):
+    @staticmethod
+    def get_Tj_Tk(T, cj, ck, j, k):
         Tj, Tk = cj * T[j, 1:], ck * T[k, 1:]
         assert isinstance(Tj, np.ndarray) and len(Tj.shape) == 1
         assert isinstance(Tk, np.ndarray) and len(Tk.shape) == 1
@@ -127,17 +133,20 @@ class Sampler(object):
                  if k > j and (self.rev_vector[j] or self.rev_vector[k] or T[j, 0] * T[k, 0] < 0))
         return pairs
 
-    def get_npairs(self, nneg, npos, nrev):
+    @staticmethod
+    def get_npairs(nneg, npos, nrev):
         npairs = int(nrev * (nrev - 1) / 2 + nrev * (npos + nneg) + npos * nneg)
         assert isinstance(npairs, int)
         return npairs
 
-    def get_nneg(self, T, irr):
+    @staticmethod
+    def get_nneg(T, irr):
         nneg = len(np.nonzero(T[irr, 0] < 0)[0])
         assert isinstance(nneg, int)
         return nneg
 
-    def get_npos(self, T, irr):
+    @staticmethod
+    def get_npos(T, irr):
         npos = len(np.nonzero(T[irr, 0] > 0)[0])
         assert isinstance(npos, int)
         return npos
@@ -153,7 +162,8 @@ class Sampler(object):
         assert isinstance(nrev, int)
         return nrev
 
-    def check_reversibility_vector(self, reversibility_vector):
+    @staticmethod
+    def check_reversibility_vector(reversibility_vector):
         reversibility_vector = np.array(reversibility_vector)
         assert isinstance(reversibility_vector, np.ndarray) and len(reversibility_vector.shape) == 1
         return reversibility_vector
@@ -168,7 +178,7 @@ class Sampler(object):
         try:
             p = int(p)
         except ValueError:
-            print("Could not convert {} to int" % p)
+            print("Could not convert {} to int".format(p))
             raise
         return p
 
@@ -185,7 +195,7 @@ class Sampler(object):
         try:
             support = support.astype(int)
         except ValueError:
-            print("Could not convert {} to array of int" % support)
+            print("Could not convert {} to array of int".format(support))
             raise
         n1 = reduce(gcd, support)  # greatest common denominator
 
