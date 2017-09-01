@@ -168,7 +168,7 @@ class ExpandGraph(object):
         Dynamically construct a reaction equation based on number of reagent
 
         Example:
-        >>> reaction_representation([1,2])
+        reaction_representation([1,2])
         '{} + {}'
         """
         assert isinstance(reagents, list)
