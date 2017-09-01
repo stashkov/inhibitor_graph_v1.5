@@ -4,6 +4,7 @@ from stoic.graph_reader import GraphReader
 
 import argparse
 import networkx as nx
+import csv
 
 
 def pars():
@@ -11,6 +12,14 @@ def pars():
     p.add_argument('node_names', help='file with node names')
     p.add_argument('edge_list', help='file that lists')
     return p
+
+
+def export_reactions_human_readable():
+    with open('result/reactions_human.txt', 'w') as f:
+        for index, reaction in enumerate(expanded_graph.reactions, start=1):
+            f.write(str(index) + " " + expanded_graph.human_readable_reaction(reaction))
+            f.write('\n')
+        f.write('\n')
 
 
 def export_efm_human_readable():
@@ -23,6 +32,18 @@ def export_efm_human_readable():
                     f.write(expanded_graph.human_readable_reaction(expanded_graph.reactions[index]))
                     f.write('\n')
             f.write('\n')
+
+
+def export_stoichiometric_matrix():
+    reaction_count = len(expanded_graph.matrix[0])
+    assert len(expanded_graph.graph.nodes()) == len(expanded_graph.matrix)
+    with open('result/stoichiometric_matrix.csv', 'w') as csvfile:
+        csv_writer = csv.writer(csvfile, delimiter=',',
+                                quotechar='"', quoting=csv.QUOTE_NONNUMERIC)
+        csv_writer.writerow(['node name'] + ['reaction ' + str(i) for i in range(1, reaction_count + 1)])
+        for row, node_name in zip(expanded_graph.matrix, sorted(expanded_graph.graph.nodes(data=True))):
+            csv_writer.writerow([str(node_name[1]['name'])] + row)
+        csv_writer.writerow(['reversible'] + expanded_graph.vector)
 
 
 def export_efm_reaction_numbers():
@@ -43,6 +64,9 @@ if __name__ == '__main__':
     graph = GraphReader(args.node_names, args.edge_list).create_graph()
     expanded_graph = ExpandGraph(graph)  # expand graph
     print("I've deleted rows %s with all zeroes" % expanded_graph.deleted_rows_count)
+
+    export_stoichiometric_matrix()
+    export_reactions_human_readable()
     # feed stoichiometric matrix and reaction vector to EFM Sampler
     r = Sampler(expanded_graph.matrix, expanded_graph.vector)
 

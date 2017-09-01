@@ -1,0 +1,73 @@
+1 ACM2 + not G-Protein beta/gamma -> ACM2 : G-Protein beta/gamma
+2 ACM2 : G-Protein beta/gamma -> ACM2 + G-Protein beta/gamma
+3 G-Protein beta/gamma -> not G-Protein beta/gamma
+4 ACM2 + not G-Protein alpha-s -> ACM2 : G-Protein alpha-s
+5 ACM2 : G-Protein alpha-s -> ACM2 + G-Protein alpha-s
+6 G-Protein alpha-s -> not G-Protein alpha-s
+7 ACM2 + not G-Protein alpha -o -> ACM2 : G-Protein alpha -o
+8 ACM2 : G-Protein alpha -o -> ACM2 + G-Protein alpha -o
+9 G-Protein alpha -o -> not G-Protein alpha -o
+10 ACM2 + not G-Protein alpha -i -> ACM2 : G-Protein alpha -i
+11 ACM2 : G-Protein alpha -i -> ACM2 + G-Protein alpha -i
+12 G-Protein alpha -i -> not G-Protein alpha -i
+13 G-Protein beta/gamma + not Adenylate cyclase subtypes II/IV/VII -> G-Protein beta/gamma : Adenylate cyclase subtypes II/IV/VII
+14 G-Protein beta/gamma : Adenylate cyclase subtypes II/IV/VII -> G-Protein beta/gamma + Adenylate cyclase subtypes II/IV/VII
+15 Adenylate cyclase subtypes II/IV/VII -> not Adenylate cyclase subtypes II/IV/VII
+16 G-Protein beta/gamma + Adenylate cyclase subtypes V/VI -> G-Protein beta/gamma : not Adenylate cyclase subtypes V/VI
+17 G-Protein beta/gamma : not Adenylate cyclase subtypes V/VI + G-Protein beta/gamma -> not Adenylate cyclase subtypes V/VI
+18 G-Protein alpha-s + not Adenylate cyclase subtypes II/IV/VII -> G-Protein alpha-s : Adenylate cyclase subtypes II/IV/VII
+19 G-Protein alpha-s : Adenylate cyclase subtypes II/IV/VII -> G-Protein alpha-s + Adenylate cyclase subtypes II/IV/VII
+20 G-Protein alpha-s + not Adenylate cyclase subtypes V/VI -> G-Protein alpha-s : Adenylate cyclase subtypes V/VI
+21 G-Protein alpha-s : Adenylate cyclase subtypes V/VI -> G-Protein alpha-s + Adenylate cyclase subtypes V/VI
+22 Adenylate cyclase subtypes V/VI -> not Adenylate cyclase subtypes V/VI
+23 GRK 6 + ACM2 -> GRK 6 : not ACM2
+24 GRK 6 : not ACM2 + GRK 6 -> not ACM2
+25 G-Protein alpha -o + not Tubulin Actin -> G-Protein alpha -o : Tubulin Actin
+26 G-Protein alpha -o : Tubulin Actin -> G-Protein alpha -o + Tubulin Actin
+27 Tubulin Actin -> not Tubulin Actin
+28 G-Protein alpha -i + Adenylate cyclase subtypes V/VI -> G-Protein alpha -i : not Adenylate cyclase subtypes V/VI
+29 G-Protein alpha -i : not Adenylate cyclase subtypes V/VI + G-Protein alpha -i -> not Adenylate cyclase subtypes V/VI
+30 RGS 14 + G-Protein alpha -o -> RGS 14 : not G-Protein alpha -o
+31 RGS 14 : not G-Protein alpha -o + RGS 14 -> not G-Protein alpha -o
+32 RGS 14 + G-Protein alpha -i -> RGS 14 : not G-Protein alpha -i
+33 RGS 14 : not G-Protein alpha -i + RGS 14 -> not G-Protein alpha -i
+34 Adenylate cyclase subtypes II/IV/VII + not cAMP -> Adenylate cyclase subtypes II/IV/VII : cAMP
+35 Adenylate cyclase subtypes II/IV/VII : cAMP -> Adenylate cyclase subtypes II/IV/VII + cAMP
+36 cAMP -> not cAMP
+37 Adenylate cyclase subtypes V/VI + not cAMP -> Adenylate cyclase subtypes V/VI : cAMP
+38 Adenylate cyclase subtypes V/VI : cAMP -> Adenylate cyclase subtypes V/VI + cAMP
+39 cAMP-GEF1 + not RGS 14 -> cAMP-GEF1 : RGS 14
+40 cAMP-GEF1 : RGS 14 -> cAMP-GEF1 + RGS 14
+41 RGS 14 -> not RGS 14
+42 cAMP-GEF1 + not Tubulin Actin -> cAMP-GEF1 : Tubulin Actin
+43 cAMP-GEF1 : Tubulin Actin -> cAMP-GEF1 + Tubulin Actin
+44 PKA (cAMP dependent) + not GRK 6 -> PKA (cAMP dependent) : GRK 6
+45 PKA (cAMP dependent) : GRK 6 -> PKA (cAMP dependent) + GRK 6
+46 GRK 6 -> not GRK 6
+47 PKA (cAMP dependent) + not RGS 14 -> PKA (cAMP dependent) : RGS 14
+48 PKA (cAMP dependent) : RGS 14 -> PKA (cAMP dependent) + RGS 14
+49 PKA (cAMP dependent) + Adenylate cyclase subtypes V/VI -> PKA (cAMP dependent) : not Adenylate cyclase subtypes V/VI
+50 PKA (cAMP dependent) : not Adenylate cyclase subtypes V/VI + PKA (cAMP dependent) -> not Adenylate cyclase subtypes V/VI
+51 PKA (cAMP dependent) + not GRK 2 -> PKA (cAMP dependent) : GRK 2
+52 PKA (cAMP dependent) : GRK 2 -> PKA (cAMP dependent) + GRK 2
+53 GRK 2 -> not GRK 2
+54 PKA (cAMP dependent) + not AMP -> PKA (cAMP dependent) : AMP
+55 PKA (cAMP dependent) : AMP -> PKA (cAMP dependent) + AMP
+56 AMP -> not AMP
+57 PKA (cAMP dependent) + not Tubulin Actin -> PKA (cAMP dependent) : Tubulin Actin
+58 PKA (cAMP dependent) : Tubulin Actin -> PKA (cAMP dependent) + Tubulin Actin
+59 GRK 2 + cAMP-GEF1 -> GRK 2 : not cAMP-GEF1
+60 GRK 2 : not cAMP-GEF1 + GRK 2 -> not cAMP-GEF1
+61 GRK 2 + not Tubulin Actin -> GRK 2 : Tubulin Actin
+62 GRK 2 : Tubulin Actin -> GRK 2 + Tubulin Actin
+63 cAMP + not cAMP-GEF1 -> cAMP : cAMP-GEF1
+64 cAMP : cAMP-GEF1 -> cAMP + cAMP-GEF1
+65 cAMP-GEF1 -> not cAMP-GEF1
+66 cAMP + not PKA (cAMP dependent) -> cAMP : PKA (cAMP dependent)
+67 cAMP : PKA (cAMP dependent) -> cAMP + PKA (cAMP dependent)
+68 PKA (cAMP dependent) -> not PKA (cAMP dependent)
+69 cAMP + not AMP -> cAMP : AMP
+70 cAMP : AMP -> cAMP + AMP
+71 AMP + not Tubulin Actin -> AMP : Tubulin Actin
+72 AMP : Tubulin Actin -> AMP + Tubulin Actin
+
