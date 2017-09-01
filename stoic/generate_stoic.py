@@ -20,7 +20,6 @@ class ExpandGraph(object):
         self.backward_reactions = list()  # track reactions
         self.matrix, self.vector = self.initialize_matrix_and_vector()
         self.reactions = list()
-        self.reactants = list()
         self.deleted_rows_count = 0
 
         self.fill_in_stoichiometric_matrix()
@@ -40,7 +39,6 @@ class ExpandGraph(object):
 
     def fill_in_stoichiometric_matrix(self):
         reaction_number = 0
-        # TODO remove sorted, if Sampler does not provide ordered number of EFMs
         for i, edge in enumerate(sorted(self.graph.edges())):
             if self.graph.get_edge_data(*edge)['weight'] == self.ACTIVATION:
                 reaction_number = self.add_activation_edge_reactions(edge, reaction_number)
@@ -152,12 +150,13 @@ class ExpandGraph(object):
 
     def human_readable_reaction(self, reaction):
         """given Reaction (namedtuple) show it it human readable format"""
+        # TODO make this method static
         reactants, products = reaction
         reactants = [self.node_name(r) for r in reactants]
         products = [self.node_name(p) for p in products]
         # TODO add reversibility of the reaction to namedtuple
-        left_side = self.reaction_representation(reactants)
-        right_side = self.reaction_representation(products)
+        left_side = ExpandGraph.reaction_representation(reactants)
+        right_side = ExpandGraph.reaction_representation(products)
         left_side = left_side.format(*reactants)
         right_side = right_side.format(*products)
         return left_side + " -> " + right_side
@@ -183,7 +182,6 @@ class ExpandGraph(object):
         assert all('weight' in d.keys() for _, _, d in graph.edges(data=True)), \
             "all edges must have weights"
         next_node_number = max(graph.nodes())
-        # TODO remove sorted, if Sampler does not provide ordered number of EFMs
         for edge in sorted(graph.edges()):
             next_node_number += 1
             u, v = edge
@@ -196,7 +194,6 @@ class ExpandGraph(object):
 
     def add_negation_of_nodes(self, additional_nodes, graph):
         next_node_number = max(graph.nodes())
-        # TODO remove sorted, if Sampler does not provide ordered number of EFMs
         for node in sorted(graph.nodes()):
             if graph.in_degree(node) > 0:
                 next_node_number += 1
