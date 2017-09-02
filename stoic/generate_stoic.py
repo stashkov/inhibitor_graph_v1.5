@@ -150,7 +150,6 @@ class ExpandGraph(object):
 
     def human_readable_reaction(self, reaction):
         """given Reaction (namedtuple) show it it human readable format"""
-        # TODO make this method static
         reactants, products = reaction
         reactants = [ExpandGraph.node_name(self.graph, r) for r in reactants]
         products = [ExpandGraph.node_name(self.graph, p) for p in products]
