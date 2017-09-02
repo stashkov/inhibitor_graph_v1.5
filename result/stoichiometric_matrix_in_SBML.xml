@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model>
+    <listOfSpecies>
+      <species id="ACM2"/>
+      <species id="not_G_Protein_beta_gamma"/>
+      <species id="ACM2_G_Protein_beta_gamma"/>
+      <species id="G_Protein_beta_gamma"/>
+      <species id="not_G_Protein_alpha_s"/>
+      <species id="ACM2_G_Protein_alpha_s"/>
+      <species id="G_Protein_alpha_s"/>
+      <species id="not_G_Protein_alpha_o"/>
+      <species id="ACM2_G_Protein_alpha_o"/>
+      <species id="G_Protein_alpha_o"/>
+      <species id="not_G_Protein_alpha_i"/>
+      <species id="ACM2_G_Protein_alpha_i"/>
+      <species id="G_Protein_alpha_i"/>
+      <species id="not_Adenylate_cyclase_subtypes_II_IV_VII"/>
+      <species id="G_Protein_beta_gamma_Adenylate_cyclase_subtypes_II_IV_VII"/>
+      <species id="Adenylate_cyclase_subtypes_II_IV_VII"/>
+      <species id="Adenylate_cyclase_subtypes_V_VI"/>
+      <species id="G_Protein_beta_gamma_not_Adenylate_cyclase_subtypes_V_VI"/>
+      <species id="not_Adenylate_cyclase_subtypes_V_VI"/>
+      <species id="G_Protein_alpha_s_Adenylate_cyclase_subtypes_II_IV_VII"/>
+      <species id="G_Protein_alpha_s_Adenylate_cyclase_subtypes_V_VI"/>
+      <species id="GRK_6"/>
+      <species id="GRK_6_not_ACM2"/>
+      <species id="not_ACM2"/>
+      <species id="not_Tubulin_Actin"/>
+      <species id="G_Protein_alpha_o_Tubulin_Actin"/>
+      <species id="Tubulin_Actin"/>
+      <species id="G_Protein_alpha_i_not_Adenylate_cyclase_subtypes_V_VI"/>
+      <species id="RGS_14"/>
+      <species id="RGS_14_not_G_Protein_alpha_o"/>
+      <species id="RGS_14_not_G_Protein_alpha_i"/>
+      <species id="not_cAMP"/>
+      <species id="Adenylate_cyclase_subtypes_II_IV_VII_cAMP"/>
+      <species id="cAMP"/>
+      <species id="Adenylate_cyclase_subtypes_V_VI_cAMP"/>
+      <species id="cAMP_GEF1"/>
+      <species id="not_RGS_14"/>
+      <species id="cAMP_GEF1_RGS_14"/>
+      <species id="cAMP_GEF1_Tubulin_Actin"/>
+      <species id="PKA_cAMP_dependent_"/>
+      <species id="not_GRK_6"/>
+      <species id="PKA_cAMP_dependent_GRK_6"/>
+      <species id="PKA_cAMP_dependent_RGS_14"/>
+      <species id="PKA_cAMP_dependent_not_Adenylate_cyclase_subtypes_V_VI"/>
+      <species id="not_GRK_2"/>
+      <species id="PKA_cAMP_dependent_GRK_2"/>
+      <species id="GRK_2"/>
+      <species id="not_AMP"/>
+      <species id="PKA_cAMP_dependent_AMP"/>
+      <species id="AMP"/>
+      <species id="PKA_cAMP_dependent_Tubulin_Actin"/>
+      <species id="GRK_2_not_cAMP_GEF1"/>
+      <species id="not_cAMP_GEF1"/>
+      <species id="GRK_2_Tubulin_Actin"/>
+      <species id="cAMP_cAMP_GEF1"/>
+      <species id="not_PKA_cAMP_dependent_"/>
+      <species id="cAMP_PKA_cAMP_dependent_"/>
+      <species id="cAMP_AMP"/>
+      <species id="AMP_Tubulin_Actin"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="ACM2_not_G_Protein_beta_gamma_ACM2_G_Protein_beta_gamma">
+        <listOfReactants>
+          <speciesReference species="ACM2"/>
+          <speciesReference species="not_G_Protein_beta_gamma"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ACM2_G_Protein_beta_gamma"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="ACM2_G_Protein_beta_gamma_ACM2_G_Protein_beta_gamma">
+        <listOfReactants>
+          <speciesReference species="ACM2_G_Protein_beta_gamma"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ACM2"/>
+          <speciesReference species="G_Protein_beta_gamma"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_beta_gamma_not_G_Protein_beta_gamma">
+        <listOfReactants>
+          <speciesReference species="G_Protein_beta_gamma"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_G_Protein_beta_gamma"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="ACM2_not_G_Protein_alpha_s_ACM2_G_Protein_alpha_s">
+        <listOfReactants>
+          <speciesReference species="ACM2"/>
+          <speciesReference species="not_G_Protein_alpha_s"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ACM2_G_Protein_alpha_s"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="ACM2_G_Protein_alpha_s_ACM2_G_Protein_alpha_s">
+        <listOfReactants>
+          <speciesReference species="ACM2_G_Protein_alpha_s"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ACM2"/>
+          <speciesReference species="G_Protein_alpha_s"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_alpha_s_not_G_Protein_alpha_s">
+        <listOfReactants>
+          <speciesReference species="G_Protein_alpha_s"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_G_Protein_alpha_s"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="ACM2_not_G_Protein_alpha_o_ACM2_G_Protein_alpha_o">
+        <listOfReactants>
+          <speciesReference species="ACM2"/>
+          <speciesReference species="not_G_Protein_alpha_o"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ACM2_G_Protein_alpha_o"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="ACM2_G_Protein_alpha_o_ACM2_G_Protein_alpha_o">
+        <listOfReactants>
+          <speciesReference species="ACM2_G_Protein_alpha_o"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ACM2"/>
+          <speciesReference species="G_Protein_alpha_o"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_alpha_o_not_G_Protein_alpha_o">
+        <listOfReactants>
+          <speciesReference species="G_Protein_alpha_o"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_G_Protein_alpha_o"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="ACM2_not_G_Protein_alpha_i_ACM2_G_Protein_alpha_i">
+        <listOfReactants>
+          <speciesReference species="ACM2"/>
+          <speciesReference species="not_G_Protein_alpha_i"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ACM2_G_Protein_alpha_i"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="ACM2_G_Protein_alpha_i_ACM2_G_Protein_alpha_i">
+        <listOfReactants>
+          <speciesReference species="ACM2_G_Protein_alpha_i"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="ACM2"/>
+          <speciesReference species="G_Protein_alpha_i"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_alpha_i_not_G_Protein_alpha_i">
+        <listOfReactants>
+          <speciesReference species="G_Protein_alpha_i"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_G_Protein_alpha_i"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_beta_gamma_not_Adenylate_cyclase_subtypes_II_IV_VII_G_Protein_beta_gamma_Adenylate_cyclase_subtypes_II_IV_VII">
+        <listOfReactants>
+          <speciesReference species="G_Protein_beta_gamma"/>
+          <speciesReference species="not_Adenylate_cyclase_subtypes_II_IV_VII"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="G_Protein_beta_gamma_Adenylate_cyclase_subtypes_II_IV_VII"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_beta_gamma_Adenylate_cyclase_subtypes_II_IV_VII_G_Protein_beta_gamma_Adenylate_cyclase_subtypes_II_IV_VII">
+        <listOfReactants>
+          <speciesReference species="G_Protein_beta_gamma_Adenylate_cyclase_subtypes_II_IV_VII"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="G_Protein_beta_gamma"/>
+          <speciesReference species="Adenylate_cyclase_subtypes_II_IV_VII"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Adenylate_cyclase_subtypes_II_IV_VII_not_Adenylate_cyclase_subtypes_II_IV_VII">
+        <listOfReactants>
+          <speciesReference species="Adenylate_cyclase_subtypes_II_IV_VII"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_Adenylate_cyclase_subtypes_II_IV_VII"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_beta_gamma_Adenylate_cyclase_subtypes_V_VI_G_Protein_beta_gamma_not_Adenylate_cyclase_subtypes_V_VI">
+        <listOfReactants>
+          <speciesReference species="G_Protein_beta_gamma"/>
+          <speciesReference species="Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="G_Protein_beta_gamma_not_Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_beta_gamma_not_Adenylate_cyclase_subtypes_V_VI_G_Protein_beta_gamma_not_Adenylate_cyclase_subtypes_V_VI">
+        <listOfReactants>
+          <speciesReference species="G_Protein_beta_gamma_not_Adenylate_cyclase_subtypes_V_VI"/>
+          <speciesReference species="G_Protein_beta_gamma"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_alpha_s_not_Adenylate_cyclase_subtypes_II_IV_VII_G_Protein_alpha_s_Adenylate_cyclase_subtypes_II_IV_VII">
+        <listOfReactants>
+          <speciesReference species="G_Protein_alpha_s"/>
+          <speciesReference species="not_Adenylate_cyclase_subtypes_II_IV_VII"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="G_Protein_alpha_s_Adenylate_cyclase_subtypes_II_IV_VII"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_alpha_s_Adenylate_cyclase_subtypes_II_IV_VII_G_Protein_alpha_s_Adenylate_cyclase_subtypes_II_IV_VII">
+        <listOfReactants>
+          <speciesReference species="G_Protein_alpha_s_Adenylate_cyclase_subtypes_II_IV_VII"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="G_Protein_alpha_s"/>
+          <speciesReference species="Adenylate_cyclase_subtypes_II_IV_VII"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_alpha_s_not_Adenylate_cyclase_subtypes_V_VI_G_Protein_alpha_s_Adenylate_cyclase_subtypes_V_VI">
+        <listOfReactants>
+          <speciesReference species="G_Protein_alpha_s"/>
+          <speciesReference species="not_Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="G_Protein_alpha_s_Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_alpha_s_Adenylate_cyclase_subtypes_V_VI_G_Protein_alpha_s_Adenylate_cyclase_subtypes_V_VI">
+        <listOfReactants>
+          <speciesReference species="G_Protein_alpha_s_Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="G_Protein_alpha_s"/>
+          <speciesReference species="Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Adenylate_cyclase_subtypes_V_VI_not_Adenylate_cyclase_subtypes_V_VI">
+        <listOfReactants>
+          <speciesReference species="Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="GRK_6_ACM2_GRK_6_not_ACM2">
+        <listOfReactants>
+          <speciesReference species="GRK_6"/>
+          <speciesReference species="ACM2"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="GRK_6_not_ACM2"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="GRK_6_not_ACM2_GRK_6_not_ACM2">
+        <listOfReactants>
+          <speciesReference species="GRK_6_not_ACM2"/>
+          <speciesReference species="GRK_6"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_ACM2"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_alpha_o_not_Tubulin_Actin_G_Protein_alpha_o_Tubulin_Actin">
+        <listOfReactants>
+          <speciesReference species="G_Protein_alpha_o"/>
+          <speciesReference species="not_Tubulin_Actin"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="G_Protein_alpha_o_Tubulin_Actin"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_alpha_o_Tubulin_Actin_G_Protein_alpha_o_Tubulin_Actin">
+        <listOfReactants>
+          <speciesReference species="G_Protein_alpha_o_Tubulin_Actin"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="G_Protein_alpha_o"/>
+          <speciesReference species="Tubulin_Actin"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Tubulin_Actin_not_Tubulin_Actin">
+        <listOfReactants>
+          <speciesReference species="Tubulin_Actin"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_Tubulin_Actin"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_alpha_i_Adenylate_cyclase_subtypes_V_VI_G_Protein_alpha_i_not_Adenylate_cyclase_subtypes_V_VI">
+        <listOfReactants>
+          <speciesReference species="G_Protein_alpha_i"/>
+          <speciesReference species="Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="G_Protein_alpha_i_not_Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="G_Protein_alpha_i_not_Adenylate_cyclase_subtypes_V_VI_G_Protein_alpha_i_not_Adenylate_cyclase_subtypes_V_VI">
+        <listOfReactants>
+          <speciesReference species="G_Protein_alpha_i_not_Adenylate_cyclase_subtypes_V_VI"/>
+          <speciesReference species="G_Protein_alpha_i"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="RGS_14_G_Protein_alpha_o_RGS_14_not_G_Protein_alpha_o">
+        <listOfReactants>
+          <speciesReference species="RGS_14"/>
+          <speciesReference species="G_Protein_alpha_o"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="RGS_14_not_G_Protein_alpha_o"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="RGS_14_not_G_Protein_alpha_o_RGS_14_not_G_Protein_alpha_o">
+        <listOfReactants>
+          <speciesReference species="RGS_14_not_G_Protein_alpha_o"/>
+          <speciesReference species="RGS_14"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_G_Protein_alpha_o"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="RGS_14_G_Protein_alpha_i_RGS_14_not_G_Protein_alpha_i">
+        <listOfReactants>
+          <speciesReference species="RGS_14"/>
+          <speciesReference species="G_Protein_alpha_i"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="RGS_14_not_G_Protein_alpha_i"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="RGS_14_not_G_Protein_alpha_i_RGS_14_not_G_Protein_alpha_i">
+        <listOfReactants>
+          <speciesReference species="RGS_14_not_G_Protein_alpha_i"/>
+          <speciesReference species="RGS_14"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_G_Protein_alpha_i"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Adenylate_cyclase_subtypes_II_IV_VII_not_cAMP_Adenylate_cyclase_subtypes_II_IV_VII_cAMP">
+        <listOfReactants>
+          <speciesReference species="Adenylate_cyclase_subtypes_II_IV_VII"/>
+          <speciesReference species="not_cAMP"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Adenylate_cyclase_subtypes_II_IV_VII_cAMP"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Adenylate_cyclase_subtypes_II_IV_VII_cAMP_Adenylate_cyclase_subtypes_II_IV_VII_cAMP">
+        <listOfReactants>
+          <speciesReference species="Adenylate_cyclase_subtypes_II_IV_VII_cAMP"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Adenylate_cyclase_subtypes_II_IV_VII"/>
+          <speciesReference species="cAMP"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="cAMP_not_cAMP">
+        <listOfReactants>
+          <speciesReference species="cAMP"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_cAMP"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Adenylate_cyclase_subtypes_V_VI_not_cAMP_Adenylate_cyclase_subtypes_V_VI_cAMP">
+        <listOfReactants>
+          <speciesReference species="Adenylate_cyclase_subtypes_V_VI"/>
+          <speciesReference species="not_cAMP"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Adenylate_cyclase_subtypes_V_VI_cAMP"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="Adenylate_cyclase_subtypes_V_VI_cAMP_Adenylate_cyclase_subtypes_V_VI_cAMP">
+        <listOfReactants>
+          <speciesReference species="Adenylate_cyclase_subtypes_V_VI_cAMP"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="Adenylate_cyclase_subtypes_V_VI"/>
+          <speciesReference species="cAMP"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="cAMP_GEF1_not_RGS_14_cAMP_GEF1_RGS_14">
+        <listOfReactants>
+          <speciesReference species="cAMP_GEF1"/>
+          <speciesReference species="not_RGS_14"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="cAMP_GEF1_RGS_14"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="cAMP_GEF1_RGS_14_cAMP_GEF1_RGS_14">
+        <listOfReactants>
+          <speciesReference species="cAMP_GEF1_RGS_14"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="cAMP_GEF1"/>
+          <speciesReference species="RGS_14"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="RGS_14_not_RGS_14">
+        <listOfReactants>
+          <speciesReference species="RGS_14"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_RGS_14"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="cAMP_GEF1_not_Tubulin_Actin_cAMP_GEF1_Tubulin_Actin">
+        <listOfReactants>
+          <speciesReference species="cAMP_GEF1"/>
+          <speciesReference species="not_Tubulin_Actin"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="cAMP_GEF1_Tubulin_Actin"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="cAMP_GEF1_Tubulin_Actin_cAMP_GEF1_Tubulin_Actin">
+        <listOfReactants>
+          <speciesReference species="cAMP_GEF1_Tubulin_Actin"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="cAMP_GEF1"/>
+          <speciesReference species="Tubulin_Actin"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_not_GRK_6_PKA_cAMP_dependent_GRK_6">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+          <speciesReference species="not_GRK_6"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA_cAMP_dependent_GRK_6"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_GRK_6_PKA_cAMP_dependent_GRK_6">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_GRK_6"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+          <speciesReference species="GRK_6"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="GRK_6_not_GRK_6">
+        <listOfReactants>
+          <speciesReference species="GRK_6"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_GRK_6"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_not_RGS_14_PKA_cAMP_dependent_RGS_14">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+          <speciesReference species="not_RGS_14"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA_cAMP_dependent_RGS_14"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_RGS_14_PKA_cAMP_dependent_RGS_14">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_RGS_14"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+          <speciesReference species="RGS_14"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_Adenylate_cyclase_subtypes_V_VI_PKA_cAMP_dependent_not_Adenylate_cyclase_subtypes_V_VI">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+          <speciesReference species="Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA_cAMP_dependent_not_Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_not_Adenylate_cyclase_subtypes_V_VI_PKA_cAMP_dependent_not_Adenylate_cyclase_subtypes_V_VI">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_not_Adenylate_cyclase_subtypes_V_VI"/>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_Adenylate_cyclase_subtypes_V_VI"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_not_GRK_2_PKA_cAMP_dependent_GRK_2">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+          <speciesReference species="not_GRK_2"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA_cAMP_dependent_GRK_2"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_GRK_2_PKA_cAMP_dependent_GRK_2">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_GRK_2"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+          <speciesReference species="GRK_2"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="GRK_2_not_GRK_2">
+        <listOfReactants>
+          <speciesReference species="GRK_2"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_GRK_2"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_not_AMP_PKA_cAMP_dependent_AMP">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+          <speciesReference species="not_AMP"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA_cAMP_dependent_AMP"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_AMP_PKA_cAMP_dependent_AMP">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_AMP"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+          <speciesReference species="AMP"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="AMP_not_AMP">
+        <listOfReactants>
+          <speciesReference species="AMP"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_AMP"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_not_Tubulin_Actin_PKA_cAMP_dependent_Tubulin_Actin">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+          <speciesReference species="not_Tubulin_Actin"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA_cAMP_dependent_Tubulin_Actin"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_Tubulin_Actin_PKA_cAMP_dependent_Tubulin_Actin">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_Tubulin_Actin"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+          <speciesReference species="Tubulin_Actin"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="GRK_2_cAMP_GEF1_GRK_2_not_cAMP_GEF1">
+        <listOfReactants>
+          <speciesReference species="GRK_2"/>
+          <speciesReference species="cAMP_GEF1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="GRK_2_not_cAMP_GEF1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="GRK_2_not_cAMP_GEF1_GRK_2_not_cAMP_GEF1">
+        <listOfReactants>
+          <speciesReference species="GRK_2_not_cAMP_GEF1"/>
+          <speciesReference species="GRK_2"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_cAMP_GEF1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="GRK_2_not_Tubulin_Actin_GRK_2_Tubulin_Actin">
+        <listOfReactants>
+          <speciesReference species="GRK_2"/>
+          <speciesReference species="not_Tubulin_Actin"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="GRK_2_Tubulin_Actin"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="GRK_2_Tubulin_Actin_GRK_2_Tubulin_Actin">
+        <listOfReactants>
+          <speciesReference species="GRK_2_Tubulin_Actin"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="GRK_2"/>
+          <speciesReference species="Tubulin_Actin"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="cAMP_not_cAMP_GEF1_cAMP_cAMP_GEF1">
+        <listOfReactants>
+          <speciesReference species="cAMP"/>
+          <speciesReference species="not_cAMP_GEF1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="cAMP_cAMP_GEF1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="cAMP_cAMP_GEF1_cAMP_cAMP_GEF1">
+        <listOfReactants>
+          <speciesReference species="cAMP_cAMP_GEF1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="cAMP"/>
+          <speciesReference species="cAMP_GEF1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="cAMP_GEF1_not_cAMP_GEF1">
+        <listOfReactants>
+          <speciesReference species="cAMP_GEF1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_cAMP_GEF1"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="cAMP_not_PKA_cAMP_dependent_cAMP_PKA_cAMP_dependent_">
+        <listOfReactants>
+          <speciesReference species="cAMP"/>
+          <speciesReference species="not_PKA_cAMP_dependent_"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="cAMP_PKA_cAMP_dependent_"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="cAMP_PKA_cAMP_dependent_cAMP_PKA_cAMP_dependent_">
+        <listOfReactants>
+          <speciesReference species="cAMP_PKA_cAMP_dependent_"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="cAMP"/>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="PKA_cAMP_dependent_not_PKA_cAMP_dependent_">
+        <listOfReactants>
+          <speciesReference species="PKA_cAMP_dependent_"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="not_PKA_cAMP_dependent_"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="cAMP_not_AMP_cAMP_AMP">
+        <listOfReactants>
+          <speciesReference species="cAMP"/>
+          <speciesReference species="not_AMP"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="cAMP_AMP"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="cAMP_AMP_cAMP_AMP">
+        <listOfReactants>
+          <speciesReference species="cAMP_AMP"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="cAMP"/>
+          <speciesReference species="AMP"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="AMP_not_Tubulin_Actin_AMP_Tubulin_Actin">
+        <listOfReactants>
+          <speciesReference species="AMP"/>
+          <speciesReference species="not_Tubulin_Actin"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="AMP_Tubulin_Actin"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="AMP_Tubulin_Actin_AMP_Tubulin_Actin">
+        <listOfReactants>
+          <speciesReference species="AMP_Tubulin_Actin"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="AMP"/>
+          <speciesReference species="Tubulin_Actin"/>
+        </listOfProducts>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

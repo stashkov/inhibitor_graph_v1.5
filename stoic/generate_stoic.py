@@ -153,6 +153,9 @@ class ExpandGraph(object):
         right_side = right_side.format(*products)
         return left_side + " -> " + right_side
 
+    def human_readable_reactions(self):
+        return [self.human_readable_reaction(reaction) for reaction in self.reactions]
+
     def add_composite_nodes(self, additional_nodes):
         next_node_number = max(self.graph.nodes())
         for edge in sorted(self.graph.edges()):
