@@ -70,4 +70,3 @@
 70 cAMP : AMP -> cAMP + AMP
 71 AMP + not Tubulin Actin -> AMP : Tubulin Actin
 72 AMP : Tubulin Actin -> AMP + Tubulin Actin
-
