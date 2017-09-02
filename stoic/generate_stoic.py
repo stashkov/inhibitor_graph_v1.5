@@ -141,11 +141,12 @@ class ExpandGraph(object):
         self.matrix[self.additional_nodes[v] - 1][column] = self.PRODUCT
         self.backward_reactions.append(v)
 
-    def human_readable_reaction(self, reaction):
+    @staticmethod
+    def human_readable_reaction(graph, reaction):
         """given Reaction (namedtuple) show it it human readable format"""
         reactants, products = reaction
-        reactants = [ExpandGraph.node_name(self.graph, r) for r in reactants]
-        products = [ExpandGraph.node_name(self.graph, p) for p in products]
+        reactants = [ExpandGraph.node_name(graph, r) for r in reactants]
+        products = [ExpandGraph.node_name(graph, p) for p in products]
         # TODO add reversibility of the reaction to namedtuple
         left_side = ExpandGraph.reaction_representation(reactants)
         right_side = ExpandGraph.reaction_representation(products)
@@ -154,7 +155,7 @@ class ExpandGraph(object):
         return left_side + " -> " + right_side
 
     def human_readable_reactions(self):
-        return [self.human_readable_reaction(reaction) for reaction in self.reactions]
+        return [ExpandGraph.human_readable_reaction(self.graph, reaction) for reaction in self.reactions]
 
     def add_composite_nodes(self, additional_nodes):
         next_node_number = max(self.graph.nodes())
