@@ -36,7 +36,7 @@ class GenerateSBML(object):
         reaction_name = ExpandGraph.human_readable_reaction(self.graph, reaction)
         reaction_name = self.replace_non_alphanumeric_with_underscore(reaction_name)
         SBMLGenerator.check(current_reaction.setId(reaction_name), 'set reaction id')
-        # SBMLGenerator.check(r1.setReversible(False), 'set reaction reversibility flag')
+        # TODO SBMLGenerator.check(r1.setReversible(False), 'set reaction reversibility flag')
         return current_reaction
 
     def add_species_to_model(self, reagent):
