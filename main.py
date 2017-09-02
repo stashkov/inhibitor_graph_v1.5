@@ -7,8 +7,7 @@ from sampler.sampler import Sampler
 from stoic.generate_stoic import ExpandGraph
 from stoic.graph_reader import GraphReader
 from sbml_generator.sbml_gen import SBMLGenerator
-import re
-
+from sbml_generator.sbml_gen_impl import GenerateSBML
 
 def pars():
     p = argparse.ArgumentParser(description='Import graph')
@@ -30,7 +29,7 @@ def export_efm_human_readable():
             f.write('EFM #{}\n'.format(str(i)))
             for index, reaction in enumerate(efms):
                 if reaction == 1:
-                    f.write('{}\n'.format(expanded_graph.human_readable_reaction(expanded_graph.reactions[index])))
+                    f.write('{}\n'.format(ExpandGraph.human_readable_reaction(expanded_graph.graph, expanded_graph.reactions[index])))
             f.write('\n')
 
 
@@ -58,58 +57,11 @@ def export_efm_reaction_numbers():
             f.write('\n')
 
 
-def export_sbml(reactions):
-    document = generate_sbml(reactions=reactions)
+def export_sbml(graph, reactions):
+    document = GenerateSBML(graph, reactions=reactions).xml_document
     with open('result/stoichiometric_matrix_in_SBML.xml', "w") as f:
         f.write(SBMLGenerator.convert_to_xml(document=document))
 
-
-def generate_sbml(reactions):
-    doc = SBMLGenerator(reactions=reactions).document
-    model = doc.createModel()
-    SBMLGenerator.check(model, 'create model')
-
-    seen_reagents = set()
-    for reaction in reactions:
-        current_reaction = add_reaction(model, reaction)
-        reactants, products = reaction
-        for reagent in reactants:
-            species_reference = current_reaction.createReactant()
-            add_reagents_to_reaction(reagent, species_reference)
-            add_species(model, reagent, seen_reagents)
-        for reagent in products:
-            species_reference = current_reaction.createProduct()
-            add_reagents_to_reaction(reagent, species_reference)
-            add_species(model, reagent, seen_reagents)
-    return doc
-
-
-def add_reaction(model, reaction):
-    current_reaction = model.createReaction()
-    reaction_name = expanded_graph.human_readable_reaction(reaction)
-    reaction_name = replace_non_alphanumeric_with_underscore(reaction_name)
-    SBMLGenerator.check(current_reaction.setId(reaction_name), 'set reaction id')
-    # SBMLGenerator.check(r1.setReversible(False), 'set reaction reversibility flag')
-    return current_reaction
-
-
-def add_species(model, reagent, seen_reagents):
-    if reagent not in seen_reagents:
-        species = model.createSpecies()
-        name = ExpandGraph.node_name(expanded_graph.graph, reagent)
-        name = replace_non_alphanumeric_with_underscore(name)
-        SBMLGenerator.check(species.setId(name), 'set species id')
-        seen_reagents.add(reagent)
-
-
-def add_reagents_to_reaction(reagent, species_reference):
-    name = ExpandGraph.node_name(expanded_graph.graph, reagent)
-    name = replace_non_alphanumeric_with_underscore(name)
-    SBMLGenerator.check(species_reference.setSpecies(name), 'assign species')
-
-
-def replace_non_alphanumeric_with_underscore(string):
-    return re.sub('[^0-9a-zA-Z]+', '_', string)
 
 
 if __name__ == '__main__':
@@ -126,7 +78,7 @@ if __name__ == '__main__':
 
     nx.write_graphml(graph, "result/imported_graph.graphml")
     nx.write_graphml(expanded_graph.graph, "result/expanded_graph.graphml")
-    export_sbml(expanded_graph.reactions)
+    export_sbml(expanded_graph.graph, expanded_graph.reactions)
     export_efm_human_readable()
     export_efm_reaction_numbers()
 
