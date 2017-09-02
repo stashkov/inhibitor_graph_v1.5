@@ -1,5 +1,5 @@
 # What is this?
-It's a biological tool, that helps to calculate all
+Signal2RGraph is a biological tool, that helps to calculate all
 EFM (elementary flux modes) in a given metabolic pathway.
 
 
