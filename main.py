@@ -9,6 +9,7 @@ from stoic.graph_reader import GraphReader
 from sbml_generator.sbml_gen import SBMLGenerator
 from sbml_generator.sbml_gen_impl import GenerateSBML
 
+
 def pars():
     p = argparse.ArgumentParser(description='Import graph')
     p.add_argument('node_names', help='file with node names')
@@ -58,17 +59,16 @@ def export_efm_reaction_numbers():
 
 
 def export_sbml(graph, reactions):
-    document = GenerateSBML(graph, reactions=reactions).xml_document
+    document = GenerateSBML(graph, reactions=reactions).generate_sbml()
     with open('result/stoichiometric_matrix_in_SBML.xml', "w") as f:
         f.write(SBMLGenerator.convert_to_xml(document=document))
-
 
 
 if __name__ == '__main__':
     parser = pars()
     args = parser.parse_args()
     graph = GraphReader(args.node_names, args.edge_list).create_graph()
-    expanded_graph = ExpandGraph(graph)  # expand graph
+    expanded_graph = ExpandGraph(graph)
     print("I've deleted rows %s with all zeroes" % expanded_graph.deleted_rows_count)
 
     export_stoichiometric_matrix()
