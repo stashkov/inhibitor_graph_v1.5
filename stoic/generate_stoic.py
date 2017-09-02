@@ -165,7 +165,7 @@ class ExpandGraph(object):
     @staticmethod
     def reaction_representation(reagents):
         """
-        Dynamically construct a reaction equation based on number of reagent
+        Construct a reaction equation based on number of reagents
 
         Example:
         reaction_representation([1,2])
@@ -188,8 +188,10 @@ class ExpandGraph(object):
             u, v = edge
             if self.graph.get_edge_data(*edge)['weight'] == self.ACTIVATION:
                 self.graph.add_node(next_node_number, name='{} : {}'.format(self.node_name(u), self.node_name(v)))
-            if self.graph.get_edge_data(*edge)['weight'] == self.INHIBITION:
+            elif self.graph.get_edge_data(*edge)['weight'] == self.INHIBITION:
                 self.graph.add_node(next_node_number, name='{} : not {}'.format(self.node_name(u), self.node_name(v)))
+            else:
+                raise ValueError("Edge weight can be either 0 or 1")
             additional_nodes[edge] = next_node_number
         return additional_nodes
 
