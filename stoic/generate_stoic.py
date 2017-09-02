@@ -179,35 +179,35 @@ class ExpandGraph(object):
     def generate_empty_stoichiometric_matrix(number_of_rows, number_of_columns):
         return [[0 for _ in range(number_of_columns)] for _ in range(number_of_rows)]
 
-    def add_composite_nodes(self, additional_nodes, graph):
-        assert all('weight' in d.keys() for _, _, d in graph.edges(data=True)), \
+    def add_composite_nodes(self, additional_nodes):
+        assert all('weight' in d.keys() for _, _, d in self.graph.edges(data=True)), \
             "all edges must have weights"
-        next_node_number = max(graph.nodes())
-        for edge in sorted(graph.edges()):
+        next_node_number = max(self.graph.nodes())
+        for edge in sorted(self.graph.edges()):
             next_node_number += 1
             u, v = edge
-            if graph.get_edge_data(*edge)['weight'] == self.ACTIVATION:
-                graph.add_node(next_node_number, name='{} : {}'.format(self.node_name(u), self.node_name(v)))
-            if graph.get_edge_data(*edge)['weight'] == self.INHIBITION:
-                graph.add_node(next_node_number, name='{} : not {}'.format(self.node_name(u), self.node_name(v)))
+            if self.graph.get_edge_data(*edge)['weight'] == self.ACTIVATION:
+                self.graph.add_node(next_node_number, name='{} : {}'.format(self.node_name(u), self.node_name(v)))
+            if self.graph.get_edge_data(*edge)['weight'] == self.INHIBITION:
+                self.graph.add_node(next_node_number, name='{} : not {}'.format(self.node_name(u), self.node_name(v)))
             additional_nodes[edge] = next_node_number
-        return graph, additional_nodes
+        return additional_nodes
 
-    def add_negation_of_nodes(self, additional_nodes, graph):
-        next_node_number = max(graph.nodes())
-        for node in sorted(graph.nodes()):
-            if graph.in_degree(node) > 0:
+    def add_negation_of_nodes(self, additional_nodes):
+        next_node_number = max(self.graph.nodes())
+        for node in sorted(self.graph.nodes()):
+            if self.graph.in_degree(node) > 0:
                 next_node_number += 1
-                graph.add_node(next_node_number, name='not ' + self.node_name(node))
+                self.graph.add_node(next_node_number, name='not ' + self.node_name(node))
                 additional_nodes[node] = next_node_number
-        return graph, additional_nodes
+        return additional_nodes
 
     def expand_graph(self):
         assert all('weight' in d.keys() for u, v, d in self.graph.edges(data=True)), \
             "all edges must have weights"
         additional_nodes = dict()
-        self.graph, additional_nodes = self.add_negation_of_nodes(additional_nodes, self.graph)
-        self.graph, additional_nodes = self.add_composite_nodes(additional_nodes, self.graph)
+        additional_nodes = self.add_negation_of_nodes(additional_nodes)
+        additional_nodes = self.add_composite_nodes(additional_nodes)
         return additional_nodes
 
     def cure_matrix_and_vector(self):
