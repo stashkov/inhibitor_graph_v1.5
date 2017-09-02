@@ -29,8 +29,8 @@ class ExpandGraph(object):
     def initialize_matrix_and_vector(self):
         """
         As per article,
-            each activation gives us 2 * n + 1 reactions ( where n is # of edges)
-            each inhibition gives us 2 reactions
+            ??? each activation gives us 2 * n + 1 reactions ( where n is # of edges)
+            ??? each inhibition gives us 2 reactions
         """
         rows = len(self.graph.nodes())
         columns = len(list(self.graph.edges())) * 2 + len(list(self.graph.nodes()))
@@ -141,13 +141,6 @@ class ExpandGraph(object):
         self.matrix[self.additional_nodes[v] - 1][column] = self.PRODUCT
         self.backward_reactions.append(v)
 
-    @staticmethod
-    def node_name(graph, v):
-        if 'name' in graph.node[v]:
-            return nx.get_node_attributes(graph, 'name')[v]
-        else:
-            return "node %s has no name" % v
-
     def human_readable_reaction(self, reaction):
         """given Reaction (namedtuple) show it it human readable format"""
         reactants, products = reaction
@@ -159,23 +152,6 @@ class ExpandGraph(object):
         left_side = left_side.format(*reactants)
         right_side = right_side.format(*products)
         return left_side + " -> " + right_side
-
-    @staticmethod
-    def reaction_representation(reagents):
-        """
-        Construct a reaction equation based on number of reagents
-
-        Example:
-        reaction_representation([1,2])
-        '{} + {}'
-        """
-        assert isinstance(reagents, list)
-        reagents_count = len(reagents)
-        return "{}" + ("" if reagents_count == 1 else " + {}" * (reagents_count - 1))
-
-    @staticmethod
-    def generate_empty_stoichiometric_matrix(number_of_rows, number_of_columns):
-        return [[0 for _ in range(number_of_columns)] for _ in range(number_of_rows)]
 
     def add_composite_nodes(self, additional_nodes):
         next_node_number = max(self.graph.nodes())
@@ -225,3 +201,29 @@ class ExpandGraph(object):
 
         self.matrix = [list(row) for row in zip(*m)]
         self.deleted_rows_count = len(rows_to_delete)
+
+    @staticmethod
+    def generate_empty_stoichiometric_matrix(number_of_rows, number_of_columns):
+        return [[0 for _ in range(number_of_columns)] for _ in range(number_of_rows)]
+
+    @staticmethod
+    def reaction_representation(reagents):
+        """
+        Construct a reaction equation based on number of reagents
+
+        Example:
+        reaction_representation([1,2])
+        '{} + {}'
+        """
+        assert isinstance(reagents, list)
+        reagents_count = len(reagents)
+        return "{}" + ("" if reagents_count == 1 else " + {}" * (reagents_count - 1))
+
+    @staticmethod
+    def node_name(graph, v):
+        if 'name' in graph.node[v]:
+            return nx.get_node_attributes(graph, 'name')[v]
+        else:
+            return "node %s has no name" % v
+
+
