@@ -1,6 +1,5 @@
 import sys
 from libsbml import *
-import networkx as nx
 
 
 class SBMLGenerator(object):
