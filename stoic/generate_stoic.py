@@ -139,7 +139,7 @@ class ExpandGraph(object):
         self.reactions.append(reaction)
         self.matrix[v - 1][column] = self.REACTANT
         self.matrix[self.additional_nodes[v] - 1][column] = self.PRODUCT
-        self.backward_reactions.append(v )
+        self.backward_reactions.append(v)
 
     def human_readable_reaction(self, reaction):
         """given Reaction (namedtuple) show it it human readable format"""
