@@ -225,5 +225,3 @@ class ExpandGraph(object):
             return nx.get_node_attributes(graph, 'name')[v]
         else:
             return "node %s has no name" % v
-
-
