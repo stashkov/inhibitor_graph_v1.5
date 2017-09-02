@@ -16,7 +16,8 @@ class ExpandGraph(object):
         assert all('weight' in d.keys() for _, _, d in graph.edges(data=True)), \
             "all edges must have weights"
         self.graph = graph
-        self.graph, self.additional_nodes = self.expand_graph(graph)
+        self.additional_nodes = self.expand_graph()
+
         self.backward_reactions = list()  # track reactions
         self.matrix, self.vector = self.initialize_matrix_and_vector()
         self.reactions = list()
@@ -201,13 +202,13 @@ class ExpandGraph(object):
                 additional_nodes[node] = next_node_number
         return graph, additional_nodes
 
-    def expand_graph(self, graph):
-        assert all('weight' in d.keys() for u, v, d in graph.edges(data=True)), \
+    def expand_graph(self):
+        assert all('weight' in d.keys() for u, v, d in self.graph.edges(data=True)), \
             "all edges must have weights"
         additional_nodes = dict()
-        graph, additional_nodes = self.add_negation_of_nodes(additional_nodes, graph)
-        graph, additional_nodes = self.add_composite_nodes(additional_nodes, graph)
-        return graph, additional_nodes
+        self.graph, additional_nodes = self.add_negation_of_nodes(additional_nodes, self.graph)
+        self.graph, additional_nodes = self.add_composite_nodes(additional_nodes, self.graph)
+        return additional_nodes
 
     def cure_matrix_and_vector(self):
         m = list(zip(*self.matrix))
