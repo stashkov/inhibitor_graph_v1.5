@@ -180,8 +180,6 @@ class ExpandGraph(object):
         return [[0 for _ in range(number_of_columns)] for _ in range(number_of_rows)]
 
     def add_composite_nodes(self, additional_nodes):
-        assert all('weight' in d.keys() for _, _, d in self.graph.edges(data=True)), \
-            "all edges must have weights"
         next_node_number = max(self.graph.nodes())
         for edge in sorted(self.graph.edges()):
             next_node_number += 1
@@ -205,8 +203,6 @@ class ExpandGraph(object):
         return additional_nodes
 
     def expand_graph(self):
-        assert all('weight' in d.keys() for u, v, d in self.graph.edges(data=True)), \
-            "all edges must have weights"
         additional_nodes = dict()
         additional_nodes = self.add_negation_of_nodes(additional_nodes)
         additional_nodes = self.add_composite_nodes(additional_nodes)
