@@ -4,11 +4,15 @@ import re
 
 
 class GenerateSBML(object):
+    """
+    Generates XML version in SBML format of reactions.
+    Reactions come as list of tuples
+    """
 
     def __init__(self, graph, reactions):
+        assert all(isinstance(r, tuple) for r in reactions)
         self.graph = graph
         self.reactions = reactions
-        self.xml_document = self.generate_sbml()
 
     def generate_sbml(self):
         doc = SBMLGenerator(reactions=self.reactions).document
