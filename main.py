@@ -40,7 +40,7 @@ def export_stoichiometric_matrix():
     assert len(expanded_graph.graph.nodes()) == len(expanded_graph.matrix)
     with open('result/stoichiometric_matrix.csv', 'w') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=',',
-                                quotechar='"', quoting=csv.QUOTE_NONNUMERIC)
+                                quotechar='"', quoting=csv.QUOTE_NONNUMERIC, lineterminator='\n')
         csv_writer.writerow(['node name'] + ['reaction ' + str(i) for i in range(1, reaction_count + 1)])
         for row, node_name in zip(expanded_graph.matrix, sorted(expanded_graph.graph.nodes(data=True))):
             csv_writer.writerow([str(node_name[1]['name'])] + row)
