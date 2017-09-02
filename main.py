@@ -25,13 +25,12 @@ def export_reactions_human_readable():
 
 def export_efm_human_readable():
     with open('result/EFM_human.txt', 'w') as f:
-        f.writelines("Total number of EFMs: %s\n" % len(r.result))
+        f.write("Total number of EFMs: {}\n".format(len(r.result)))
         for i, efms in enumerate(r.result, start=1):
-            f.write('EFM #%s\n' % str(i))
+            f.write('EFM #{}\n'.format(str(i)))
             for index, reaction in enumerate(efms):
                 if reaction == 1:
-                    f.write(expanded_graph.human_readable_reaction(expanded_graph.reactions[index]))
-                    f.write('\n')
+                    f.write('{}\n'.format(expanded_graph.human_readable_reaction(expanded_graph.reactions[index])))
             f.write('\n')
 
 
@@ -59,6 +58,12 @@ def export_efm_reaction_numbers():
             f.write('\n')
 
 
+def export_sbml(reactions):
+    document = generate_sbml(reactions=reactions)
+    with open('result/stoichiometric_matrix_in_SBML.xml', "w") as f:
+        f.write(SBMLGenerator.convert_to_xml(document=document))
+
+
 def generate_sbml(reactions):
     doc = SBMLGenerator(reactions=reactions).document
     model = doc.createModel()
@@ -77,12 +82,6 @@ def generate_sbml(reactions):
             add_reagents_to_reaction(reagent, species_reference)
             add_species(model, reagent, seen_reagents)
     return doc
-
-
-def export_sbml(reactions):
-    document = generate_sbml(reactions=reactions)
-    with open('result/stoichiometric_matrix_in_SBML.xml', "w") as f:
-        f.write(SBMLGenerator.convert_to_xml(document=document))
 
 
 def add_reaction(model, reaction):
