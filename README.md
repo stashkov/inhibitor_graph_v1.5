@@ -38,7 +38,8 @@ cAMP, "GRK 2", ACTIVATION
 GRK2, GEF1, INHIBITION
 ```
 
-Note that use of `""` is only necessary when you have space separated values (e.g. "GRK 2".
+Note that use of `""` is only necessary when you have
+space separated values (e.g. "GRK 2").
 Example file can be found in `examples` folder
 
 # Results
