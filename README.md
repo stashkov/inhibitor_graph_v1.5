@@ -34,11 +34,11 @@ GRK2 is activated by cAMP and GEF1 is inhibited by GRK2.
 This means we have cAMP -> GRK 2 -| GEF1.
 We can represent these edges as follows:
 ```
-"cAMP", "GRK2", ACTIVATION
-"GRK2", "GEF1", INHIBITION
+cAMP, "GRK 2", ACTIVATION
+GRK2, GEF1, INHIBITION
 ```
 
-Note that use of `""` is only necessary when you have space separated values.
+Note that use of `""` is only necessary when you have space separated values (e.g. "GRK 2".
 Example file can be found in `examples` folder
 
 # Results
