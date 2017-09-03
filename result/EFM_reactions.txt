@@ -1,147 +1,147 @@
 Total number of EFMs: 28
 EFM #1
-Reaction(reactants=[11, 27], products=[51])
-Reaction(reactants=[51], products=[11, 12])
-Reaction(reactants=[12], products=[27])
-
-EFM #2
-Reaction(reactants=[13, 26], products=[57])
-Reaction(reactants=[57], products=[13, 11])
-Reaction(reactants=[11], products=[26])
-
-EFM #3
-Reaction(reactants=[11, 19], products=[48])
-Reaction(reactants=[48], products=[11, 4])
-Reaction(reactants=[4], products=[19])
-
-EFM #4
 Reaction(reactants=[1, 18], products=[32])
 Reaction(reactants=[32], products=[1, 3])
 Reaction(reactants=[3], products=[18])
 
-EFM #5
+EFM #2
 Reaction(reactants=[1, 17], products=[31])
 Reaction(reactants=[31], products=[1, 2])
 Reaction(reactants=[2], products=[17])
 
+EFM #3
+Reaction(reactants=[13, 29], products=[55])
+Reaction(reactants=[55], products=[13, 14])
+Reaction(reactants=[14], products=[29])
+
+EFM #4
+Reaction(reactants=[13, 23], products=[52])
+Reaction(reactants=[52], products=[13, 8])
+Reaction(reactants=[8], products=[23])
+
+EFM #5
+Reaction(reactants=[11, 28], products=[47])
+Reaction(reactants=[47], products=[11, 13])
+Reaction(reactants=[13], products=[28])
+
 EFM #6
-Reaction(reactants=[10, 22], products=[46])
-Reaction(reactants=[46], products=[10, 7])
-Reaction(reactants=[7], products=[22])
+Reaction(reactants=[15], products=[30])
+Reaction(reactants=[13, 30], products=[56])
+Reaction(reactants=[56], products=[13, 15])
 
 EFM #7
-Reaction(reactants=[7], products=[22])
-Reaction(reactants=[11, 22], products=[49])
-Reaction(reactants=[49], products=[11, 7])
+Reaction(reactants=[11, 30], products=[48])
+Reaction(reactants=[48], products=[11, 15])
+Reaction(reactants=[15], products=[30])
 
 EFM #8
-Reaction(reactants=[14], products=[29])
-Reaction(reactants=[13, 29], products=[58])
-Reaction(reactants=[58], products=[13, 14])
+Reaction(reactants=[11], products=[26])
+Reaction(reactants=[7, 26], products=[42])
+Reaction(reactants=[42], products=[7, 11])
 
 EFM #9
-Reaction(reactants=[11, 29], products=[52])
-Reaction(reactants=[52], products=[11, 14])
-Reaction(reactants=[14], products=[29])
+Reaction(reactants=[6, 26], products=[41])
+Reaction(reactants=[41], products=[6, 11])
+Reaction(reactants=[11], products=[26])
 
 EFM #10
-Reaction(reactants=[8, 28], products=[44])
-Reaction(reactants=[44], products=[8, 13])
-Reaction(reactants=[13], products=[28])
+Reaction(reactants=[10], products=[25])
+Reaction(reactants=[13, 25], products=[54])
+Reaction(reactants=[54], products=[13, 10])
 
 EFM #11
-Reaction(reactants=[13], products=[28])
-Reaction(reactants=[9, 28], products=[45])
-Reaction(reactants=[45], products=[9, 13])
-
-EFM #12
-Reaction(reactants=[1, 20], products=[33])
-Reaction(reactants=[33], products=[1, 5])
-Reaction(reactants=[5], products=[20])
-
-EFM #13
-Reaction(reactants=[1, 20], products=[33])
-Reaction(reactants=[33], products=[1, 5])
-Reaction(reactants=[7, 5], products=[42])
-Reaction(reactants=[42, 7], products=[20])
-
-EFM #14
-Reaction(reactants=[1, 21], products=[34])
-Reaction(reactants=[34], products=[1, 6])
-Reaction(reactants=[6], products=[21])
-
-EFM #15
-Reaction(reactants=[1, 21], products=[34])
-Reaction(reactants=[34], products=[1, 6])
-Reaction(reactants=[7, 6], products=[43])
-Reaction(reactants=[43, 7], products=[21])
-
-EFM #16
-Reaction(reactants=[13, 25], products=[56])
-Reaction(reactants=[56], products=[13, 10])
+Reaction(reactants=[12, 25], products=[50])
+Reaction(reactants=[50], products=[12, 10])
 Reaction(reactants=[10], products=[25])
 
+EFM #12
+Reaction(reactants=[6], products=[21])
+Reaction(reactants=[3, 21], products=[37])
+Reaction(reactants=[37], products=[3, 6])
+
+EFM #13
+Reaction(reactants=[2, 21], products=[35])
+Reaction(reactants=[35], products=[2, 6])
+Reaction(reactants=[6], products=[21])
+
+EFM #14
+Reaction(reactants=[1, 20], products=[34])
+Reaction(reactants=[34], products=[1, 5])
+Reaction(reactants=[5], products=[20])
+
+EFM #15
+Reaction(reactants=[1, 20], products=[34])
+Reaction(reactants=[34], products=[1, 5])
+Reaction(reactants=[10, 5], products=[45])
+Reaction(reactants=[45, 10], products=[20])
+
+EFM #16
+Reaction(reactants=[1, 19], products=[33])
+Reaction(reactants=[33], products=[1, 4])
+Reaction(reactants=[4], products=[19])
+
 EFM #17
-Reaction(reactants=[12, 10], products=[54])
-Reaction(reactants=[54, 12], products=[25])
-Reaction(reactants=[13, 25], products=[56])
-Reaction(reactants=[56], products=[13, 10])
+Reaction(reactants=[1, 19], products=[33])
+Reaction(reactants=[33], products=[1, 4])
+Reaction(reactants=[10, 4], products=[44])
+Reaction(reactants=[44, 10], products=[19])
 
 EFM #18
-Reaction(reactants=[2, 23], products=[35])
-Reaction(reactants=[35], products=[2, 8])
-Reaction(reactants=[8], products=[23])
+Reaction(reactants=[11, 27], products=[46])
+Reaction(reactants=[46], products=[11, 12])
+Reaction(reactants=[12], products=[27])
 
 EFM #19
-Reaction(reactants=[8], products=[23])
-Reaction(reactants=[3, 23], products=[37])
-Reaction(reactants=[37], products=[3, 8])
+Reaction(reactants=[11, 27], products=[46])
+Reaction(reactants=[46], products=[11, 12])
+Reaction(reactants=[14, 12], products=[58])
+Reaction(reactants=[58, 14], products=[27])
 
 EFM #20
-Reaction(reactants=[3, 24], products=[38])
-Reaction(reactants=[38], products=[3, 9])
-Reaction(reactants=[9], products=[24])
+Reaction(reactants=[3, 22], products=[38])
+Reaction(reactants=[38], products=[3, 7])
+Reaction(reactants=[7], products=[22])
 
 EFM #21
-Reaction(reactants=[2, 9], products=[36])
-Reaction(reactants=[36, 2], products=[24])
-Reaction(reactants=[3, 24], products=[38])
-Reaction(reactants=[38], products=[3, 9])
+Reaction(reactants=[3, 22], products=[38])
+Reaction(reactants=[38], products=[3, 7])
+Reaction(reactants=[5, 7], products=[40])
+Reaction(reactants=[40, 5], products=[22])
 
 EFM #22
-Reaction(reactants=[3, 24], products=[38])
-Reaction(reactants=[38], products=[3, 9])
-Reaction(reactants=[6, 9], products=[41])
-Reaction(reactants=[41, 6], products=[24])
+Reaction(reactants=[2, 7], products=[36])
+Reaction(reactants=[36, 2], products=[22])
+Reaction(reactants=[3, 22], products=[38])
+Reaction(reactants=[38], products=[3, 7])
 
 EFM #23
-Reaction(reactants=[3, 24], products=[38])
-Reaction(reactants=[38], products=[3, 9])
-Reaction(reactants=[11, 9], products=[50])
-Reaction(reactants=[50, 11], products=[24])
+Reaction(reactants=[3, 22], products=[38])
+Reaction(reactants=[38], products=[3, 7])
+Reaction(reactants=[13, 7], products=[51])
+Reaction(reactants=[51, 13], products=[22])
 
 EFM #24
-Reaction(reactants=[15], products=[30])
-Reaction(reactants=[14, 30], products=[59])
-Reaction(reactants=[59], products=[14, 15])
+Reaction(reactants=[9], products=[24])
+Reaction(reactants=[15, 24], products=[59])
+Reaction(reactants=[59], products=[15, 9])
 
 EFM #25
-Reaction(reactants=[5, 30], products=[40])
-Reaction(reactants=[40], products=[5, 15])
-Reaction(reactants=[15], products=[30])
+Reaction(reactants=[4, 24], products=[39])
+Reaction(reactants=[39], products=[4, 9])
+Reaction(reactants=[9], products=[24])
 
 EFM #26
-Reaction(reactants=[15], products=[30])
-Reaction(reactants=[10, 30], products=[47])
-Reaction(reactants=[47], products=[10, 15])
+Reaction(reactants=[9], products=[24])
+Reaction(reactants=[14, 24], products=[57])
+Reaction(reactants=[57], products=[14, 9])
 
 EFM #27
-Reaction(reactants=[15], products=[30])
-Reaction(reactants=[12, 30], products=[55])
-Reaction(reactants=[55], products=[12, 15])
+Reaction(reactants=[9], products=[24])
+Reaction(reactants=[13, 24], products=[53])
+Reaction(reactants=[53], products=[13, 9])
 
 EFM #28
-Reaction(reactants=[15], products=[30])
-Reaction(reactants=[11, 30], products=[53])
-Reaction(reactants=[53], products=[11, 15])
+Reaction(reactants=[9], products=[24])
+Reaction(reactants=[12, 24], products=[49])
+Reaction(reactants=[49], products=[12, 9])
 
