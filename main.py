@@ -12,8 +12,7 @@ from sbml_generator.sbml_gen_impl import GenerateSBML
 
 def pars():
     p = argparse.ArgumentParser(description='Import graph')
-    p.add_argument('node_names', help='file with node names')
-    p.add_argument('edge_list', help='file that lists')
+    p.add_argument('edge_list')
     return p
 
 
@@ -67,7 +66,7 @@ def export_sbml(graph, reactions):
 if __name__ == '__main__':
     parser = pars()
     args = parser.parse_args()
-    graph = GraphReader(args.node_names, args.edge_list).create_graph()
+    graph = GraphReader(args.edge_list).create_graph()
     expanded_graph = ExpandGraph(graph)
     print("I've deleted rows %s with all zeroes" % expanded_graph.deleted_rows_count)
 
