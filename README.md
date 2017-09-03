@@ -25,47 +25,21 @@ but I try to keep it compatible with python 2 as well
 
 `cd inhibitor_graph_v1.5`
 
-`python main.py node_names.txt edge_list.txt`
-
-### How to create node names file?
-For example we have graph with 3 nodes,
-each of which represent an enzyme: cAMP, GRK2 and GEF1.
-Therefore the file should look like this:
-```
-cAMP
-GRK2
-GEF1
-```
-
-It will assign
-- cAMP to node 1
-- GRK2 to node 2
-- GEF1 to node 3
-
-Example file can be found in `examples` folder
+`python main.py edge_list.csv`
 
 ### How to create edge list?
 Suppose
 GRK2 is activated by cAMP and GEF1 is inhibited by GRK2.
 
-This means we have cAMP -> GRK2 -| GEF1.
-Activation is represented by 0 and inhibition by 1.
-
-According to the numbering of nodes from previous section
-we can represent these edges as follows:
+This means we have cAMP -> GRK 2 -| GEF1.
+We can represent these edges as follows:
 ```
-1 2 0
-2 3 1
+"cAMP", "GRK2", ACTIVATION
+"GRK2", "GEF1", INHIBITION
 ```
-It will create
-- edge 1 to 2 with weight 0
-- edge 2 to 3 with weight 1
 
+Note that use of `""` is only necessary when you have space separated values.
 Example file can be found in `examples` folder
-
-### What is the result?
-Result is reactions, that correspond to chosen EFMs. (see below)
-
 
 # Results
 Results can be found in `result` folder. It contains:
