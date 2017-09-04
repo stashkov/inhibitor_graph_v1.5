@@ -31,15 +31,18 @@ but I try to keep it compatible with python 2 as well
 Suppose
 GRK2 is activated by cAMP and GEF1 is inhibited by GRK2.
 
-This means we have cAMP -> GRK 2 -| GEF1.
+This means we have cAMP -> GRK2 -| GEF1.
 We can represent these edges as follows:
 ```
-cAMP, "GRK 2", ACTIVATION
+cAMP, GRK2, ACTIVATION
 GRK2, GEF1, INHIBITION
 ```
 
-Note that use of `""` is only necessary when you have
-space separated values (e.g. "GRK 2").
+
+Note: Because the delimiter is a comma symbol `,`,
+the use of `""` is only necessary when you have
+comma symbol inside name of the node (e.g. "Complex II, III, IV").
+
 Example file can be found in `examples` folder
 
 # Results
