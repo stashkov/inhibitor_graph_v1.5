@@ -1,3 +1,5 @@
+<a href="https://codeclimate.com/github/codeclimate/codeclimate"><img src="https://codeclimate.com/github/codeclimate/codeclimate/badges/gpa.svg" /></a>
+
 # What is this?
 Signal2RGraph is a biological tool, that helps to calculate all
 EFM (elementary flux modes) in a given metabolic pathway.
