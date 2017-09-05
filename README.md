@@ -1,4 +1,4 @@
-<a href="https://codeclimate.com/github/codeclimate/codeclimate"><img src="https://codeclimate.com/github/codeclimate/codeclimate/badges/gpa.svg" /></a>
+<a href="https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5"><img src="https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5/badges/gpa.svg" /></a>
 
 # What is this?
 Signal2RGraph is a biological tool, that helps to calculate all
