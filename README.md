@@ -1,5 +1,5 @@
 <a href="https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5"><img src="https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5/badges/gpa.svg" /></a>
-
+<a href="https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master"><img src="https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master" /></a>
 # What is this?
 Signal2RGraph is a biological tool, that helps to calculate all
 EFM (elementary flux modes) in a given metabolic pathway.
