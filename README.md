@@ -1,6 +1,6 @@
 ![alt text][stable_build] ![alt text][climate]
-# What is this?
-Signal2RGraph is a biological tool, that helps to calculate all
+
+__Signal2RGraph__ is a biological tool, that helps to calculate all
 EFM (elementary flux modes) in a given metabolic pathway.
 
 
