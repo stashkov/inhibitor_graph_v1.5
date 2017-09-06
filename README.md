@@ -35,9 +35,8 @@ GRK2, GEF1, INHIBITION
 ```
 
 
-Note: Because the delimiter is a comma symbol `,`,
-the use of `""` is only necessary when you have
-comma symbol inside name of the node (e.g. "Complex II, III, IV").
+Note: The use of `""` is only necessary when you have
+comma symbol inside the name of the node (e.g. "Complex II, III, IV").
 
 Example file can be found in `examples` folder
 
@@ -53,3 +52,7 @@ Results can be found in `result` folder. It contains:
 [stable_build]: https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master "Stable Build Status"
 [python_versions]: https://img.shields.io/pypi/pyversions/PyBEL.svg "Stable Supported Python Versions"
 [Engelhardt_et_al]: https://academic.oup.com/imammb/article/doi/10.1093/imammb/dqx003/3827653/Modelling-and-mathematical-analysis-of-the-M-2 "Oxford Academic"
+
+
+https://zenodo.org/account/settings/github/
+https://codecov.io/gh/stashkov/inhibitor_graph_v1.5
