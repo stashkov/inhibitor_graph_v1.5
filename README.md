@@ -53,6 +53,9 @@ Results can be found in `result` folder. It contains:
 [python_versions]: https://img.shields.io/pypi/pyversions/PyBEL.svg "Stable Supported Python Versions"
 [Engelhardt_et_al]: https://academic.oup.com/imammb/article/doi/10.1093/imammb/dqx003/3827653/Modelling-and-mathematical-analysis-of-the-M-2 "Oxford Academic"
 
+[//]: <> (need a release to show this badge)
+[//]: <> (https://zenodo.org/account/settings/github/)
+[//]: <> (https://codecov.io/gh/stashkov/inhibitor_graph_v1.5)
 
-https://zenodo.org/account/settings/github/
-https://codecov.io/gh/stashkov/inhibitor_graph_v1.5
+
+
