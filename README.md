@@ -1,4 +1,4 @@
-|stable_build| ![climate][climate]
+![Code Stable Build Status][stable_build] ![Code Climate][climate]
 # What is this?
 Signal2RGraph is a biological tool, that helps to calculate all
 EFM (elementary flux modes) in a given metabolic pathway.
@@ -58,8 +58,6 @@ Results can be found in `result` folder. It contains:
     :alt: Code Climate
 
 
-[climate]: https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5/badges/gpa.svg "climate"
+[climate]: https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5/badges/gpa.svg
+[stable_build]: https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master
 
-
-<a href="https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5"><img src="" /></a>
-<a href="https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master"><img src="https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master" /></a>
