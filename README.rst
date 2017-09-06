@@ -17,13 +17,11 @@ In short:
 # How to use it?
 
 ### Getting started |python_versions|
-`pip install -r requirements.txt`
-
-`git clone git@github.com:stashkov/inhibitor_graph_v1.5.git`
-
-`cd inhibitor_graph_v1.5`
-
-`python main.py edge_list.csv`
+.. code-block:: sh
+    $ pip install -r requirements.txt
+    $ git clone git@github.com:stashkov/inhibitor_graph_v1.5.git
+    $ cd inhibitor_graph_v1.5
+    $ python main.py edge_list.csv
 
 ### How to create edge list?
 Suppose
