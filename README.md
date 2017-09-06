@@ -1,4 +1,4 @@
-|stable_build| |climate|
+|stable_build| ![climate][climate]
 # What is this?
 Signal2RGraph is a biological tool, that helps to calculate all
 EFM (elementary flux modes) in a given metabolic pathway.
@@ -17,12 +17,12 @@ In short:
 # How to use it?
 
 ### Getting started |python_versions|
-.. code-block:: sh
-    $ pip install -r requirements.txt
-    $ git clone git@github.com:stashkov/inhibitor_graph_v1.5.git
-    $ cd inhibitor_graph_v1.5
-    $ python main.py edge_list.csv
-
+```python
+pip install -r requirements.txt
+git clone git@github.com:stashkov/inhibitor_graph_v1.5.git
+cd inhibitor_graph_v1.5
+python main.py edge_list.csv
+```
 ### How to create edge list?
 Suppose
 GRK2 is activated by cAMP and GEF1 is inhibited by GRK2.
@@ -56,3 +56,10 @@ Results can be found in `result` folder. It contains:
 .. |climate| image:: https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5/badges/gpa.svg
     :target: https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5
     :alt: Code Climate
+
+
+[climate]: https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5/badges/gpa.svg "climate"
+
+
+<a href="https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5"><img src="" /></a>
+<a href="https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master"><img src="https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master" /></a>
