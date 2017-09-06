@@ -35,8 +35,8 @@ GRK2, GEF1, INHIBITION
 ```
 
 
-Note: The use of `""` is only necessary when you have
-comma symbol inside the name of the node (e.g. "Complex II, III, IV").
+Note: The use of `""` is only necessary when you have a
+comma inside the name of a node (e.g. "Complex II, III, IV").
 
 Example file can be found in `examples` folder
 
