@@ -1,11 +1,11 @@
-![Code Stable Build Status][stable_build] ![Code Climate][climate]
+![alt text][stable_build] ![alt text][climate]
 # What is this?
 Signal2RGraph is a biological tool, that helps to calculate all
 EFM (elementary flux modes) in a given metabolic pathway.
 
 
 # How does it work?
-For detailed explanation please refer to the article [article_name]
+For detailed explanation please refer to the [article][Engelhardt_et_al]
 
 In short:
 1. Each activation reaction produces 3 reactions
@@ -16,7 +16,7 @@ In short:
 
 # How to use it?
 
-### Getting started |python_versions|
+### Getting started ![alt text][python_versions]
 ```python
 pip install -r requirements.txt
 git clone git@github.com:stashkov/inhibitor_graph_v1.5.git
@@ -48,16 +48,8 @@ Results can be found in `result` folder. It contains:
 - Original imported graph from edge list and node names as GraphML
 - Expanded graph as GraphML
 
-.. |python_versions| image:: https://img.shields.io/pypi/pyversions/PyBEL.svg
-    :alt: Stable Supported Python Versions
-.. |stable_build| image:: https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master
-    :target: https://travis-ci.org/stashkov/inhibitor_graph_v1.5
-    :alt: Stable Build Status
-.. |climate| image:: https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5/badges/gpa.svg
-    :target: https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5
-    :alt: Code Climate
 
-
-[climate]: https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5/badges/gpa.svg
-[stable_build]: https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master
-
+[climate]: https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5/badges/gpa.svg "Code Climate"
+[stable_build]: https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master "Stable Build Status"
+[python_versions]: https://img.shields.io/pypi/pyversions/PyBEL.svg "Stable Supported Python Versions"
+[Engelhardt_et_al]: https://academic.oup.com/imammb/article/doi/10.1093/imammb/dqx003/3827653/Modelling-and-mathematical-analysis-of-the-M-2 "Oxford Academic"
