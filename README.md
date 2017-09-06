@@ -1,5 +1,4 @@
-<a href="https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5"><img src="https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5/badges/gpa.svg" /></a>
-<a href="https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master"><img src="https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master" /></a>
+|stable_build| |climate|
 # What is this?
 Signal2RGraph is a biological tool, that helps to calculate all
 EFM (elementary flux modes) in a given metabolic pathway.
@@ -16,11 +15,8 @@ In short:
 
 
 # How to use it?
-### Python version
-Main interpreter is python3,
-but I try to keep it compatible with python 2 as well
 
-### Getting started
+### Getting started |python_versions|
 `pip install -r requirements.txt`
 
 `git clone git@github.com:stashkov/inhibitor_graph_v1.5.git`
@@ -53,3 +49,12 @@ Results can be found in `result` folder. It contains:
 - EFM with numbers instead of node names
 - Original imported graph from edge list and node names as GraphML
 - Expanded graph as GraphML
+
+.. |python_versions| image:: https://img.shields.io/pypi/pyversions/PyBEL.svg
+    :alt: Stable Supported Python Versions
+.. |stable_build| image:: https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master
+    :target: https://travis-ci.org/stashkov/inhibitor_graph_v1.5
+    :alt: Stable Build Status
+.. |climate| image:: https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5/badges/gpa.svg
+    :target: https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5
+    :alt: Code Climate
