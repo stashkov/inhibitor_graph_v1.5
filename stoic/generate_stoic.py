@@ -45,11 +45,14 @@ class ExpandGraph(object):
             self.add_inhibition_reaction_to_stoic_matrix(edge)
 
     def add_inhibition_reaction_to_stoic_matrix(self, edge):
-        if self.graph.get_edge_data(*edge)['weight'] == self.INHIBITION:
+        if self.weight(edge) == self.INHIBITION:
             self.add_inhibition_edge_reactions(edge)
 
+    def weight(self, edge):
+        return self.graph.get_edge_data(*edge)['weight']
+
     def add_activation_reaction_to_stoic_matrix(self, edge):
-        if self.graph.get_edge_data(*edge)['weight'] == self.ACTIVATION:
+        if self.weight(edge) == self.ACTIVATION:
             self.add_activation_edge_reactions(edge)
 
     def add_activation_edge_reactions(self, edge):
@@ -166,7 +169,7 @@ class ExpandGraph(object):
         for edge in sorted(self.graph.edges()):
             next_node_number += 1
             u, v = edge
-            edge_weight = self.graph.get_edge_data(*edge)['weight']
+            edge_weight = self.weight(edge)
             if edge_weight == self.ACTIVATION:
                 self.graph.add_node(next_node_number,
                                     name='{} : {}'.format(self.node_name(self.graph, u),
