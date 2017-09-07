@@ -155,7 +155,7 @@ class ExpandGraph(object):
         return left_side + " -> " + right_side
 
     def human_readable_reactions(self):
-        return [ExpandGraph.human_readable_reaction(self.graph, reaction) for reaction in self.reactions]
+        return [self.human_readable_reaction(self.graph, reaction) for reaction in self.reactions]
 
     def add_composite_nodes(self, additional_nodes):
         next_node_number = max(self.graph.nodes())
@@ -165,12 +165,12 @@ class ExpandGraph(object):
             edge_weight = self.graph.get_edge_data(*edge)['weight']
             if edge_weight == self.ACTIVATION:
                 self.graph.add_node(next_node_number,
-                                    name='{} : {}'.format(ExpandGraph.node_name(self.graph, u),
-                                                          ExpandGraph.node_name(self.graph, v)))
+                                    name='{} : {}'.format(self.node_name(self.graph, u),
+                                                          self.node_name(self.graph, v)))
             elif edge_weight == self.INHIBITION:
                 self.graph.add_node(next_node_number,
-                                    name='{} : not {}'.format(ExpandGraph.node_name(self.graph, u),
-                                                              ExpandGraph.node_name(self.graph, v)))
+                                    name='{} : not {}'.format(self.node_name(self.graph, u),
+                                                              self.node_name(self.graph, v)))
             else:
                 raise ValueError("Edge weight can be either 0 or 1")
             additional_nodes[edge] = next_node_number
@@ -181,7 +181,7 @@ class ExpandGraph(object):
         for node in sorted(self.graph.nodes()):
             if self.graph.in_degree(node) > 0:
                 next_node_number += 1
-                self.graph.add_node(next_node_number, name='not {}'.format(ExpandGraph.node_name(self.graph, node)))
+                self.graph.add_node(next_node_number, name='not {}'.format(self.node_name(self.graph, node)))
                 additional_nodes[node] = next_node_number
         return additional_nodes
 
