@@ -22,6 +22,7 @@ class GraphReader(object):
             self.graph.add_node(node_number, name=node_name)
 
     def create_graph(self):
+        """generate a graph from edge list (as in python list)"""
         self.parse_graph()
         self.graph = nx.parse_edgelist(self.parsed_edge_list,
                                        nodetype=int,
