@@ -41,10 +41,16 @@ class ExpandGraph(object):
 
     def fill_in_stoichiometric_matrix(self):
         for i, edge in enumerate(sorted(self.graph.edges())):
-            if self.graph.get_edge_data(*edge)['weight'] == self.ACTIVATION:
-                self.add_activation_edge_reactions(edge)
-            if self.graph.get_edge_data(*edge)['weight'] == self.INHIBITION:
-                self.add_inhibition_edge_reactions(edge)
+            self.add_activation_reaction_to_stoic_matrix(edge)
+            self.add_inhibition_reaction_to_stoic_matrix(edge)
+
+    def add_inhibition_reaction_to_stoic_matrix(self, edge):
+        if self.graph.get_edge_data(*edge)['weight'] == self.INHIBITION:
+            self.add_inhibition_edge_reactions(edge)
+
+    def add_activation_reaction_to_stoic_matrix(self, edge):
+        if self.graph.get_edge_data(*edge)['weight'] == self.ACTIVATION:
+            self.add_activation_edge_reactions(edge)
 
     def add_activation_edge_reactions(self, edge):
         """
@@ -69,12 +75,9 @@ class ExpandGraph(object):
         assert isinstance(edge, tuple)
         u, v = edge
         self.add_first_activation_reaction(u, v)
-        self.reaction_number += 1
         self.add_second_activation_reaction(u, v)
-        self.reaction_number += 1
         if v not in self.backward_reactions:
             self.add_third_activation_reaction(v)
-            self.reaction_number += 1
 
     def add_inhibition_edge_reactions(self, edge):
         """
@@ -98,9 +101,7 @@ class ExpandGraph(object):
         assert isinstance(edge, tuple)
         u, v = edge
         self.add_first_inhibition_reaction(u, v)
-        self.reaction_number += 1
         self.add_second_inhibition_reaction(u, v)
-        self.reaction_number += 1
 
     def add_first_inhibition_reaction(self, u, v):
         reaction = self.Reaction([u, v], [self.additional_nodes[(u, v)]])
@@ -109,6 +110,7 @@ class ExpandGraph(object):
         self.matrix[v - 1][self.reaction_number] = self.REACTANT
         self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.PRODUCT
         self.vector[self.reaction_number] = self.REVERSIBLE_REACTION
+        self.reaction_number += 1
 
     def add_second_inhibition_reaction(self, u, v):
         reaction = self.Reaction([self.additional_nodes[(u, v)], u], [self.additional_nodes[v]])
@@ -116,6 +118,7 @@ class ExpandGraph(object):
         self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.REACTANT
         self.matrix[u - 1][self.reaction_number] = self.PRODUCT
         self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.PRODUCT
+        self.reaction_number += 1
 
     def add_first_activation_reaction(self, u, v):
         reaction = self.Reaction([u, self.additional_nodes[v]], [self.additional_nodes[(u, v)]])
@@ -124,6 +127,7 @@ class ExpandGraph(object):
         self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.REACTANT
         self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.PRODUCT
         self.vector[self.reaction_number] = self.REVERSIBLE_REACTION
+        self.reaction_number += 1
 
     def add_second_activation_reaction(self, u, v):
         reaction = self.Reaction([self.additional_nodes[(u, v)]], [u, v])
@@ -131,6 +135,7 @@ class ExpandGraph(object):
         self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.REACTANT
         self.matrix[u - 1][self.reaction_number] = self.PRODUCT
         self.matrix[v - 1][self.reaction_number] = self.PRODUCT
+        self.reaction_number += 1
 
     def add_third_activation_reaction(self, v):
         reaction = self.Reaction([v], [self.additional_nodes[v]])
@@ -138,6 +143,7 @@ class ExpandGraph(object):
         self.matrix[v - 1][self.reaction_number] = self.REACTANT
         self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.PRODUCT
         self.backward_reactions.append(v)
+        self.reaction_number += 1
 
     @staticmethod
     def human_readable_reaction(graph, reaction):
