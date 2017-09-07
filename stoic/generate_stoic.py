@@ -98,27 +98,37 @@ class ExpandGraph(object):
         self.add_second_inhibition_reaction(u, v)
 
     def add_first_inhibition_reaction(self, u, v):
-        reaction = self.REACTION([u, v], [self.additional_nodes[(u, v)]], self.REVERSIBLE_REACTION)
+        reaction = self.REACTION(reactants=[u, v],
+                                 products=[self.additional_nodes[(u, v)]],
+                                 reversible=self.REVERSIBLE_REACTION)
         self.reactions.append(reaction)
         self.reaction_number += 1
 
     def add_second_inhibition_reaction(self, u, v):
-        reaction = self.REACTION([self.additional_nodes[(u, v)]], [self.additional_nodes[v], u], self.IRREVERSIBLE_REACTION)
+        reaction = self.REACTION([self.additional_nodes[(u, v)]],
+                                 [self.additional_nodes[v], u],
+                                 self.IRREVERSIBLE_REACTION)
         self.reactions.append(reaction)
         self.reaction_number += 1
 
     def add_first_activation_reaction(self, u, v):
-        reaction = self.REACTION([u, self.additional_nodes[v]], [self.additional_nodes[(u, v)]], self.REVERSIBLE_REACTION)
+        reaction = self.REACTION(reactants=[u, self.additional_nodes[v]],
+                                 products=[self.additional_nodes[(u, v)]],
+                                 reversible=self.REVERSIBLE_REACTION)
         self.reactions.append(reaction)
         self.reaction_number += 1
 
     def add_second_activation_reaction(self, u, v):
-        reaction = self.REACTION([self.additional_nodes[(u, v)]], [u, v], self.IRREVERSIBLE_REACTION)
+        reaction = self.REACTION(reactants=[self.additional_nodes[(u, v)]],
+                                 products=[u, v],
+                                 reversible=self.IRREVERSIBLE_REACTION)
         self.reactions.append(reaction)
         self.reaction_number += 1
 
     def add_third_activation_reaction(self, v):
-        reaction = self.REACTION([v], [self.additional_nodes[v]], self.IRREVERSIBLE_REACTION)
+        reaction = self.REACTION(reactants=[v],
+                                 products=[self.additional_nodes[v]],
+                                 reversible=self.IRREVERSIBLE_REACTION)
         self.reactions.append(reaction)
         self.backward_reactions.append(v)
         self.reaction_number += 1
@@ -241,4 +251,3 @@ class ExpandGraph(object):
         l = [left + right for left, right, _ in self.reactions]
         l = list(itertools.chain.from_iterable(l))
         return max(l)
-
