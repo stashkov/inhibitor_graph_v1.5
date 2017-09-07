@@ -181,7 +181,7 @@ class ExpandGraph(object):
         for node in sorted(self.graph.nodes()):
             if self.graph.in_degree(node) > 0:
                 next_node_number += 1
-                self.graph.add_node(next_node_number, name='not ' + ExpandGraph.node_name(self.graph, node))
+                self.graph.add_node(next_node_number, name='not {}'.format(ExpandGraph.node_name(self.graph, node)))
                 additional_nodes[node] = next_node_number
         return additional_nodes
 
