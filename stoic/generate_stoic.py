@@ -9,7 +9,7 @@ class ExpandGraph(object):
     REACTANT = -1  # terms that are on the left in chemical equation in stoichiometric matrices denoted by -1
     PRODUCT = 1  # terms that are on the right in chemical equation in stoichiometric matrices denoted by -1
     REVERSIBLE_REACTION = 1  # reaction that is reversible in reversibility vector (otherwise its 0)
-    Reaction = namedtuple('Reaction', 'reactants, products')
+    REACTION = namedtuple('Reaction', 'reactants, products')
 
     def __init__(self, graph):
         assert isinstance(graph, nx.DiGraph)
@@ -107,7 +107,7 @@ class ExpandGraph(object):
         self.add_second_inhibition_reaction(u, v)
 
     def add_first_inhibition_reaction(self, u, v):
-        reaction = self.Reaction([u, v], [self.additional_nodes[(u, v)]])
+        reaction = self.REACTION([u, v], [self.additional_nodes[(u, v)]])
         self.reactions.append(reaction)
         self.matrix[u - 1][self.reaction_number] = self.REACTANT
         self.matrix[v - 1][self.reaction_number] = self.REACTANT
@@ -116,7 +116,7 @@ class ExpandGraph(object):
         self.reaction_number += 1
 
     def add_second_inhibition_reaction(self, u, v):
-        reaction = self.Reaction([self.additional_nodes[(u, v)], u], [self.additional_nodes[v]])
+        reaction = self.REACTION([self.additional_nodes[(u, v)], u], [self.additional_nodes[v]])
         self.reactions.append(reaction)
         self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.REACTANT
         self.matrix[u - 1][self.reaction_number] = self.PRODUCT
@@ -124,7 +124,7 @@ class ExpandGraph(object):
         self.reaction_number += 1
 
     def add_first_activation_reaction(self, u, v):
-        reaction = self.Reaction([u, self.additional_nodes[v]], [self.additional_nodes[(u, v)]])
+        reaction = self.REACTION([u, self.additional_nodes[v]], [self.additional_nodes[(u, v)]])
         self.reactions.append(reaction)
         self.matrix[u - 1][self.reaction_number] = self.REACTANT
         self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.REACTANT
@@ -133,7 +133,7 @@ class ExpandGraph(object):
         self.reaction_number += 1
 
     def add_second_activation_reaction(self, u, v):
-        reaction = self.Reaction([self.additional_nodes[(u, v)]], [u, v])
+        reaction = self.REACTION([self.additional_nodes[(u, v)]], [u, v])
         self.reactions.append(reaction)
         self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.REACTANT
         self.matrix[u - 1][self.reaction_number] = self.PRODUCT
@@ -141,7 +141,7 @@ class ExpandGraph(object):
         self.reaction_number += 1
 
     def add_third_activation_reaction(self, v):
-        reaction = self.Reaction([v], [self.additional_nodes[v]])
+        reaction = self.REACTION([v], [self.additional_nodes[v]])
         self.reactions.append(reaction)
         self.matrix[v - 1][self.reaction_number] = self.REACTANT
         self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.PRODUCT
@@ -241,3 +241,6 @@ class ExpandGraph(object):
             return nx.get_node_attributes(graph, 'name')[v]
         else:
             return "node %s has no name" % v
+
+    def reconstruct_stoic_matrix_from_reactions(self):
+        pass
