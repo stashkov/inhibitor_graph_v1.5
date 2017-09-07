@@ -20,7 +20,7 @@ class ExpandGraph(object):
 
         self.backward_reactions = list()  # track reactions
         self.matrix, self.vector = self.initialize_matrix_and_vector()
-        self.reactions = list()
+        self.reactions = list()  # TODO add add_to_reaction_list(reaction) with assert for tuple content
         self.deleted_rows_count = 0
         self.reaction_number = 0
 
