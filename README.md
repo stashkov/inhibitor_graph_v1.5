@@ -1,4 +1,5 @@
 ![alt text][stable_build] ![alt text][climate]
+[![codecov](https://codecov.io/gh/stashkov/Signal2RGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/stashkov/Signal2RGraph)
 
 __Signal2RGraph__ is a biological tool, that helps to calculate all
 EFM (elementary flux modes) in a given metabolic pathway.
@@ -52,6 +53,7 @@ Results can be found in `result` folder. It contains:
 [stable_build]: https://travis-ci.org/stashkov/Signal2RGraph.svg?branch=master "Stable Build Status"
 [python_versions]: https://img.shields.io/pypi/pyversions/PyBEL.svg "Stable Supported Python Versions"
 [Engelhardt_et_al]: https://academic.oup.com/imammb/article/doi/10.1093/imammb/dqx003/3827653/Modelling-and-mathematical-analysis-of-the-M-2 "Oxford Academic"
+
 
 [//]: <> (need a release to show this badge)
 [//]: <> (https://zenodo.org/account/settings/github/)
