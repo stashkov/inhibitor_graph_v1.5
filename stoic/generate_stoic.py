@@ -26,6 +26,8 @@ class ExpandGraph(object):
 
         self.fill_in_stoichiometric_matrix()
         self.cure_matrix_and_vector()
+        self.matrix = self.reconstruct_stoic_matrix_from_reactions()
+        self.cure_reconstructed_matrix()
 
     def initialize_matrix_and_vector(self):
         """
@@ -116,7 +118,7 @@ class ExpandGraph(object):
         self.reaction_number += 1
 
     def add_second_inhibition_reaction(self, u, v):
-        reaction = self.REACTION([self.additional_nodes[(u, v)], u], [self.additional_nodes[v]])
+        reaction = self.REACTION([self.additional_nodes[(u, v)]], [self.additional_nodes[v], u])
         self.reactions.append(reaction)
         self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.REACTANT
         self.matrix[u - 1][self.reaction_number] = self.PRODUCT
@@ -197,6 +199,12 @@ class ExpandGraph(object):
         additional_nodes = self.add_negation_of_nodes(additional_nodes)
         additional_nodes = self.add_composite_nodes(additional_nodes)
         return additional_nodes
+
+    def cure_reconstructed_matrix(self):
+        self._delete_zero_rows()
+        self.matrix = list(zip(*self.matrix))
+        rows_to_delete = self._delete_zero_rows()
+        self.matrix = [list(row) for row in zip(*self.matrix)]
 
     def cure_matrix_and_vector(self):
         self._delete_zero_rows()
