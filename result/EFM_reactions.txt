@@ -1,147 +1,147 @@
 Total number of EFMs: 28
 EFM #1
-Reaction(reactants=[1, 18], products=[32])
-Reaction(reactants=[32], products=[1, 3])
-Reaction(reactants=[3], products=[18])
+Reaction(reactants=[1, 18], products=[32], reversible=True)
+Reaction(reactants=[32], products=[1, 3], reversible=False)
+Reaction(reactants=[3], products=[18], reversible=False)
 
 EFM #2
-Reaction(reactants=[1, 17], products=[31])
-Reaction(reactants=[31], products=[1, 2])
-Reaction(reactants=[2], products=[17])
+Reaction(reactants=[1, 17], products=[31], reversible=True)
+Reaction(reactants=[31], products=[1, 2], reversible=False)
+Reaction(reactants=[2], products=[17], reversible=False)
 
 EFM #3
-Reaction(reactants=[13, 29], products=[55])
-Reaction(reactants=[55], products=[13, 14])
-Reaction(reactants=[14], products=[29])
+Reaction(reactants=[13, 29], products=[55], reversible=True)
+Reaction(reactants=[55], products=[13, 14], reversible=False)
+Reaction(reactants=[14], products=[29], reversible=False)
 
 EFM #4
-Reaction(reactants=[13, 23], products=[52])
-Reaction(reactants=[52], products=[13, 8])
-Reaction(reactants=[8], products=[23])
+Reaction(reactants=[13, 23], products=[52], reversible=True)
+Reaction(reactants=[52], products=[13, 8], reversible=False)
+Reaction(reactants=[8], products=[23], reversible=False)
 
 EFM #5
-Reaction(reactants=[11, 28], products=[47])
-Reaction(reactants=[47], products=[11, 13])
-Reaction(reactants=[13], products=[28])
+Reaction(reactants=[11, 28], products=[47], reversible=True)
+Reaction(reactants=[47], products=[11, 13], reversible=False)
+Reaction(reactants=[13], products=[28], reversible=False)
 
 EFM #6
-Reaction(reactants=[15], products=[30])
-Reaction(reactants=[13, 30], products=[56])
-Reaction(reactants=[56], products=[13, 15])
+Reaction(reactants=[15], products=[30], reversible=False)
+Reaction(reactants=[13, 30], products=[56], reversible=True)
+Reaction(reactants=[56], products=[13, 15], reversible=False)
 
 EFM #7
-Reaction(reactants=[11, 30], products=[48])
-Reaction(reactants=[48], products=[11, 15])
-Reaction(reactants=[15], products=[30])
+Reaction(reactants=[11, 30], products=[48], reversible=True)
+Reaction(reactants=[48], products=[11, 15], reversible=False)
+Reaction(reactants=[15], products=[30], reversible=False)
 
 EFM #8
-Reaction(reactants=[11], products=[26])
-Reaction(reactants=[7, 26], products=[42])
-Reaction(reactants=[42], products=[7, 11])
+Reaction(reactants=[11], products=[26], reversible=False)
+Reaction(reactants=[7, 26], products=[42], reversible=True)
+Reaction(reactants=[42], products=[7, 11], reversible=False)
 
 EFM #9
-Reaction(reactants=[6, 26], products=[41])
-Reaction(reactants=[41], products=[6, 11])
-Reaction(reactants=[11], products=[26])
+Reaction(reactants=[6, 26], products=[41], reversible=True)
+Reaction(reactants=[41], products=[6, 11], reversible=False)
+Reaction(reactants=[11], products=[26], reversible=False)
 
 EFM #10
-Reaction(reactants=[10], products=[25])
-Reaction(reactants=[13, 25], products=[54])
-Reaction(reactants=[54], products=[13, 10])
+Reaction(reactants=[10], products=[25], reversible=False)
+Reaction(reactants=[13, 25], products=[54], reversible=True)
+Reaction(reactants=[54], products=[13, 10], reversible=False)
 
 EFM #11
-Reaction(reactants=[12, 25], products=[50])
-Reaction(reactants=[50], products=[12, 10])
-Reaction(reactants=[10], products=[25])
+Reaction(reactants=[12, 25], products=[50], reversible=True)
+Reaction(reactants=[50], products=[12, 10], reversible=False)
+Reaction(reactants=[10], products=[25], reversible=False)
 
 EFM #12
-Reaction(reactants=[6], products=[21])
-Reaction(reactants=[3, 21], products=[37])
-Reaction(reactants=[37], products=[3, 6])
+Reaction(reactants=[6], products=[21], reversible=False)
+Reaction(reactants=[3, 21], products=[37], reversible=True)
+Reaction(reactants=[37], products=[3, 6], reversible=False)
 
 EFM #13
-Reaction(reactants=[2, 21], products=[35])
-Reaction(reactants=[35], products=[2, 6])
-Reaction(reactants=[6], products=[21])
+Reaction(reactants=[2, 21], products=[35], reversible=True)
+Reaction(reactants=[35], products=[2, 6], reversible=False)
+Reaction(reactants=[6], products=[21], reversible=False)
 
 EFM #14
-Reaction(reactants=[1, 20], products=[34])
-Reaction(reactants=[34], products=[1, 5])
-Reaction(reactants=[5], products=[20])
+Reaction(reactants=[1, 20], products=[34], reversible=True)
+Reaction(reactants=[34], products=[1, 5], reversible=False)
+Reaction(reactants=[5], products=[20], reversible=False)
 
 EFM #15
-Reaction(reactants=[1, 20], products=[34])
-Reaction(reactants=[34], products=[1, 5])
-Reaction(reactants=[10, 5], products=[45])
-Reaction(reactants=[45, 10], products=[20])
+Reaction(reactants=[1, 20], products=[34], reversible=True)
+Reaction(reactants=[34], products=[1, 5], reversible=False)
+Reaction(reactants=[10, 5], products=[45], reversible=True)
+Reaction(reactants=[45], products=[20, 10], reversible=False)
 
 EFM #16
-Reaction(reactants=[1, 19], products=[33])
-Reaction(reactants=[33], products=[1, 4])
-Reaction(reactants=[4], products=[19])
+Reaction(reactants=[1, 19], products=[33], reversible=True)
+Reaction(reactants=[33], products=[1, 4], reversible=False)
+Reaction(reactants=[4], products=[19], reversible=False)
 
 EFM #17
-Reaction(reactants=[1, 19], products=[33])
-Reaction(reactants=[33], products=[1, 4])
-Reaction(reactants=[10, 4], products=[44])
-Reaction(reactants=[44, 10], products=[19])
+Reaction(reactants=[1, 19], products=[33], reversible=True)
+Reaction(reactants=[33], products=[1, 4], reversible=False)
+Reaction(reactants=[10, 4], products=[44], reversible=True)
+Reaction(reactants=[44], products=[19, 10], reversible=False)
 
 EFM #18
-Reaction(reactants=[11, 27], products=[46])
-Reaction(reactants=[46], products=[11, 12])
-Reaction(reactants=[12], products=[27])
+Reaction(reactants=[11, 27], products=[46], reversible=True)
+Reaction(reactants=[46], products=[11, 12], reversible=False)
+Reaction(reactants=[12], products=[27], reversible=False)
 
 EFM #19
-Reaction(reactants=[11, 27], products=[46])
-Reaction(reactants=[46], products=[11, 12])
-Reaction(reactants=[14, 12], products=[58])
-Reaction(reactants=[58, 14], products=[27])
+Reaction(reactants=[11, 27], products=[46], reversible=True)
+Reaction(reactants=[46], products=[11, 12], reversible=False)
+Reaction(reactants=[14, 12], products=[58], reversible=True)
+Reaction(reactants=[58], products=[27, 14], reversible=False)
 
 EFM #20
-Reaction(reactants=[3, 22], products=[38])
-Reaction(reactants=[38], products=[3, 7])
-Reaction(reactants=[7], products=[22])
+Reaction(reactants=[3, 22], products=[38], reversible=True)
+Reaction(reactants=[38], products=[3, 7], reversible=False)
+Reaction(reactants=[7], products=[22], reversible=False)
 
 EFM #21
-Reaction(reactants=[3, 22], products=[38])
-Reaction(reactants=[38], products=[3, 7])
-Reaction(reactants=[5, 7], products=[40])
-Reaction(reactants=[40, 5], products=[22])
+Reaction(reactants=[3, 22], products=[38], reversible=True)
+Reaction(reactants=[38], products=[3, 7], reversible=False)
+Reaction(reactants=[5, 7], products=[40], reversible=True)
+Reaction(reactants=[40], products=[22, 5], reversible=False)
 
 EFM #22
-Reaction(reactants=[2, 7], products=[36])
-Reaction(reactants=[36, 2], products=[22])
-Reaction(reactants=[3, 22], products=[38])
-Reaction(reactants=[38], products=[3, 7])
+Reaction(reactants=[2, 7], products=[36], reversible=True)
+Reaction(reactants=[36], products=[22, 2], reversible=False)
+Reaction(reactants=[3, 22], products=[38], reversible=True)
+Reaction(reactants=[38], products=[3, 7], reversible=False)
 
 EFM #23
-Reaction(reactants=[3, 22], products=[38])
-Reaction(reactants=[38], products=[3, 7])
-Reaction(reactants=[13, 7], products=[51])
-Reaction(reactants=[51, 13], products=[22])
+Reaction(reactants=[3, 22], products=[38], reversible=True)
+Reaction(reactants=[38], products=[3, 7], reversible=False)
+Reaction(reactants=[13, 7], products=[51], reversible=True)
+Reaction(reactants=[51], products=[22, 13], reversible=False)
 
 EFM #24
-Reaction(reactants=[9], products=[24])
-Reaction(reactants=[15, 24], products=[59])
-Reaction(reactants=[59], products=[15, 9])
+Reaction(reactants=[9], products=[24], reversible=False)
+Reaction(reactants=[15, 24], products=[59], reversible=True)
+Reaction(reactants=[59], products=[15, 9], reversible=False)
 
 EFM #25
-Reaction(reactants=[4, 24], products=[39])
-Reaction(reactants=[39], products=[4, 9])
-Reaction(reactants=[9], products=[24])
+Reaction(reactants=[4, 24], products=[39], reversible=True)
+Reaction(reactants=[39], products=[4, 9], reversible=False)
+Reaction(reactants=[9], products=[24], reversible=False)
 
 EFM #26
-Reaction(reactants=[9], products=[24])
-Reaction(reactants=[14, 24], products=[57])
-Reaction(reactants=[57], products=[14, 9])
+Reaction(reactants=[9], products=[24], reversible=False)
+Reaction(reactants=[14, 24], products=[57], reversible=True)
+Reaction(reactants=[57], products=[14, 9], reversible=False)
 
 EFM #27
-Reaction(reactants=[9], products=[24])
-Reaction(reactants=[13, 24], products=[53])
-Reaction(reactants=[53], products=[13, 9])
+Reaction(reactants=[9], products=[24], reversible=False)
+Reaction(reactants=[13, 24], products=[53], reversible=True)
+Reaction(reactants=[53], products=[13, 9], reversible=False)
 
 EFM #28
-Reaction(reactants=[9], products=[24])
-Reaction(reactants=[12, 24], products=[49])
-Reaction(reactants=[49], products=[12, 9])
+Reaction(reactants=[9], products=[24], reversible=False)
+Reaction(reactants=[12, 24], products=[49], reversible=True)
+Reaction(reactants=[49], products=[12, 9], reversible=False)
 

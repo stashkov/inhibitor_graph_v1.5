@@ -20,7 +20,7 @@ class GenerateSBML(object):
     def generate_sbml(self):
         for reaction in self.reactions:
             current_reaction = self.add_reaction(reaction)
-            reactants, products = reaction
+            reactants, products, _ = reaction
             for species in reactants:
                 reaction_ref = current_reaction.createReactant()
                 self.add_species_to_model(species)
@@ -32,11 +32,12 @@ class GenerateSBML(object):
         return self.doc
 
     def add_reaction(self, reaction):
+        _, _, reversibility = reaction
         current_reaction = self.model.createReaction()
         reaction_name = ExpandGraph.human_readable_reaction(self.graph, reaction)
         reaction_name = self.replace_non_alphanumeric_with_underscore(reaction_name)
         SBMLGenerator.check(current_reaction.setId(reaction_name), 'set reaction id')
-        # TODO SBMLGenerator.check(r1.setReversible(False), 'set reaction reversibility flag')
+        SBMLGenerator.check(current_reaction.setReversible(reversibility), 'set reaction reversibility flag')
         return current_reaction
 
     def add_species_to_model(self, reagent):
