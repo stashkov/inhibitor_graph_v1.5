@@ -22,6 +22,7 @@ class ExpandGraph(object):
         self.matrix, self.vector = self.initialize_matrix_and_vector()
         self.reactions = list()
         self.deleted_rows_count = 0
+        self.reaction_number = 0
 
         self.fill_in_stoichiometric_matrix()
         self.cure_matrix_and_vector()
@@ -39,14 +40,13 @@ class ExpandGraph(object):
         return self.matrix, self.vector
 
     def fill_in_stoichiometric_matrix(self):
-        reaction_number = 0
         for i, edge in enumerate(sorted(self.graph.edges())):
             if self.graph.get_edge_data(*edge)['weight'] == self.ACTIVATION:
-                reaction_number = self.add_activation_edge_reactions(edge, reaction_number)
+                self.add_activation_edge_reactions(edge)
             if self.graph.get_edge_data(*edge)['weight'] == self.INHIBITION:
-                reaction_number = self.add_inhibition_edge_reactions(edge, reaction_number)
+                self.add_inhibition_edge_reactions(edge)
 
-    def add_activation_edge_reactions(self, edge, reaction_number):
+    def add_activation_edge_reactions(self, edge):
         """
         Given edge PKA -> GRK2
 
@@ -68,16 +68,15 @@ class ExpandGraph(object):
         """
         assert isinstance(edge, tuple)
         u, v = edge
-        self.add_first_activation_reaction(u, v, reaction_number)
-        reaction_number += 1
-        self.add_second_activation_reaction(u, v, reaction_number)
-        reaction_number += 1
+        self.add_first_activation_reaction(u, v)
+        self.reaction_number += 1
+        self.add_second_activation_reaction(u, v)
+        self.reaction_number += 1
         if v not in self.backward_reactions:
-            self.add_third_activation_reaction(v, reaction_number)
-            reaction_number += 1
-        return reaction_number
+            self.add_third_activation_reaction(v)
+            self.reaction_number += 1
 
-    def add_inhibition_edge_reactions(self, edge, reaction_number):
+    def add_inhibition_edge_reactions(self, edge):
         """
         Given edge GRK2 -| GEF
 
@@ -98,47 +97,46 @@ class ExpandGraph(object):
         """
         assert isinstance(edge, tuple)
         u, v = edge
-        self.add_first_inhibition_reaction(u, v, reaction_number)
-        reaction_number += 1
-        self.add_second_inhibition_reaction(u, v, reaction_number)
-        reaction_number += 1
-        return reaction_number
+        self.add_first_inhibition_reaction(u, v)
+        self.reaction_number += 1
+        self.add_second_inhibition_reaction(u, v)
+        self.reaction_number += 1
 
-    def add_first_inhibition_reaction(self, u, v, column):
+    def add_first_inhibition_reaction(self, u, v):
         reaction = self.Reaction([u, v], [self.additional_nodes[(u, v)]])
         self.reactions.append(reaction)
-        self.matrix[u - 1][column] = self.REACTANT
-        self.matrix[v - 1][column] = self.REACTANT
-        self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.PRODUCT
-        self.vector[column] = self.REVERSIBLE_REACTION
+        self.matrix[u - 1][self.reaction_number] = self.REACTANT
+        self.matrix[v - 1][self.reaction_number] = self.REACTANT
+        self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.PRODUCT
+        self.vector[self.reaction_number] = self.REVERSIBLE_REACTION
 
-    def add_second_inhibition_reaction(self, u, v, column):
+    def add_second_inhibition_reaction(self, u, v):
         reaction = self.Reaction([self.additional_nodes[(u, v)], u], [self.additional_nodes[v]])
         self.reactions.append(reaction)
-        self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.REACTANT
-        self.matrix[u - 1][column] = self.PRODUCT
-        self.matrix[self.additional_nodes[v] - 1][column] = self.PRODUCT
+        self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.REACTANT
+        self.matrix[u - 1][self.reaction_number] = self.PRODUCT
+        self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.PRODUCT
 
-    def add_first_activation_reaction(self, u, v, column):
+    def add_first_activation_reaction(self, u, v):
         reaction = self.Reaction([u, self.additional_nodes[v]], [self.additional_nodes[(u, v)]])
         self.reactions.append(reaction)
-        self.matrix[u - 1][column] = self.REACTANT
-        self.matrix[self.additional_nodes[v] - 1][column] = self.REACTANT
-        self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.PRODUCT
-        self.vector[column] = self.REVERSIBLE_REACTION
+        self.matrix[u - 1][self.reaction_number] = self.REACTANT
+        self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.REACTANT
+        self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.PRODUCT
+        self.vector[self.reaction_number] = self.REVERSIBLE_REACTION
 
-    def add_second_activation_reaction(self, u, v, column):
+    def add_second_activation_reaction(self, u, v):
         reaction = self.Reaction([self.additional_nodes[(u, v)]], [u, v])
         self.reactions.append(reaction)
-        self.matrix[self.additional_nodes[(u, v)] - 1][column] = self.REACTANT
-        self.matrix[u - 1][column] = self.PRODUCT
-        self.matrix[v - 1][column] = self.PRODUCT
+        self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.REACTANT
+        self.matrix[u - 1][self.reaction_number] = self.PRODUCT
+        self.matrix[v - 1][self.reaction_number] = self.PRODUCT
 
-    def add_third_activation_reaction(self, v, column):
+    def add_third_activation_reaction(self, v):
         reaction = self.Reaction([v], [self.additional_nodes[v]])
         self.reactions.append(reaction)
-        self.matrix[v - 1][column] = self.REACTANT
-        self.matrix[self.additional_nodes[v] - 1][column] = self.PRODUCT
+        self.matrix[v - 1][self.reaction_number] = self.REACTANT
+        self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.PRODUCT
         self.backward_reactions.append(v)
 
     @staticmethod
@@ -192,6 +190,14 @@ class ExpandGraph(object):
         return additional_nodes
 
     def cure_matrix_and_vector(self):
+        m = self.matrix
+        rows_to_delete = list()
+        for i, row in enumerate(m):
+            if all(element == 0 for element in row):
+                rows_to_delete.append(i)
+        for i in reversed(rows_to_delete):
+            del m[i]
+
         m = list(zip(*self.matrix))
         rows_to_delete = list()
         for i, row in enumerate(m):
