@@ -268,3 +268,23 @@ class TestConcreteExamples(object):
         vector_lead = result.vector
         assert matrix_lead == matrix_gold
         assert vector_lead == vector_gold
+
+    def test_reconstruct_stoic_from_reactions(self):
+        g = nx.DiGraph()
+        g.add_node(1, name='U')
+        g.add_node(2, name='V')
+        g.add_node(3, name='N')
+        g.add_edge(1, 3, weight=0)
+        g.add_edge(2, 3, weight=0)
+        result = ExpandGraph(g)
+        matrix_lead = result.reconstruct_stoic_matrix_from_reactions()
+
+        matrix_gold = [
+            [-1, 1, 0, 0, 0],  # A
+            [0, 0, 0, -1, 1],  # B
+            [0, 1, -1, 0, 1],  # C
+            [-1, 0, 1, -1, 0],  # not(C)
+            [1, -1, 0, 0, 0],  # A:C
+            [0, 0, 0, 1, -1]  # B:C
+        ]
+        assert matrix_lead == matrix_gold

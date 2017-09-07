@@ -243,4 +243,24 @@ class ExpandGraph(object):
             return "node %s has no name" % v
 
     def reconstruct_stoic_matrix_from_reactions(self):
-        pass
+        rows_count = self._number_of_reactants()
+        columns_count = len(self.reactions)
+        matrix = self.generate_empty_stoichiometric_matrix(rows_count, columns_count)
+        for i, reaction in enumerate(self.reactions):
+            left, right = reaction
+            for e in left:
+                matrix[e - 1][i] = self.REACTANT
+            for e in right:
+                matrix[e - 1][i] = self.PRODUCT
+
+        print(matrix)
+        return matrix
+
+
+
+    def _number_of_reactants(self):
+        import itertools
+        l = list(itertools.chain.from_iterable(self.reactions))
+        l = list(itertools.chain.from_iterable(l))
+        return max(l)
+
