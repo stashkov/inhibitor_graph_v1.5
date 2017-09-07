@@ -211,17 +211,17 @@ class ExpandGraph(object):
         return [[0 for _ in range(number_of_columns)] for _ in range(number_of_rows)]
 
     @staticmethod
-    def reaction_representation(reagents):
+    def reaction_representation(reagents, separator='+'):
         """
         Construct a reaction equation based on number of reagents
 
-        Example:
+        Example with default separator of +:
         reaction_representation([1,2])
         '{} + {}'
         """
         assert isinstance(reagents, list)
         reagents_count = len(reagents)
-        return "{}" + ("" if reagents_count == 1 else " + {}" * (reagents_count - 1))
+        return "{}" + ("" if reagents_count == 1 else " {} {{}}".format(separator) * (reagents_count - 1))
 
     @staticmethod
     def node_name(graph, v):
