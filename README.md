@@ -19,8 +19,8 @@ In short:
 ### Getting started ![alt text][python_versions]
 ```python
 pip install -r requirements.txt
-git clone git@github.com:stashkov/inhibitor_graph_v1.5.git
-cd inhibitor_graph_v1.5
+git clone git@github.com:stashkov/Signal2RGraph.git
+cd Signal2RGraph
 python main.py edge_list.csv
 ```
 ### How to create edge list?
@@ -55,7 +55,7 @@ Results can be found in `result` folder. It contains:
 
 [//]: <> (need a release to show this badge)
 [//]: <> (https://zenodo.org/account/settings/github/)
-[//]: <> (https://codecov.io/gh/stashkov/inhibitor_graph_v1.5)
+[//]: <> (https://codecov.io/gh/stashkov/Signal2RGraph)
 
 
 
