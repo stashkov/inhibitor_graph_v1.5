@@ -48,7 +48,7 @@ Results can be found in `result` folder. It contains:
 - Expanded graph as GraphML
 
 
-[climate]: https://codeclimate.com/github/stashkov/inhibitor_graph_v1.5/badges/gpa.svg "Code Climate"
+[climate]: https://codeclimate.com/github/stashkov/Signal2RGraph/badges/gpa.svg "Code Climate"
 [stable_build]: https://travis-ci.org/stashkov/inhibitor_graph_v1.5.svg?branch=master "Stable Build Status"
 [python_versions]: https://img.shields.io/pypi/pyversions/PyBEL.svg "Stable Supported Python Versions"
 [Engelhardt_et_al]: https://academic.oup.com/imammb/article/doi/10.1093/imammb/dqx003/3827653/Modelling-and-mathematical-analysis-of-the-M-2 "Oxford Academic"
