@@ -277,7 +277,7 @@ class TestConcreteExamples(object):
         g.add_edge(1, 3, weight=0)
         g.add_edge(2, 3, weight=0)
         result = ExpandGraph(g)
-        matrix_lead = result.reconstruct_stoic_matrix_from_reactions()
+        matrix_lead = result.matrix
 
         matrix_gold = [
             [-1, 1, 0, 0, 0],  # A

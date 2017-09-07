@@ -20,27 +20,15 @@ class ExpandGraph(object):
         self.additional_nodes = self.expand_graph()
 
         self.backward_reactions = list()  # track reactions
-        self.matrix, self.vector = self.initialize_matrix_and_vector()
+        self.matrix = list()
+        self.vector = list()
         self.reactions = list()  # TODO add add_to_reaction_list(reaction) with assert for tuple content
         self.deleted_rows_count = 0
         self.reaction_number = 0
 
         self.fill_in_stoichiometric_matrix()
+        self.reconstruct_stoic_matrix_from_reactions()
         self.cure_matrix_and_vector()
-        self.matrix = self.reconstruct_stoic_matrix_from_reactions()
-        self.cure_reconstructed_matrix()
-
-    def initialize_matrix_and_vector(self):
-        """
-        As per article,
-            ??? each activation gives us 2 * n + 1 reactions ( where n is # of edges)
-            ??? each inhibition gives us 2 reactions
-        """
-        rows = len(self.graph.nodes())
-        columns = len(list(self.graph.edges())) * 2 + len(list(self.graph.nodes()))
-        self.matrix = self.generate_empty_stoichiometric_matrix(rows, columns)
-        self.vector = [0 for _ in range(columns)]
-        return self.matrix, self.vector
 
     def fill_in_stoichiometric_matrix(self):
         for i, edge in enumerate(sorted(self.graph.edges())):
@@ -51,12 +39,12 @@ class ExpandGraph(object):
         if self.weight(edge) == self.INHIBITION:
             self.add_inhibition_edge_reactions(edge)
 
-    def weight(self, edge):
-        return self.graph.get_edge_data(*edge)['weight']
-
     def add_activation_reaction_to_stoic_matrix(self, edge):
         if self.weight(edge) == self.ACTIVATION:
             self.add_activation_edge_reactions(edge)
+
+    def weight(self, edge):
+        return self.graph.get_edge_data(*edge)['weight']
 
     def add_activation_edge_reactions(self, edge):
         """
@@ -112,42 +100,26 @@ class ExpandGraph(object):
     def add_first_inhibition_reaction(self, u, v):
         reaction = self.REACTION([u, v], [self.additional_nodes[(u, v)]], self.REVERSIBLE_REACTION)
         self.reactions.append(reaction)
-        self.matrix[u - 1][self.reaction_number] = self.REACTANT
-        self.matrix[v - 1][self.reaction_number] = self.REACTANT
-        self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.PRODUCT
-        self.vector[self.reaction_number] = self.REVERSIBLE_REACTION
         self.reaction_number += 1
 
     def add_second_inhibition_reaction(self, u, v):
         reaction = self.REACTION([self.additional_nodes[(u, v)]], [self.additional_nodes[v], u], self.IRREVERSIBLE_REACTION)
         self.reactions.append(reaction)
-        self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.REACTANT
-        self.matrix[u - 1][self.reaction_number] = self.PRODUCT
-        self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.PRODUCT
         self.reaction_number += 1
 
     def add_first_activation_reaction(self, u, v):
         reaction = self.REACTION([u, self.additional_nodes[v]], [self.additional_nodes[(u, v)]], self.REVERSIBLE_REACTION)
         self.reactions.append(reaction)
-        self.matrix[u - 1][self.reaction_number] = self.REACTANT
-        self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.REACTANT
-        self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.PRODUCT
-        self.vector[self.reaction_number] = self.REVERSIBLE_REACTION
         self.reaction_number += 1
 
     def add_second_activation_reaction(self, u, v):
         reaction = self.REACTION([self.additional_nodes[(u, v)]], [u, v], self.IRREVERSIBLE_REACTION)
         self.reactions.append(reaction)
-        self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.REACTANT
-        self.matrix[u - 1][self.reaction_number] = self.PRODUCT
-        self.matrix[v - 1][self.reaction_number] = self.PRODUCT
         self.reaction_number += 1
 
     def add_third_activation_reaction(self, v):
         reaction = self.REACTION([v], [self.additional_nodes[v]], self.IRREVERSIBLE_REACTION)
         self.reactions.append(reaction)
-        self.matrix[v - 1][self.reaction_number] = self.REACTANT
-        self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.PRODUCT
         self.backward_reactions.append(v)
         self.reaction_number += 1
 
@@ -202,26 +174,21 @@ class ExpandGraph(object):
         additional_nodes = self.add_composite_nodes(additional_nodes)
         return additional_nodes
 
-    def cure_reconstructed_matrix(self):
-        self._delete_zero_rows()
-        self.matrix = list(zip(*self.matrix))
-        rows_to_delete = self._delete_zero_rows()
-        self.matrix = [list(row) for row in zip(*self.matrix)]
-        # cure vector
-        for i in reversed(rows_to_delete):
-            del self.vector[i]
-        self.deleted_rows_count = len(rows_to_delete)
-
     def cure_matrix_and_vector(self):
+        rows_to_delete = self._cure_matrix()
+        self._cure_vector(rows_to_delete)
+        self.deleted_rows_count = len(rows_to_delete)
+
+    def _cure_vector(self, rows_to_delete):
+        for i in reversed(rows_to_delete):
+            del self.vector[i]
+
+    def _cure_matrix(self):
         self._delete_zero_rows()
         self.matrix = list(zip(*self.matrix))
         rows_to_delete = self._delete_zero_rows()
         self.matrix = [list(row) for row in zip(*self.matrix)]
-
-        # cure vector
-        for i in reversed(rows_to_delete):
-            del self.vector[i]
-        self.deleted_rows_count = len(rows_to_delete)
+        return rows_to_delete
 
     def _delete_zero_rows(self):
         rows_to_delete = list()
@@ -259,18 +226,16 @@ class ExpandGraph(object):
     def reconstruct_stoic_matrix_from_reactions(self):
         rows_count = self._number_of_reactants()
         columns_count = len(self.reactions)
-        matrix = self.generate_empty_stoichiometric_matrix(rows_count, columns_count)
-        vector = [0 for _ in range(columns_count)]
+        self.matrix = self.generate_empty_stoichiometric_matrix(rows_count, columns_count)
+        self.vector = [0 for _ in range(columns_count)]
         for i, reaction in enumerate(self.reactions):
             left, right, reversible = reaction
             for e in left:
-                matrix[e - 1][i] = self.REACTANT
+                self.matrix[e - 1][i] = self.REACTANT
             for e in right:
-                matrix[e - 1][i] = self.PRODUCT
+                self.matrix[e - 1][i] = self.PRODUCT
             if reversible:
-                vector[i] = self.REVERSIBLE_REACTION
-        self.vector = vector
-        return matrix
+                self.vector[i] = self.REVERSIBLE_REACTION
 
     def _number_of_reactants(self):
         l = [left + right for left, right, _ in self.reactions]

@@ -29,10 +29,6 @@ class ExpandGraphCombinatorics(ExpandGraph):
         right_hand = self.additional_nodes[self.composite_node(node)]
         reaction = self.REACTION(left_hand, [right_hand], self.REVERSIBLE_REACTION)
         self.reactions.append(reaction)
-        for i in left_hand:
-            self.matrix[i - 1][self.reaction_number] = self.REACTANT
-        self.matrix[right_hand - 1][self.reaction_number] = self.PRODUCT
-        self.vector[self.reaction_number] = self.REVERSIBLE_REACTION
         self.reaction_number += 1
 
     def add_second_activation_reaction_combinatorics(self, node):
@@ -40,9 +36,6 @@ class ExpandGraphCombinatorics(ExpandGraph):
         right_hand = self.additional_nodes[self.composite_node(node)]
         reaction = self.REACTION([right_hand], left_hand, self.IRREVERSIBLE_REACTION)
         self.reactions.append(reaction)
-        for i in left_hand:
-            self.matrix[i - 1][self.reaction_number] = self.PRODUCT
-        self.matrix[right_hand - 1][self.reaction_number] = self.REACTANT
         self.reaction_number += 1
 
     def add_composite_nodes(self, additional_nodes):
