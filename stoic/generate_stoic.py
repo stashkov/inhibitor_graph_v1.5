@@ -196,27 +196,24 @@ class ExpandGraph(object):
         return additional_nodes
 
     def cure_matrix_and_vector(self):
-        m = self.matrix
-        rows_to_delete = list()
-        for i, row in enumerate(m):
-            if all(element == 0 for element in row):
-                rows_to_delete.append(i)
-        for i in reversed(rows_to_delete):
-            del m[i]
+        self._delete_zero_rows()
+        self.matrix = list(zip(*self.matrix))
+        rows_to_delete = self._delete_zero_rows()
+        self.matrix = [list(row) for row in zip(*self.matrix)]
 
-        m = list(zip(*self.matrix))
-        rows_to_delete = list()
-        for i, row in enumerate(m):
-            if all(element == 0 for element in row):
-                rows_to_delete.append(i)
-        for i in reversed(rows_to_delete):
-            del m[i]
         # cure vector
         for i in reversed(rows_to_delete):
             del self.vector[i]
-
-        self.matrix = [list(row) for row in zip(*m)]
         self.deleted_rows_count = len(rows_to_delete)
+
+    def _delete_zero_rows(self):
+        rows_to_delete = list()
+        for i, row in enumerate(self.matrix):
+            if all(element == 0 for element in row):
+                rows_to_delete.append(i)
+        for i in reversed(rows_to_delete):
+            del self.matrix[i]
+        return rows_to_delete
 
     @staticmethod
     def generate_empty_stoichiometric_matrix(number_of_rows, number_of_columns):
