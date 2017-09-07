@@ -1,5 +1,5 @@
 [run]
-source=inhibitor_graph_v1.5
+source=Signal2RGraph
 
 [report]
 show_missing = True
