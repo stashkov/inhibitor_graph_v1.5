@@ -1,5 +1,5 @@
 from collections import namedtuple
-
+import itertools
 import networkx as nx
 
 
@@ -8,8 +8,9 @@ class ExpandGraph(object):
     ACTIVATION = 0  # edges in a graph that have weight 1 are considered activation edges
     REACTANT = -1  # terms that are on the left in chemical equation in stoichiometric matrices denoted by -1
     PRODUCT = 1  # terms that are on the right in chemical equation in stoichiometric matrices denoted by -1
-    REVERSIBLE_REACTION = 1  # reaction that is reversible in reversibility vector (otherwise its 0)
-    REACTION = namedtuple('Reaction', 'reactants, products')
+    REVERSIBLE_REACTION = True  # reaction that is reversible in reversibility vector
+    IRREVERSIBLE_REACTION = False
+    REACTION = namedtuple('Reaction', 'reactants, products, reversible')
 
     def __init__(self, graph):
         assert isinstance(graph, nx.DiGraph)
@@ -109,7 +110,7 @@ class ExpandGraph(object):
         self.add_second_inhibition_reaction(u, v)
 
     def add_first_inhibition_reaction(self, u, v):
-        reaction = self.REACTION([u, v], [self.additional_nodes[(u, v)]])
+        reaction = self.REACTION([u, v], [self.additional_nodes[(u, v)]], self.REVERSIBLE_REACTION)
         self.reactions.append(reaction)
         self.matrix[u - 1][self.reaction_number] = self.REACTANT
         self.matrix[v - 1][self.reaction_number] = self.REACTANT
@@ -118,7 +119,7 @@ class ExpandGraph(object):
         self.reaction_number += 1
 
     def add_second_inhibition_reaction(self, u, v):
-        reaction = self.REACTION([self.additional_nodes[(u, v)]], [self.additional_nodes[v], u])
+        reaction = self.REACTION([self.additional_nodes[(u, v)]], [self.additional_nodes[v], u], self.IRREVERSIBLE_REACTION)
         self.reactions.append(reaction)
         self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.REACTANT
         self.matrix[u - 1][self.reaction_number] = self.PRODUCT
@@ -126,7 +127,7 @@ class ExpandGraph(object):
         self.reaction_number += 1
 
     def add_first_activation_reaction(self, u, v):
-        reaction = self.REACTION([u, self.additional_nodes[v]], [self.additional_nodes[(u, v)]])
+        reaction = self.REACTION([u, self.additional_nodes[v]], [self.additional_nodes[(u, v)]], self.REVERSIBLE_REACTION)
         self.reactions.append(reaction)
         self.matrix[u - 1][self.reaction_number] = self.REACTANT
         self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.REACTANT
@@ -135,7 +136,7 @@ class ExpandGraph(object):
         self.reaction_number += 1
 
     def add_second_activation_reaction(self, u, v):
-        reaction = self.REACTION([self.additional_nodes[(u, v)]], [u, v])
+        reaction = self.REACTION([self.additional_nodes[(u, v)]], [u, v], self.IRREVERSIBLE_REACTION)
         self.reactions.append(reaction)
         self.matrix[self.additional_nodes[(u, v)] - 1][self.reaction_number] = self.REACTANT
         self.matrix[u - 1][self.reaction_number] = self.PRODUCT
@@ -143,7 +144,7 @@ class ExpandGraph(object):
         self.reaction_number += 1
 
     def add_third_activation_reaction(self, v):
-        reaction = self.REACTION([v], [self.additional_nodes[v]])
+        reaction = self.REACTION([v], [self.additional_nodes[v]], self.IRREVERSIBLE_REACTION)
         self.reactions.append(reaction)
         self.matrix[v - 1][self.reaction_number] = self.REACTANT
         self.matrix[self.additional_nodes[v] - 1][self.reaction_number] = self.PRODUCT
@@ -153,14 +154,15 @@ class ExpandGraph(object):
     @staticmethod
     def human_readable_reaction(graph, reaction):
         """given Reaction (namedtuple) show it it human readable format"""
-        reactants, products = reaction
+        reactants, products, reversible = reaction
         reactants = [ExpandGraph.node_name(graph, r) for r in reactants]
         products = [ExpandGraph.node_name(graph, p) for p in products]
-        # TODO add reversibility of the reaction to namedtuple
         left_side = ExpandGraph.reaction_representation(reactants)
         right_side = ExpandGraph.reaction_representation(products)
         left_side = left_side.format(*reactants)
         right_side = right_side.format(*products)
+        if reversible:
+            return left_side + " <-> " + right_side
         return left_side + " -> " + right_side
 
     def human_readable_reactions(self):
@@ -205,6 +207,10 @@ class ExpandGraph(object):
         self.matrix = list(zip(*self.matrix))
         rows_to_delete = self._delete_zero_rows()
         self.matrix = [list(row) for row in zip(*self.matrix)]
+        # cure vector
+        for i in reversed(rows_to_delete):
+            del self.vector[i]
+        self.deleted_rows_count = len(rows_to_delete)
 
     def cure_matrix_and_vector(self):
         self._delete_zero_rows()
@@ -254,21 +260,20 @@ class ExpandGraph(object):
         rows_count = self._number_of_reactants()
         columns_count = len(self.reactions)
         matrix = self.generate_empty_stoichiometric_matrix(rows_count, columns_count)
+        vector = [0 for _ in range(columns_count)]
         for i, reaction in enumerate(self.reactions):
-            left, right = reaction
+            left, right, reversible = reaction
             for e in left:
                 matrix[e - 1][i] = self.REACTANT
             for e in right:
                 matrix[e - 1][i] = self.PRODUCT
-
-        print(matrix)
+            if reversible:
+                vector[i] = self.REVERSIBLE_REACTION
+        self.vector = vector
         return matrix
 
-
-
     def _number_of_reactants(self):
-        import itertools
-        l = list(itertools.chain.from_iterable(self.reactions))
+        l = [left + right for left, right, _ in self.reactions]
         l = list(itertools.chain.from_iterable(l))
         return max(l)
 

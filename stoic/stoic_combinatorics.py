@@ -27,7 +27,7 @@ class ExpandGraphCombinatorics(ExpandGraph):
     def add_first_activation_reaction_combinatorics(self, node):
         left_hand = self.extract_reactants(node)
         right_hand = self.additional_nodes[self.composite_node(node)]
-        reaction = self.REACTION(left_hand, [right_hand])
+        reaction = self.REACTION(left_hand, [right_hand], self.REVERSIBLE_REACTION)
         self.reactions.append(reaction)
         for i in left_hand:
             self.matrix[i - 1][self.reaction_number] = self.REACTANT
@@ -38,7 +38,7 @@ class ExpandGraphCombinatorics(ExpandGraph):
     def add_second_activation_reaction_combinatorics(self, node):
         left_hand = self.extract_reactants(node)
         right_hand = self.additional_nodes[self.composite_node(node)]
-        reaction = self.REACTION([right_hand], left_hand)
+        reaction = self.REACTION([right_hand], left_hand, self.IRREVERSIBLE_REACTION)
         self.reactions.append(reaction)
         for i in left_hand:
             self.matrix[i - 1][self.reaction_number] = self.PRODUCT
@@ -83,8 +83,7 @@ class ExpandGraphCombinatorics(ExpandGraph):
     def generate_name_str(self, node):
         """
         returns a string of "{}:{}:{}" based on the number of incoming nodes
-        :type edges: list
-        :param edges:
+        :type node: int
         :return:
         """
         edges = self.graph.in_edges(node)
