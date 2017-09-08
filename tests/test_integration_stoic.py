@@ -1,6 +1,6 @@
 import networkx as nx
 
-from stoic.generate_stoic import ExpandGraph
+from stoic.stoic import ExpandGraph
 
 
 class TestSizeOfStoichiometricMatrix(object):
