@@ -3,6 +3,24 @@ import itertools
 import networkx as nx
 
 
+class Reaction(namedtuple("Reaction", "reactants, products, reversible")):
+    __slots__ = ()
+
+    def __new__(cls, reactants, products, reversible):
+        Reaction.assert_types(products, reactants, reversible)
+        # noinspection PyArgumentList
+        self = super(Reaction, cls).__new__(cls, reactants, products, reversible)
+        return self
+
+    @staticmethod
+    def assert_types(products, reactants, reversible):
+        for reagents in [reactants, products]:
+            assert isinstance(reagents, list)
+            assert reagents
+            assert all(isinstance(i, int) for i in reagents)
+        assert isinstance(reversible, bool)
+
+
 class ExpandGraph(object):
     INHIBITION = 1  # edges in a graph that have weight 1 are considered inhibition edges
     ACTIVATION = 0  # edges in a graph that have weight 1 are considered activation edges
@@ -10,7 +28,7 @@ class ExpandGraph(object):
     PRODUCT = 1  # terms that are on the right in chemical equation in stoichiometric matrices denoted by -1
     REVERSIBLE_REACTION = True  # reaction that is reversible in reversibility vector
     IRREVERSIBLE_REACTION = False
-    REACTION = namedtuple('Reaction', 'reactants, products, reversible')
+    REACTION = Reaction
 
     def __init__(self, graph):
         assert isinstance(graph, nx.DiGraph)
