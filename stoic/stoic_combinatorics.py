@@ -3,6 +3,44 @@ import itertools
 
 
 class ExpandGraphCombinatorics(ExpandGraph):
+    """
+    Extend functionality by treating nodes > 1 in degree
+    as simultaneous reactions, that happen at the same time,
+    as opposed to being independent.
+
+    Activation Edges:
+        U -> N
+        V -> N
+
+    Option 1:
+        U + not(N) <-> U:N -> U + N
+        V + not(N) <-> V:N -> V + N
+        N -> not(N)
+    Note:
+         If you have more incoming nodes, add another equation
+
+    Option 2:
+        U + V + not(N) <-> U:V:N -> U + V + N
+        N -> not(N)
+    Note:
+        If you have more incoming nodes, add another reactant to first equation
+
+    Inhibition Edges:
+        U -| N
+        V -> N
+
+    Option 1:
+        U + N <-> U:N -> U + not(N)
+        V + N <-> V:N -> V + not(N)
+        N -> not(N)
+    Note:
+        If you have more incoming edges, add another equation
+
+    Option 2:
+        U + V + N <-> U:V:N -> U + V + not(N)
+    Note:
+        Was decided to skip this
+    """
     def add_reactions(self):
         for node, in_degree in self.graph.in_degree_iter():
             if in_degree == 1:
