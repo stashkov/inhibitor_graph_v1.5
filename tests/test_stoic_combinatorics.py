@@ -10,8 +10,8 @@ class TestConcreteExamples(object):
             V->N
 
         Reactions:
-            U + V + N <-> U:V:N* -> U  + V + N*
-            N* -> N
+            U + V + not(N) <-> U:V:N -> U  + V + N
+            N -> not(N)
         """
         g = nx.DiGraph()
         g.add_node(1, name='U')
@@ -24,12 +24,11 @@ class TestConcreteExamples(object):
         matrix_gold = [
             [-1, 1, 0],  # U
             [-1, 1, 0],  # V
-            [-1, 1, -1],  # N
-            [0, 0, 1],  # N*
-            [1, -1, 0]  # U:V:N*
+            [0, 1, -1],  # N
+            [-1, 0, 1],  # not(N)
+            [1, -1, 0]  # U:V:N
         ]
         vector_gold = [1, 0, 0]
-
 
         result = ExpandGraphCombinatorics(g)
 
