@@ -35,7 +35,8 @@ class ExpandGraph(object):
         assert all('weight' in d.keys() for _, _, d in graph.edges(data=True)), \
             "all edges must have weights"
         self.graph = graph
-        self.additional_nodes = self.expand_graph()
+        self.additional_nodes = dict()
+        self.expand_graph()
 
         self.backward_reactions = list()  # N -> N*
         self.matrix = list()  # stoichiometric matrix
@@ -167,7 +168,7 @@ class ExpandGraph(object):
     def human_readable_reactions(self):
         return [self.human_readable_reaction(self.graph, reaction) for reaction in self.reactions]
 
-    def add_composite_nodes(self, additional_nodes):
+    def add_composite_nodes(self):
         next_node_number = max(self.graph.nodes())
         for edge in sorted(self.graph.edges()):
             next_node_number += 1
@@ -183,23 +184,19 @@ class ExpandGraph(object):
                                                               self.node_name(self.graph, v)))
             else:
                 raise ValueError("Edge weight can be either 0 or 1")
-            additional_nodes[edge] = next_node_number
-        return additional_nodes
+            self.additional_nodes[edge] = next_node_number
 
-    def add_negation_of_nodes(self, additional_nodes):
+    def add_negation_of_nodes(self):
         next_node_number = max(self.graph.nodes())
         for node in sorted(self.graph.nodes()):
             if self.graph.in_degree(node) > 0:
                 next_node_number += 1
                 self.graph.add_node(next_node_number, name='not {}'.format(self.node_name(self.graph, node)))
-                additional_nodes[node] = next_node_number
-        return additional_nodes
+                self.additional_nodes[node] = next_node_number
 
     def expand_graph(self):
-        additional_nodes = dict()
-        additional_nodes = self.add_negation_of_nodes(additional_nodes)
-        additional_nodes = self.add_composite_nodes(additional_nodes)
-        return additional_nodes
+        self.add_negation_of_nodes()
+        self.add_composite_nodes()
 
     def cure_matrix_and_vector(self):
         """remove columns and rows that have all zeroes"""
