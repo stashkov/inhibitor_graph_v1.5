@@ -19,8 +19,8 @@ class ExpandGraph(object):
         self.graph = graph
         self.additional_nodes = self.expand_graph()
 
-        self.backward_reactions = list()  # track reactions
-        self.matrix = list()
+        self.backward_reactions = list()  # N -> N*
+        self.matrix = list()  # stoichiometric matrix
         self.vector = list()
         self.reactions = list()  # TODO add add_to_reaction_list(reaction) with assert for tuple content
         self.deleted_rows_count = 0
@@ -28,7 +28,6 @@ class ExpandGraph(object):
 
         self.add_reactions()
         self.reconstruct_stoic_matrix_from_reactions()
-        self.cure_matrix_and_vector()
 
     def add_reactions(self):
         for i, edge in enumerate(sorted(self.graph.edges())):
@@ -185,6 +184,7 @@ class ExpandGraph(object):
         return additional_nodes
 
     def cure_matrix_and_vector(self):
+        """remove columns and rows that have all zeroes"""
         rows_to_delete = self._cure_matrix()
         self._cure_vector(rows_to_delete)
         self.deleted_rows_count = len(rows_to_delete)
@@ -246,6 +246,7 @@ class ExpandGraph(object):
                 self.matrix[e - 1][i] = self.PRODUCT
             if reversible:
                 self.vector[i] = self.REVERSIBLE_REACTION
+        self.cure_matrix_and_vector()
 
     def _number_of_reactants(self):
         l = [left + right for left, right, _ in self.reactions]
