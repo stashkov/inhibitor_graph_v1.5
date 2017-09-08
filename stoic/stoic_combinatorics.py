@@ -12,8 +12,8 @@ class ExpandGraphCombinatorics(ExpandGraph):
 
     def add_reactions_wo_combinatorics(self, node):
         edge = next(self.graph.in_edges_iter(node))  # this always returns a single edge
-        super().add_activation_reaction_to_stoic_matrix(edge)
-        super().add_inhibition_reaction_to_stoic_matrix(edge)
+        super().add_activation_reactions(edge)
+        super().add_inhibition_reactions(edge)
 
     def add_reactions_w_combinatorics(self, node):
         """

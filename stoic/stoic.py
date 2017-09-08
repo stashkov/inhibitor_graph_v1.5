@@ -32,14 +32,14 @@ class ExpandGraph(object):
 
     def fill_in_stoichiometric_matrix(self):
         for i, edge in enumerate(sorted(self.graph.edges())):
-            self.add_activation_reaction_to_stoic_matrix(edge)
-            self.add_inhibition_reaction_to_stoic_matrix(edge)
+            self.add_activation_reactions(edge)
+            self.add_inhibition_reactions(edge)
 
-    def add_inhibition_reaction_to_stoic_matrix(self, edge):
+    def add_inhibition_reactions(self, edge):
         if self.weight(edge) == self.INHIBITION:
             self.add_inhibition_edge_reactions(edge)
 
-    def add_activation_reaction_to_stoic_matrix(self, edge):
+    def add_activation_reactions(self, edge):
         if self.weight(edge) == self.ACTIVATION:
             self.add_activation_edge_reactions(edge)
 
