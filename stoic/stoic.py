@@ -23,7 +23,7 @@ class Reaction(namedtuple("Reaction", "reactants, products, reversible")):
 
 class ExpandGraph(object):
     INHIBITION = 1  # edges in a graph that have weight 1 are considered inhibition edges
-    ACTIVATION = 0  # edges in a graph that have weight 1 are considered activation edges
+    ACTIVATION = 0  # edges in a graph that have weight 0 are considered activation edges
     REACTANT = -1  # terms that are on the left in chemical equation in stoichiometric matrices denoted by -1
     PRODUCT = 1  # terms that are on the right in chemical equation in stoichiometric matrices denoted by -1
     REVERSIBLE_REACTION = True  # reaction that is reversible in reversibility vector
