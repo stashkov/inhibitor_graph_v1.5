@@ -1,4 +1,4 @@
-from stoic.stoic import ExpandGraph
+from stoic.stoic_regular import ExpandGraph
 import itertools
 
 

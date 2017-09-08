@@ -1,5 +1,5 @@
 import networkx as nx
-from stoic.stoic import ExpandGraph
+from stoic.stoic_regular import ExpandGraph
 
 
 class TestStoichiometricMatrix(object):

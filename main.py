@@ -4,7 +4,7 @@ import csv
 import networkx as nx
 
 from sampler.sampler import Sampler
-from stoic.stoic import ExpandGraph
+from stoic.stoic_regular import ExpandGraph
 from stoic.graph_reader import GraphReader
 from sbml_generator.sbml_gen import SBMLGenerator
 from sbml_generator.sbml_gen_impl import GenerateSBML

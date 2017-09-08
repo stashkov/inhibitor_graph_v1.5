@@ -1,5 +1,5 @@
 from sbml_generator.sbml_gen import SBMLGenerator
-from stoic.stoic import ExpandGraph
+from stoic.stoic_regular import ExpandGraph
 import re
 
 
