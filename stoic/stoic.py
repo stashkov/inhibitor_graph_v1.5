@@ -26,11 +26,11 @@ class ExpandGraph(object):
         self.deleted_rows_count = 0
         self.reaction_number = 0
 
-        self.fill_in_stoichiometric_matrix()
+        self.add_reactions()
         self.reconstruct_stoic_matrix_from_reactions()
         self.cure_matrix_and_vector()
 
-    def fill_in_stoichiometric_matrix(self):
+    def add_reactions(self):
         for i, edge in enumerate(sorted(self.graph.edges())):
             self.add_activation_reactions(edge)
             self.add_inhibition_reactions(edge)

@@ -3,7 +3,7 @@ import itertools
 
 
 class ExpandGraphCombinatorics(ExpandGraph):
-    def fill_in_stoichiometric_matrix(self):
+    def add_reactions(self):
         for node, in_degree in self.graph.in_degree_iter():
             if in_degree == 1:
                 self.add_reactions_wo_combinatorics(node)
