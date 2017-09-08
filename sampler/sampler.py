@@ -22,7 +22,7 @@ class Sampler(object):
     """
 
     def __init__(self, matrix, rev_vector, k=None):
-        self.matrix = self.sort_matrix_by_first_column(matrix)
+        self.matrix = self.sort_reactants_by_activity(matrix)
         self.rev_vector = self.check_reversibility_vector(rev_vector)
         self.k = k
         self.result = self.sampler()
@@ -168,13 +168,20 @@ class Sampler(object):
         assert isinstance(reversibility_vector, np.ndarray) and len(reversibility_vector.shape) == 1
         return reversibility_vector
 
-    def sort_matrix_by_first_column(self, matrix):
+    def sort_reactants_by_activity(self, matrix):
+        """
+        Sort reactants (rows) by their presence in reactions
+        i.e. a reactant which is involved in 1 reaction, will go on top
+        :type matrix: list
+        """
         self.matrix = np.array(matrix)
         order = np.argsort(np.sum(np.abs(np.sign(self.matrix)), 1))
         return self.matrix[order, :]
 
     def probability(self, x):
-        assert isinstance(x, int)
+        """
+        :type x: int
+        """
         return int(self.k / (self.k + float(x))) if self.k else 1
 
     @staticmethod
