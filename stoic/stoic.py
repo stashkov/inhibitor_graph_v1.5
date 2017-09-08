@@ -9,7 +9,7 @@ class Reaction(namedtuple("Reaction", "reactants, products, reversible")):
     def __new__(cls, reactants, products, reversible):
         Reaction.assert_types(products, reactants, reversible)
         # noinspection PyArgumentList
-        self = super(Reaction, cls).__new__(cls, reactants, products, reversible)
+        self = super().__new__(cls, reactants, products, reversible)
         return self
 
     @staticmethod
