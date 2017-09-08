@@ -1,4 +1,5 @@
-![alt text][stable_build] ![alt text][climate]
+[![stablebuild](https://travis-ci.org/stashkov/Signal2RGraph.svg?branch=master)](https://travis-ci.org/stashkov/Signal2RGraph)
+[![codeclimate](https://codeclimate.com/github/stashkov/Signal2RGraph/badges/gpa.svg)](https://codeclimate.com/github/stashkov/Signal2RGraph/issues)
 [![codecov](https://codecov.io/gh/stashkov/Signal2RGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/stashkov/Signal2RGraph)
 
 __Signal2RGraph__ is a biological tool, that helps to calculate all
@@ -49,15 +50,12 @@ Results can be found in `result` folder. It contains:
 - Expanded graph as GraphML
 
 
-[climate]: https://codeclimate.com/github/stashkov/Signal2RGraph/badges/gpa.svg "Code Climate"
-[stable_build]: https://travis-ci.org/stashkov/Signal2RGraph.svg?branch=master "Stable Build Status"
 [python_versions]: https://img.shields.io/pypi/pyversions/PyBEL.svg "Stable Supported Python Versions"
 [Engelhardt_et_al]: https://academic.oup.com/imammb/article/doi/10.1093/imammb/dqx003/3827653/Modelling-and-mathematical-analysis-of-the-M-2 "Oxford Academic"
 
-
-[//]: <> (need a release to show this badge)
-[//]: <> (https://zenodo.org/account/settings/github/)
-[//]: <> (https://codecov.io/gh/stashkov/Signal2RGraph)
+# TODO
+need a release to show this badge
+https://zenodo.org/account/settings/github/
 
 
 
