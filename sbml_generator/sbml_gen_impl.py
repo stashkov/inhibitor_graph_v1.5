@@ -23,13 +23,15 @@ class GenerateSBML(object):
             reactants, products, _ = reaction
             for species in reactants:
                 reaction_ref = current_reaction.createReactant()
-                self.add_species_to_model(species)
-                self.add_species_to_reaction(species, reaction_ref)
+                self.add_species(reaction_ref, species)
             for species in products:
                 reaction_ref = current_reaction.createProduct()
-                self.add_species_to_model(species)
-                self.add_species_to_reaction(species, reaction_ref)
+                self.add_species(reaction_ref, species)
         return self.doc
+
+    def add_species(self, reaction_ref, species):
+        self.add_species_to_model(species)
+        self.add_species_to_reaction(species, reaction_ref)
 
     def add_reaction(self, reaction):
         _, _, reversibility = reaction
