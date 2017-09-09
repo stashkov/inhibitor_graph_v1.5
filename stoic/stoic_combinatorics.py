@@ -166,10 +166,13 @@ class ExpandGraphCombinatorics(ExpandGraph):
         return sorted(regular_reactants + phosporilated_node)
 
     def is_all_incoming_edges_activation_edges(self, node):
-        return all(self.weight(edge) == self.ACTIVATION for edge in self.graph.in_edges(node))
+        return self.check_edges(self.ACTIVATION, node)
 
     def is_all_incoming_edges_inhibition_edges(self, node):
-        return all(self.weight(edge) == self.INHIBITION for edge in self.graph.in_edges(node))
+        return self.check_edges(self.INHIBITION, node)
+
+    def check_edges(self, edge_type, node):
+        return all(self.weight(edge) == edge_type for edge in self.graph.in_edges(node))
 
     def extract_composite_reactant(self, node):
         """
