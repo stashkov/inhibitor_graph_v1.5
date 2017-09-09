@@ -135,7 +135,6 @@ class ExpandGraphCombinatorics(ExpandGraph):
         """
         return sorted([u for u, _ in self.graph.in_edges(node)] + [node])
 
-
     def generate_name_str(self, node):
         """
         returns a string of "{}:{}:{}" based on the number of incoming nodes
