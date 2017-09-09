@@ -54,11 +54,11 @@ class ExpandGraph(object):
             self.add_inhibition_reactions(edge)
 
     def add_inhibition_reactions(self, edge):
-        if self.weight(edge) == self.INHIBITION:
+        if self.is_inhibition_edge(edge):
             self.add_inhibition_edge_reactions(edge)
 
     def add_activation_reactions(self, edge):
-        if self.weight(edge) == self.ACTIVATION:
+        if self.is_activation_edge(edge):
             self.add_activation_edge_reactions(edge)
 
     def weight(self, edge):
@@ -170,17 +170,21 @@ class ExpandGraph(object):
         next_node_number = max(self.graph.nodes())
         for edge in sorted(self.graph.edges()):
             next_node_number += 1
-            u, v = edge
-            edge_weight = self.weight(edge)
-            if edge_weight == self.ACTIVATION:
+            if self.is_activation_edge(edge):
                 self.graph.add_node(next_node_number,
                                     name='{} : {}'.format(*self.name_reactants(edge)))
-            elif edge_weight == self.INHIBITION:
+            elif self.is_inhibition_edge(edge):
                 self.graph.add_node(next_node_number,
                                     name='{} : not {}'.format(*self.name_reactants(edge)))
             else:
                 raise ValueError("Edge weight can be either 0 or 1")
             self.additional_nodes[edge] = next_node_number
+
+    def is_inhibition_edge(self, edge):
+        return self.weight(edge) == self.INHIBITION
+
+    def is_activation_edge(self, edge):
+        return self.weight(edge) == self.ACTIVATION
 
     def name_reactants(self, reactants):
         return [self.node_name(self.graph, r) for r in reactants]
