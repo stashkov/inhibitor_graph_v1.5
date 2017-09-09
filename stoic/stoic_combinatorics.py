@@ -11,11 +11,6 @@ class ExpandGraphCombinatorics(ExpandGraph):
         U -> N
         V -> N
 
-    Option 2:
-        U + V + not(N) <-> U:V:N -> U + V + N
-        N -> not(N)
-    Note:
-        If you have more incoming nodes, add another reactant to first equation
 
     Inhibition Edges:
         U -| N
@@ -39,6 +34,9 @@ class ExpandGraphCombinatorics(ExpandGraph):
                 self.add_reactions_wo_combinatorics(node)
             elif in_degree > 1:
                 self.add_reactions_w_combinatorics(node)
+        print()
+        print()
+        print(self.reactions, )
 
     def add_reactions_wo_combinatorics(self, node):
         """
@@ -51,19 +49,33 @@ class ExpandGraphCombinatorics(ExpandGraph):
 
     def add_reactions_w_combinatorics(self, node):
         """We have 2 options for all activation edges"""
-        self.all_activation_option_one(node)
+        self.all_activation_edges_complex_reactions(node)
 
-    def all_activation_option_one(self, node):
+    def all_activation_edges_separate_reactions(self, node):
         """
         Activation Edges:
             U -> N
             V -> N
-        Option 1:
+        Separate:
             U + not(N) <-> U:N -> U + N
             V + not(N) <-> V:N -> V + N
             N -> not(N)
         Note:
              If you have more incoming nodes, add another equation
+        """
+        pass
+
+    def all_activation_edges_complex_reactions(self, node):
+        """
+        Activation Edges:
+            U -> N
+            V -> N
+
+        Complex:
+                U + V + not(N) <-> U:V:N -> U + V + N
+                N -> not(N)
+        Note:
+            If you have more incoming nodes, add another reactant to first equation
         """
         self.add_reaction(self.first_reaction_all_activation_option_one(node))
         self.add_reaction(self.second_reaction_all_activation_option_one(node))
