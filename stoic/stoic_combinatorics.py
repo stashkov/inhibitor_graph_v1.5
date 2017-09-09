@@ -78,7 +78,7 @@ class ExpandGraphCombinatorics(ExpandGraph):
 
     def add_second_activation_reaction_combinatorics(self, node):
         reaction = self.REACTION(reactants=[(self.additional_nodes[self.composite_node(node)])],
-                                 products=(self.extract_reactants_all_active(node)),
+                                 products=(self.extract_composite_reactant(node)),
                                  reversible=self.IRREVERSIBLE_REACTION)
         a = self.human_readable_reaction(self.graph, reaction)
         self.reactions.append(reaction)
@@ -89,28 +89,23 @@ class ExpandGraphCombinatorics(ExpandGraph):
         for node, in_degree in list(self.graph.in_degree_iter()):
             next_node_number += 1
             if in_degree > 1:
-                name, reactants = self.generate_combinatorics_node(node)
-                self.graph.add_node(next_node_number, name=name.format(*reactants))
+                self.add_to_graph(node, next_node_number)
                 self.additional_nodes[self.composite_node(node)] = next_node_number
         super(ExpandGraphCombinatorics, self).add_composite_nodes()
 
     def composite_node(self, node):
         """
         :type node: int
-        :param node:
-        :return:
         """
-        return tuple(self.extract_reactants_all_active(node))
+        return tuple(self.extract_composite_reactant(node))
 
-    def generate_combinatorics_node(self, node):
-        name = self.generate_name_str(node)
+    def add_to_graph(self, node, next_node_number):
+        name = self.placeholder(node)
         reactants = self.generate_reactants(node)
-        return name, reactants
+        self.graph.add_node(next_node_number, name=name.format(*reactants))
 
     def generate_reactants(self, node):
-        reactants = self.composite_node(node)
-        reactants = self.name_reactants(reactants)
-        return reactants
+        return self.name_reactants(self.composite_node(node))
 
     def name_reactants(self, reactants):
         return [self.node_name(self.graph, r) for r in reactants]
@@ -126,7 +121,7 @@ class ExpandGraphCombinatorics(ExpandGraph):
         phosporilated_node = [self.additional_nodes[node]]
         return sorted(regular_reactants + phosporilated_node)
 
-    def extract_reactants_all_active(self, node):
+    def extract_composite_reactant(self, node):
         """
         Given a node, returns incoming nodes + negation of a given node
 
@@ -135,7 +130,7 @@ class ExpandGraphCombinatorics(ExpandGraph):
         """
         return sorted([u for u, _ in self.graph.in_edges(node)] + [node])
 
-    def generate_name_str(self, node):
+    def placeholder(self, node):
         """
         returns a string of "{}:{}:{}" based on the number of incoming nodes
         :type node: int
