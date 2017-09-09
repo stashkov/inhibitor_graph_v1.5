@@ -50,6 +50,10 @@ class ExpandGraphCombinatorics(ExpandGraph):
         super().add_inhibition_reactions(edge)
 
     def add_reactions_w_combinatorics(self, node):
+        """We have 2 options for all activation edges"""
+        self.all_activation_option_one(node)
+
+    def all_activation_option_one(self, node):
         """
         Activation Edges:
             U -> N
@@ -60,20 +64,11 @@ class ExpandGraphCombinatorics(ExpandGraph):
             N -> not(N)
         Note:
              If you have more incoming nodes, add another equation
-        :param node:
-        :return:
         """
-        self.all_activation_option_one(node)
-
-    def all_activation_option_one(self, node):
         self.add_reaction(self.first_reaction_all_activation_option_one(node))
         self.add_reaction(self.second_reaction_all_activation_option_one(node))
         if node not in self.backward_reactions:
             self.add_backward_reaction(node)
-
-    def add_reaction(self, reaction):
-        self.reactions.append(reaction)
-        self.reaction_number += 1
 
     def first_reaction_all_activation_option_one(self, node):
         return self.REACTION(reactants=self.extract_reactants(node),
@@ -107,9 +102,6 @@ class ExpandGraphCombinatorics(ExpandGraph):
 
     def get_reactants(self, node):
         return self.name_reactants(self.composite_node(node))
-
-    def name_reactants(self, reactants):
-        return [self.node_name(self.graph, r) for r in reactants]
 
     def extract_reactants(self, node):
         """

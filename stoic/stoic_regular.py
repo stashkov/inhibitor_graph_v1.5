@@ -41,7 +41,7 @@ class ExpandGraph(object):
         self.backward_reactions = list()  # N -> N*
         self.matrix = list()  # stoichiometric matrix
         self.vector = list()
-        self.reactions = list()  # TODO add add_to_reaction_list(reaction) with assert for tuple content
+        self.reactions = list()
         self.deleted_rows_count = 0
         self.reaction_number = 0
 
@@ -90,7 +90,6 @@ class ExpandGraph(object):
         self.add_reaction(self.second_reaction_activation(u, v))
         if v not in self.backward_reactions:
             self.add_backward_reaction(v)
-
 
     def add_inhibition_edge_reactions(self, edge):
         """
@@ -175,15 +174,16 @@ class ExpandGraph(object):
             edge_weight = self.weight(edge)
             if edge_weight == self.ACTIVATION:
                 self.graph.add_node(next_node_number,
-                                    name='{} : {}'.format(self.node_name(self.graph, u),
-                                                          self.node_name(self.graph, v)))
+                                    name='{} : {}'.format(*self.name_reactants(edge)))
             elif edge_weight == self.INHIBITION:
                 self.graph.add_node(next_node_number,
-                                    name='{} : not {}'.format(self.node_name(self.graph, u),
-                                                              self.node_name(self.graph, v)))
+                                    name='{} : not {}'.format(*self.name_reactants(edge)))
             else:
                 raise ValueError("Edge weight can be either 0 or 1")
             self.additional_nodes[edge] = next_node_number
+
+    def name_reactants(self, reactants):
+        return [self.node_name(self.graph, r) for r in reactants]
 
     def add_negation_of_nodes(self):
         next_node_number = max(self.graph.nodes())
