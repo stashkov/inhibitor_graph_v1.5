@@ -9,16 +9,19 @@ class GraphReader(object):
     - list of edges and their weights
     """
 
+    TEMPLATE = "{source} {target} {weight}"
+
     def __init__(self, input_file):
         self.input_file = input_file
         self.graph = nx.DiGraph()
         self.parsed_edge_list = list()
         self.node_names = list()
         self.seen_nodes = set()
-        self.node_numbers = dict()
+        self.dict_names_to_numbers = dict()
+        self.node_count = 0
 
     def read_nodes_names(self):
-        for node_name, node_number in self.node_numbers.items():
+        for node_name, node_number in self.dict_names_to_numbers.items():
             self.graph.add_node(node_number, name=node_name)
 
     def create_graph(self):
@@ -34,21 +37,28 @@ class GraphReader(object):
     def parse_graph(self):
         with open(self.input_file, 'r') as csvfile:
             edgelist = csv.reader(csvfile, delimiter=',', quotechar='"')
-            node_count = 0
             for row in edgelist:
-                if len(row) != 3:
-                    raise ValueError(
-                        "Each row should have exactly 3 elements, but row: {} has {} elements".format(row, len(row)))
+                self.check_row_length(row)
                 source, target, weight = [i.rstrip() for i in row]
-                weight = GraphReader.convert_weight_to_int(weight)
-                for node in [source, target]:
-                    if node not in self.seen_nodes:
-                        node_count += 1
-                        self.seen_nodes.add(node)
-                        self.node_numbers[node] = node_count
-                self.parsed_edge_list.append("{source} {target} {weight}".format(source=self.node_numbers[source],
-                                                                                 target=self.node_numbers[target],
-                                                                                 weight=weight))
+                weight = self.convert_weight_to_int(weight)
+                self.populate_dict(source, target)
+
+                self.parsed_edge_list.append(self.TEMPLATE.format(source=self.dict_names_to_numbers[source],
+                                                                  target=self.dict_names_to_numbers[target],
+                                                                  weight=weight))
+
+    def populate_dict(self, source, target):
+        for node in [source, target]:
+            if node not in self.seen_nodes:
+                self.node_count += 1
+                self.seen_nodes.add(node)
+                self.dict_names_to_numbers[node] = self.node_count
+
+    @staticmethod
+    def check_row_length(row):
+        if len(row) != 3:
+            raise ValueError(
+                "Each row should have exactly 3 elements, but row: {} has {} elements".format(row, len(row)))
 
     @staticmethod
     def convert_weight_to_int(weight):
