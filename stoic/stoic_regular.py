@@ -88,8 +88,7 @@ class ExpandGraph(object):
         u, v = edge
         self.add_reaction(self.first_reaction_activation(u, v))
         self.add_reaction(self.second_reaction_activation(u, v))
-        if v not in self.backward_reactions:
-            self.add_backward_reaction(v)
+        self.add_backward_reaction(v)
 
     def add_inhibition_edge_reactions(self, edge):
         """
@@ -140,9 +139,10 @@ class ExpandGraph(object):
                              reversible=self.IRREVERSIBLE_REACTION)
 
     def add_backward_reaction(self, v):
-        reaction = self.backward_reaction(v)
-        self.backward_reactions.append(v)
-        self.add_reaction(reaction)
+        if v not in self.backward_reactions:
+            reaction = self.backward_reaction(v)
+            self.backward_reactions.append(v)
+            self.add_reaction(reaction)
 
     def backward_reaction(self, v):
         return self.REACTION(reactants=[v],
