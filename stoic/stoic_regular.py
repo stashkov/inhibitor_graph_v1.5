@@ -254,13 +254,15 @@ class ExpandGraph(object):
 
     def reconstruct_stoic_matrix_from_reactions(self):
         for i, reaction in enumerate(self.reactions):
-            left, right, reversible = reaction
-            for e in left:
-                self.matrix[e - 1][i] = self.REACTANT
-            for e in right:
-                self.matrix[e - 1][i] = self.PRODUCT
+            left_side, right_side, reversible = reaction
+            self.add_to_matrix(left_side, i, self.REACTANT)
+            self.add_to_matrix(right_side, i, self.PRODUCT)
             if reversible:
                 self.vector[i] = self.REVERSIBLE_REACTION
+
+    def add_to_matrix(self, reagents, column, reagent_type):
+        for r in reagents:
+            self.matrix[r - 1][column] = reagent_type
 
     def initialize_vector(self):
         return [0 for _ in range(len(self.reactions))]
