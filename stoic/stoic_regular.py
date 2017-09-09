@@ -14,11 +14,15 @@ class Reaction(namedtuple("Reaction", "reactants, products, reversible")):
 
     @staticmethod
     def assert_types(products, reactants, reversible):
-        for reagents in [reactants, products]:
-            assert isinstance(reagents, list)
-            assert reagents
-            assert all(isinstance(i, int) for i in reagents)
+        Reaction.check_types(products)
+        Reaction.check_types(reactants)
         assert isinstance(reversible, bool)
+
+    @staticmethod
+    def check_types(reagents):
+        assert isinstance(reagents, list)
+        assert reagents
+        assert all(isinstance(i, int) for i in reagents)
 
 
 class ExpandGraph(object):
