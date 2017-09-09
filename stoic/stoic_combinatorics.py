@@ -97,7 +97,8 @@ class ExpandGraphCombinatorics(ExpandGraph):
 
     def second_reaction_mixed_activation(self, edge):
         u, v = edge
-        return super().second_reaction_activation(u, v)
+        reaction = super().second_reaction_activation(u, v)
+        return reaction
 
     def add_separate_activation_reactions(self, node):
         """
