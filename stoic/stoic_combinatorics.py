@@ -101,10 +101,10 @@ class ExpandGraphCombinatorics(ExpandGraph):
 
     def add_to_graph(self, node, next_node_number):
         name = self.placeholder(node)
-        reactants = self.generate_reactants(node)
+        reactants = self.get_reactants(node)
         self.graph.add_node(next_node_number, name=name.format(*reactants))
 
-    def generate_reactants(self, node):
+    def get_reactants(self, node):
         return self.name_reactants(self.composite_node(node))
 
     def name_reactants(self, reactants):
