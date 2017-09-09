@@ -171,13 +171,9 @@ class ExpandGraph(object):
         for edge in sorted(self.graph.edges()):
             next_node_number += 1
             if self.is_activation_edge(edge):
-                self.graph.add_node(next_node_number,
-                                    name='{} : {}'.format(*self.name_reactants(edge)))
+                self.graph.add_node(next_node_number, name='{} : {}'.format(*self.name_reactants(edge)))
             elif self.is_inhibition_edge(edge):
-                self.graph.add_node(next_node_number,
-                                    name='{} : not {}'.format(*self.name_reactants(edge)))
-            else:
-                raise ValueError("Edge weight can be either 0 or 1")
+                self.graph.add_node(next_node_number, name='{} : not {}'.format(*self.name_reactants(edge)))
             self.additional_nodes[edge] = next_node_number
 
     def is_inhibition_edge(self, edge):
