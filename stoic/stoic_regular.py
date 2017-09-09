@@ -86,10 +86,11 @@ class ExpandGraph(object):
         """
         assert isinstance(edge, tuple)
         u, v = edge
-        self.add_first_activation_reaction(u, v)
-        self.add_second_activation_reaction(u, v)
+        self.add_reaction(self.first_reaction_activation(u, v))
+        self.add_reaction(self.second_reaction_activation(u, v))
         if v not in self.backward_reactions:
-            self.add_third_activation_reaction(v)
+            self.add_backward_reaction(v)
+
 
     def add_inhibition_edge_reactions(self, edge):
         """
@@ -112,44 +113,42 @@ class ExpandGraph(object):
         """
         assert isinstance(edge, tuple)
         u, v = edge
-        self.add_first_inhibition_reaction(u, v)
-        self.add_second_inhibition_reaction(u, v)
+        self.add_reaction(self.first_reaction_inhibition(u, v))
+        self.add_reaction(self.second_reaction_inhibition(u, v))
 
-    def add_first_inhibition_reaction(self, u, v):
-        reaction = self.REACTION(reactants=[u, v],
-                                 products=[self.additional_nodes[(u, v)]],
-                                 reversible=self.REVERSIBLE_REACTION)
+    def add_reaction(self, reaction):
         self.reactions.append(reaction)
         self.reaction_number += 1
 
-    def add_second_inhibition_reaction(self, u, v):
-        reaction = self.REACTION([self.additional_nodes[(u, v)]],
-                                 [self.additional_nodes[v], u],
-                                 self.IRREVERSIBLE_REACTION)
-        self.reactions.append(reaction)
-        self.reaction_number += 1
+    def first_reaction_inhibition(self, u, v):
+        return self.REACTION(reactants=[u, v],
+                             products=[self.additional_nodes[(u, v)]],
+                             reversible=self.REVERSIBLE_REACTION)
 
-    def add_first_activation_reaction(self, u, v):
-        reaction = self.REACTION(reactants=[u, self.additional_nodes[v]],
-                                 products=[self.additional_nodes[(u, v)]],
-                                 reversible=self.REVERSIBLE_REACTION)
-        self.reactions.append(reaction)
-        self.reaction_number += 1
+    def second_reaction_inhibition(self, u, v):
+        return self.REACTION([self.additional_nodes[(u, v)]],
+                             [self.additional_nodes[v], u],
+                             self.IRREVERSIBLE_REACTION)
 
-    def add_second_activation_reaction(self, u, v):
-        reaction = self.REACTION(reactants=[self.additional_nodes[(u, v)]],
-                                 products=[u, v],
-                                 reversible=self.IRREVERSIBLE_REACTION)
-        self.reactions.append(reaction)
-        self.reaction_number += 1
+    def first_reaction_activation(self, u, v):
+        return self.REACTION(reactants=[u, self.additional_nodes[v]],
+                             products=[self.additional_nodes[(u, v)]],
+                             reversible=self.REVERSIBLE_REACTION)
 
-    def add_third_activation_reaction(self, v):
-        reaction = self.REACTION(reactants=[v],
-                                 products=[self.additional_nodes[v]],
-                                 reversible=self.IRREVERSIBLE_REACTION)
-        self.reactions.append(reaction)
+    def second_reaction_activation(self, u, v):
+        return self.REACTION(reactants=[self.additional_nodes[(u, v)]],
+                             products=[u, v],
+                             reversible=self.IRREVERSIBLE_REACTION)
+
+    def add_backward_reaction(self, v):
+        reaction = self.backward_reaction(v)
         self.backward_reactions.append(v)
-        self.reaction_number += 1
+        self.add_reaction(reaction)
+
+    def backward_reaction(self, v):
+        return self.REACTION(reactants=[v],
+                             products=[self.additional_nodes[v]],
+                             reversible=self.IRREVERSIBLE_REACTION)
 
     @staticmethod
     def human_readable_reaction(graph, reaction):

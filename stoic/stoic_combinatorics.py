@@ -63,26 +63,27 @@ class ExpandGraphCombinatorics(ExpandGraph):
         :param node:
         :return:
         """
-        self.add_first_activation_reaction_combinatorics(node)
-        self.add_second_activation_reaction_combinatorics(node)
+        self.all_activation_option_one(node)
+
+    def all_activation_option_one(self, node):
+        self.add_reaction(self.first_reaction_all_activation_option_one(node))
+        self.add_reaction(self.second_reaction_all_activation_option_one(node))
         if node not in self.backward_reactions:
-            self.add_third_activation_reaction(node)
+            self.add_backward_reaction(node)
 
-    def add_first_activation_reaction_combinatorics(self, node):
-        reaction = self.REACTION(reactants=self.extract_reactants(node),
-                                 products=[(self.additional_nodes[self.composite_node(node)])],
-                                 reversible=self.REVERSIBLE_REACTION)
-
+    def add_reaction(self, reaction):
         self.reactions.append(reaction)
         self.reaction_number += 1
 
-    def add_second_activation_reaction_combinatorics(self, node):
-        reaction = self.REACTION(reactants=[(self.additional_nodes[self.composite_node(node)])],
-                                 products=(self.extract_composite_reactant(node)),
-                                 reversible=self.IRREVERSIBLE_REACTION)
-        a = self.human_readable_reaction(self.graph, reaction)
-        self.reactions.append(reaction)
-        self.reaction_number += 1
+    def first_reaction_all_activation_option_one(self, node):
+        return self.REACTION(reactants=self.extract_reactants(node),
+                             products=[(self.additional_nodes[self.composite_node(node)])],
+                             reversible=self.REVERSIBLE_REACTION)
+
+    def second_reaction_all_activation_option_one(self, node):
+        return self.REACTION(reactants=[(self.additional_nodes[self.composite_node(node)])],
+                             products=(self.extract_composite_reactant(node)),
+                             reversible=self.IRREVERSIBLE_REACTION)
 
     def add_composite_nodes(self):
         next_node_number = max(self.graph.nodes())
