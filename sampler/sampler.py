@@ -28,20 +28,21 @@ class Sampler(object):
         self.result = self.sampler()
 
     def sampler(self):
-        m, n = self.matrix.shape
-        T = np.hstack((self.matrix.T, np.eye(n)))
 
-        for i in range(m):
+        rows, columns = self.matrix.shape
+        T = np.hstack((self.matrix.T, np.eye(columns)))  # stack eye matrix on the right
+
+        for i in range(rows):
             T2, first_i_rows, nonzero_columns, npairs, pairs, revT2 = self.prepare_vars(T, i)
 
-            # print 'line {} of {} - keep: {} combinations: {}'.format(i + 1, m, nonzero_columns.shape[0], npairs),
+            # print 'line {} of {} - keep: {} combinations: {}'.format(i + 1, rows, nonzero_columns.shape[0], npairs),
 
             for j, k in pairs:
                 cj, ck = self.get_cj_ck(T, j, k)
                 Tj, Tk = self.get_Tj_Tk(T, cj, ck, j, k)
                 Tjk = Tj + Tk
                 revTjk = self.get_revTjk(j, k)
-                minimal = self.get_minimal(Tj, Tjk, Tk, first_i_rows, i, m)
+                minimal = self.get_minimal(Tj, Tjk, Tk, first_i_rows, i, rows)
                 T2, revT2 = self.recalculate_T2_and_revT2_if_minimal_exist(T2, Tjk, minimal, revT2, revTjk)
 
             selection = self.filter_rows_based_on_probability(T2)
