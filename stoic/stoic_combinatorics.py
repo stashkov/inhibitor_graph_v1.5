@@ -91,14 +91,11 @@ class ExpandGraphCombinatorics(ExpandGraph):
 
     def first_reaction_mixed(self, edge):
         u, v = edge
-        return self.REACTION(reactants=[u, v],
-                             products=[self.additional_nodes[(u, v)]],
-                             reversible=self.REVERSIBLE_REACTION)
+        return super(ExpandGraphCombinatorics, self).first_reaction_inhibition(u, v)
 
     def second_reaction_mixed_activation(self, edge):
         u, v = edge
-        reaction = super().second_reaction_activation(u, v)
-        return reaction
+        return super(ExpandGraphCombinatorics, self).second_reaction_activation(u, v)
 
     def add_separate_activation_reactions(self, node):
         """
