@@ -124,18 +124,23 @@ class ExpandGraphCombinatorics(ExpandGraph):
                              reversible=self.IRREVERSIBLE_REACTION)
 
     def add_composite_nodes(self):
+        self.add_nodes_len_three_or_more()
+        self.add_nodes_len_two()
+
+    def add_nodes_len_two(self):
+        next_node_number = max(self.graph.nodes())
+        for edge in self.graph.edges():
+            next_node_number += 1
+            self.graph.add_node(next_node_number, name='{} : {}'.format(*self.name_reactants(edge)))
+            self.additional_nodes[edge] = next_node_number
+
+    def add_nodes_len_three_or_more(self):
         next_node_number = max(self.graph.nodes())
         for node, in_degree in list(self.graph.in_degree_iter()):
             next_node_number += 1
             if in_degree > 1:
                 self.add_to_graph(node, next_node_number)
                 self.additional_nodes[self.composite_node(node)] = next_node_number
-
-        next_node_number = max(self.graph.nodes())
-        for edge in self.graph.edges():
-            next_node_number += 1
-            self.graph.add_node(next_node_number, name='{} : {}'.format(*self.name_reactants(edge)))
-            self.additional_nodes[edge] = next_node_number
 
     def composite_node(self, node):
         """
