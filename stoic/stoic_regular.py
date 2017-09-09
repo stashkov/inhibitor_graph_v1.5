@@ -39,14 +39,15 @@ class ExpandGraph(object):
         self.expand_graph()
 
         self.backward_reactions = list()  # N -> N*
-        self.matrix = list()  # stoichiometric matrix
-        self.vector = list()
         self.reactions = list()
         self.deleted_rows_count = 0
         self.reaction_number = 0
-
         self.add_reactions()
+
+        self.matrix = self.initialize_matrix()
+        self.vector = self.initialize_vector()
         self.reconstruct_stoic_matrix_from_reactions()
+        self.cure_matrix_and_vector()
 
     def add_reactions(self):
         for i, edge in enumerate(sorted(self.graph.edges())):
@@ -248,10 +249,6 @@ class ExpandGraph(object):
             return "node %s has no name" % v
 
     def reconstruct_stoic_matrix_from_reactions(self):
-        rows_count = self._number_of_reactants()
-        columns_count = len(self.reactions)
-        self.matrix = self.generate_empty_stoichiometric_matrix(rows_count, columns_count)
-        self.vector = [0 for _ in range(columns_count)]
         for i, reaction in enumerate(self.reactions):
             left, right, reversible = reaction
             for e in left:
@@ -260,9 +257,16 @@ class ExpandGraph(object):
                 self.matrix[e - 1][i] = self.PRODUCT
             if reversible:
                 self.vector[i] = self.REVERSIBLE_REACTION
-        self.cure_matrix_and_vector()
+
+    def initialize_vector(self):
+        return [0 for _ in range(len(self.reactions))]
+
+    def initialize_matrix(self):
+        rows_count = self._number_of_reactants()
+        columns_count = len(self.reactions)
+        return self.generate_empty_stoichiometric_matrix(rows_count, columns_count)
 
     def _number_of_reactants(self):
-        l = [left + right for left, right, _ in self.reactions]
-        l = list(itertools.chain.from_iterable(l))
-        return max(l)
+        lst = [left + right for left, right, _ in self.reactions]
+        lst = list(itertools.chain.from_iterable(lst))
+        return max(lst)
