@@ -45,7 +45,7 @@ class ExpandGraphCombinatorics(ExpandGraph):
 
     def add_separate_mix_reactions(self, node):
         """
-        Mix Edges:
+        Mixed Edges:
             U -| N
             V -> N
         Separate:
@@ -61,21 +61,23 @@ class ExpandGraphCombinatorics(ExpandGraph):
             self.add_second_reaction_mixed(edge)
             self.add_backward_reaction(v)
 
-    def add_second_reaction_mixed(self, edge):
-        if self.is_activation_edge(edge):
-            self.add_reaction(self.second_reaction_mixed_activation(edge))
-        elif self.is_inhibition_edge(edge):
-            self.add_reaction(self.second_reaction_mixed_inhibition(edge))
-
-    def second_reaction_mixed_inhibition(self, edge):
-        u, v = edge
-        return self.REACTION(reactants=[self.additional_nodes[(u, v)]],
-                             products=[u, self.additional_nodes[v]],
-                             reversible=self.IRREVERSIBLE_REACTION)
+    def add_separate_activation_reactions(self, node):
+        """
+        All Activation Edges:
+            U -> N
+            V -> N
+        Separate:
+            U + not(N) <-> U:N -> U + N
+            V + not(N) <-> V:N -> V + N
+            N -> not(N)
+        Note:
+             If you have more incoming nodes, add another equation
+        """
+        raise NotImplementedError  # TODO implement
 
     def add_complex_activation_reactions(self, node):
         """
-        Activation Edges:
+        All Activation Edges:
             U -> N
             V -> N
 
@@ -89,6 +91,29 @@ class ExpandGraphCombinatorics(ExpandGraph):
         self.add_reaction(self.second_reaction_all_activation_complex(node))
         self.add_backward_reaction(node)
 
+    def add_complex_inhibition_reactions(self, node):
+        """
+        All Inhibition Edges:
+            U -| N
+            V -| N
+        Complex:
+            U + V + N <-> U:V:N -> U + V + not(N)
+
+        """
+        raise NotImplementedError  # TODO implement
+
+    def add_second_reaction_mixed(self, edge):
+        if self.is_activation_edge(edge):
+            self.add_reaction(self.second_reaction_mixed_activation(edge))
+        elif self.is_inhibition_edge(edge):
+            self.add_reaction(self.second_reaction_mixed_inhibition(edge))
+
+    def second_reaction_mixed_inhibition(self, edge):
+        u, v = edge
+        return self.REACTION(reactants=[self.additional_nodes[(u, v)]],
+                             products=[u, self.additional_nodes[v]],
+                             reversible=self.IRREVERSIBLE_REACTION)
+
     def first_reaction_mixed(self, edge):
         u, v = edge
         return super(ExpandGraphCombinatorics, self).first_reaction_inhibition(u, v)
@@ -96,20 +121,6 @@ class ExpandGraphCombinatorics(ExpandGraph):
     def second_reaction_mixed_activation(self, edge):
         u, v = edge
         return super(ExpandGraphCombinatorics, self).second_reaction_activation(u, v)
-
-    def add_separate_activation_reactions(self, node):
-        """
-        Activation Edges:
-            U -> N
-            V -> N
-        Separate:
-            U + not(N) <-> U:N -> U + N
-            V + not(N) <-> V:N -> V + N
-            N -> not(N)
-        Note:
-             If you have more incoming nodes, add another equation
-        """
-        raise NotImplementedError  # TODO implement
 
     def first_reaction_all_activation_complex(self, node):
         return self.REACTION(reactants=self.extract_reactants(node),
