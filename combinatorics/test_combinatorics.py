@@ -115,7 +115,7 @@ def test_mix_integration(two_to_one_graph_mix):
             (2, 3): (8,)} == inst.node_helpers
 
 
-def test_activation_join_dict(two_to_one_graph_mix):
+def test_given_mixed_graph_then_do_nothing(two_to_one_graph_mix):
     inst = Combinatorics(two_to_one_graph_mix)
     inst.activated_combination()
     assert [(1, {'name': 'U'}),
@@ -124,6 +124,7 @@ def test_activation_join_dict(two_to_one_graph_mix):
             (4, {'name': 'not U'}),
             (5, {'name': 'not V'}),
             (6, {'name': 'not N'})] == inst.graph.nodes(data=True)
+    assert {1: 4, 2: 5, 3: 6} == inst.node_helpers
 
 
 def test_activation_join_dict_4_nodes(two_to_one_graph_activation_4_nodes):
