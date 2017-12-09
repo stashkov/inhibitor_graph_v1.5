@@ -19,11 +19,14 @@ class Combinatorics:
         """
         each node U gets node "not U" in the graph
         """
+        extra_nodes = list()
         for node, d in self.graph.nodes(data=True):
             if self.graph.in_degree(node) > 0:
                 self.cur_node += 1
-                self.graph.add_node(self.cur_node, name=('not ' + d['name']))
                 self.node_helpers[node] = self.cur_node
+                extra_nodes.append((self.cur_node, ('not ' + d['name'])))
+        for node, name in extra_nodes:
+            self.graph.add_node(node, name=name)
 
     def activated_separate(self):
         """
