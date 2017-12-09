@@ -33,16 +33,6 @@ class Combinatorics:
     def _add_node(self, nodes, template):
         self.graph.add_node(self.cur_node, name=template.format(*self.node_name(nodes)))
 
-    def _add_all_activation_composite(self, node):
-        composite_enzyme = self.graph.predecessors(node) + [self.node_helpers[node]]
-        reaction_type_holder = ':{}'
-        template = '{}' + reaction_type_holder * (len(composite_enzyme) - 1)
-        self.cur_node += 1
-        self.node_helpers[tuple(composite_enzyme)] = (self.cur_node,)
-        # there is a different composite enzyme because we get U+V+Z+notN -> U:V:Z:N
-        composite_enzyme = self.graph.predecessors(node) + [node]
-        self._add_node(nodes=composite_enzyme, template=template)
-
     def activated_separate(self):
         """
         Equations 3.4 from thesis
@@ -66,7 +56,14 @@ class Combinatorics:
         self.negate_nodes()
         for node in self.graph.nodes():
             if self._is_all_incoming_edges_are_activation_edges(node):
-                self._add_all_activation_composite(node)
+                composite_enzyme = self.graph.predecessors(node) + [self.node_helpers[node]]
+                reaction_type_holder = ':{}'
+                template = '{}' + reaction_type_holder * (len(composite_enzyme) - 1)
+                self.cur_node += 1
+                self.node_helpers[tuple(composite_enzyme)] = (self.cur_node,)
+                # there is a different composite enzyme because we get U+V+Z+notN -> U:V:Z:N
+                composite_enzyme = self.graph.predecessors(node) + [node]
+                self._add_node(nodes=composite_enzyme, template=template)
 
     def inhibited(self):
         """
