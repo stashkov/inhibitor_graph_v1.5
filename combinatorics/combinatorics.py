@@ -16,9 +16,10 @@ class Combinatorics:
         each node U gets node "not U" in the graph
         """
         for node, d in self.graph.nodes(data=True):
-            self.cur_node += 1
-            self.graph.add_node(self.cur_node, name=('not ' + d['name']))
-            self.node_helpers[node] = self.cur_node
+            if self.graph.in_degree(node) > 0:
+                self.cur_node += 1
+                self.graph.add_node(self.cur_node, name=('not ' + d['name']))
+                self.node_helpers[node] = self.cur_node
 
     def activated_separate(self):
         """

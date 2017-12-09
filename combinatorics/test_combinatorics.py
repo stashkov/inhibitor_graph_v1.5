@@ -87,32 +87,18 @@ def two_to_one_graph_activation_4_nodes():
     return g
 
 
-def test_negation_of_all_nodes(graph):
-    inst = Combinatorics(graph)
-    inst.negate_nodes()
-    assert (2, {'name': 'not U'}) in inst.graph.nodes(data=True)
-
-
-def test_node_helpers_with_one_node(graph):
-    inst = Combinatorics(graph)
-    inst.negate_nodes()
-    assert {1: 2} == inst.node_helpers
-
-
 def test_mix_integration(two_to_one_graph_mix):
     inst = Combinatorics(two_to_one_graph_mix)
     inst.mixed()
     assert [(1, {'name': 'U'}),
             (2, {'name': 'V'}),
             (3, {'name': 'N'}),
-            (4, {'name': 'not U'}),
-            (5, {'name': 'not V'}),
-            (6, {'name': 'not N'}),
-            (7, {'name': 'U:N'}),
-            (8, {'name': 'V:N'})] == inst.graph.nodes(data=True)
-    assert {1: 4, 2: 5, 3: 6,
-            (1, 3): (7,),
-            (2, 3): (8,)} == inst.node_helpers
+            (4, {'name': 'not N'}),
+            (5, {'name': 'U:N'}),
+            (6, {'name': 'V:N'})] == inst.graph.nodes(data=True)
+    assert {3: 4,
+            (1, 3): (5,),
+            (2, 3): (6,)} == inst.node_helpers
 
 
 def test_given_mixed_graph_then_do_nothing(two_to_one_graph_mix):
@@ -121,10 +107,8 @@ def test_given_mixed_graph_then_do_nothing(two_to_one_graph_mix):
     assert [(1, {'name': 'U'}),
             (2, {'name': 'V'}),
             (3, {'name': 'N'}),
-            (4, {'name': 'not U'}),
-            (5, {'name': 'not V'}),
-            (6, {'name': 'not N'})] == inst.graph.nodes(data=True)
-    assert {1: 4, 2: 5, 3: 6} == inst.node_helpers
+            (4, {'name': 'not N'})] == inst.graph.nodes(data=True)
+    assert {3: 4} == inst.node_helpers
 
 
 def test_activation_join_dict_4_nodes(two_to_one_graph_activation_4_nodes):
@@ -134,13 +118,10 @@ def test_activation_join_dict_4_nodes(two_to_one_graph_activation_4_nodes):
             (2, {'name': 'V'}),
             (3, {'name': 'N'}),
             (4, {'name': 'Z'}),
-            (5, {'name': 'not U'}),
-            (6, {'name': 'not V'}),
-            (7, {'name': 'not N'}),
-            (8, {'name': 'not Z'}),
-            (9, {'name': 'U:V:Z:N'})] == inst.graph.nodes(data=True)
-    assert {1: 5, 2: 6, 3: 7, 4: 8,
-            (1, 2, 4, 7): (9,)} == inst.node_helpers
+            (5, {'name': 'not N'}),
+            (6, {'name': 'U:V:Z:N'})] == inst.graph.nodes(data=True)
+    assert {3: 5,
+            (1, 2, 4, 5): (6,)} == inst.node_helpers
 
 
 def test_activaiton_separate(two_to_one_graph_mix):
@@ -149,14 +130,12 @@ def test_activaiton_separate(two_to_one_graph_mix):
     assert [(1, {'name': 'U'}),
             (2, {'name': 'V'}),
             (3, {'name': 'N'}),
-            (4, {'name': 'not U'}),
-            (5, {'name': 'not V'}),
-            (6, {'name': 'not N'}),
-            (7, {'name': 'U:N'}),
-            (8, {'name': 'V:N'})] == inst.graph.nodes(data=True)
-    assert {1: 4, 2: 5, 3: 6,
-            (1, 3): (7,),
-            (2, 3): (8,)} == inst.node_helpers
+            (4, {'name': 'not N'}),
+            (5, {'name': 'U:N'}),
+            (6, {'name': 'V:N'})] == inst.graph.nodes(data=True)
+    assert {3: 4,
+            (1, 3): (5,),
+            (2, 3): (6,)} == inst.node_helpers
 
 
 def test_activation_join(two_to_one_graph_activation):
@@ -165,14 +144,12 @@ def test_activation_join(two_to_one_graph_activation):
     assert [(1, {'name': 'U'}),
             (2, {'name': 'V'}),
             (3, {'name': 'N'}),
-            (4, {'name': 'not U'}),
-            (5, {'name': 'not V'}),
-            (6, {'name': 'not N'}),
-            (7, {'name': 'U:N'}),
-            (8, {'name': 'V:N'})] == inst.graph.nodes(data=True)
-    assert {1: 4, 2: 5, 3: 6,
-            (1, 6): (7,),
-            (2, 6): (8,)} == inst.node_helpers
+            (4, {'name': 'not N'}),
+            (5, {'name': 'U:N'}),
+            (6, {'name': 'V:N'})] == inst.graph.nodes(data=True)
+    assert {3: 4,
+            (1, 4): (5,),
+            (2, 4): (6,)} == inst.node_helpers
 
 
 def test_all_inhibition(two_to_one_graph_inhibition):
@@ -181,9 +158,7 @@ def test_all_inhibition(two_to_one_graph_inhibition):
     assert [(1, {'name': 'U'}),
             (2, {'name': 'V'}),
             (3, {'name': 'N'}),
-            (4, {'name': 'not U'}),
-            (5, {'name': 'not V'}),
-            (6, {'name': 'not N'}),
-            (7, {'name': 'U:V:N'})] == inst.graph.nodes(data=True)
-    assert {1: 4, 2: 5, 3: 6,
-            (1, 2, 3): (7,)} == inst.node_helpers
+            (4, {'name': 'not N'}),
+            (5, {'name': 'U:V:N'})] == inst.graph.nodes(data=True)
+    assert {3: 4,
+            (1, 2, 3): (5,)} == inst.node_helpers
