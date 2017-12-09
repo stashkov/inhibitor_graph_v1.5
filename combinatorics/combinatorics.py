@@ -11,16 +11,6 @@ class Combinatorics:
         self.cur_node = max(self.graph.nodes())
         self.node_helpers = dict()
 
-    def setup_graph(self):
-        self.negate_nodes()
-        self.composite_mix_activation()
-
-    def node_name(self, nodes):
-        if isinstance(nodes, int):
-            return self.graph.node[nodes]['name']
-        if isinstance(nodes, list):
-            return [self.graph.node[node]['name'] for node in nodes]
-
     def negate_nodes(self):
         """
         each node U gets node "not U" in the graph
@@ -29,9 +19,6 @@ class Combinatorics:
             self.cur_node += 1
             self.graph.add_node(self.cur_node, name=('not ' + d['name']))
             self.node_helpers[node] = self.cur_node
-
-    def _add_node(self, nodes, template):
-        self.graph.add_node(self.cur_node, name=template.format(*self.node_name(nodes)))
 
     def activated_separate(self):
         """
@@ -112,3 +99,12 @@ class Combinatorics:
                    not self._is_all_incoming_edges_are_inhibition_edges(node)
         else:
             return False
+
+    def _add_node(self, nodes, template):
+        self.graph.add_node(self.cur_node, name=template.format(*self._node_name(nodes)))
+
+    def _node_name(self, nodes):
+        if isinstance(nodes, int):
+            return self.graph.node[nodes]['name']
+        if isinstance(nodes, list):
+            return [self.graph.node[node]['name'] for node in nodes]
