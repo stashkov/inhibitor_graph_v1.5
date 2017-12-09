@@ -184,3 +184,5 @@ def test_all_inhibition(two_to_one_graph_inhibition):
             (5, {'name': 'not V'}),
             (6, {'name': 'not N'}),
             (7, {'name': 'U:V:N'})] == inst.graph.nodes(data=True)
+    assert {1: 4, 2: 5, 3: 6,
+            (1, 2, 3): (7,)} == inst.node_helpers
