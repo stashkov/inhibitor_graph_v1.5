@@ -30,21 +30,6 @@ class Combinatorics:
             self.graph.add_node(self.cur_node, name=('not ' + d['name']))
             self.node_helpers[node] = self.cur_node
 
-    # TODO remove this func?
-    def composite_mix_activation(self):
-        """
-        Equations 3.1 from thesis
-        each edge U->V gets node "U:V" in the graph
-        """
-        self.negate_nodes()
-        for u, v, d in self.graph.edges(data=True):
-            self.cur_node += 1
-            self.node_helpers[(u, v)] = (self.cur_node,)
-            if d['weight'] == self.ACTIVATION:
-                self._add_node([u, v], template='{}:{}')
-            elif d['weight'] == self.INHIBITION:
-                self._add_node(nodes=[u, self.node_helpers[v]], template='{}:{}')
-
     def _add_node(self, nodes, template):
         self.graph.add_node(self.cur_node, name=template.format(*self.node_name(nodes)))
 

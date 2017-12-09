@@ -99,35 +99,9 @@ def test_node_helpers_with_one_node(graph):
     assert {1: 2} == inst.node_helpers
 
 
-def test_composite_nodes_size_2(line_graph_activation):
-    inst = Combinatorics(line_graph_activation)
-    inst.composite_mix_activation()
-    assert (5, {'name': 'U:N'}) in inst.graph.nodes(data=True)
-
-
-def test_with_three_nodes(line_graph_activation):
-    inst = Combinatorics(line_graph_activation)
-    inst.composite_mix_activation()
-    assert {1: 3, 2: 4,
-            (1, 2): (5,)} == inst.node_helpers
-
-
-def test_negation(line_graph_inhibition):
-    inst = Combinatorics(line_graph_inhibition)
-    inst.composite_mix_activation()
-    assert (5, {'name': 'V:not N'}) in inst.graph.nodes(data=True)
-
-
-def test_negation_helpers(line_graph_inhibition):
-    inst = Combinatorics(line_graph_inhibition)
-    inst.composite_mix_activation()
-    assert {1: 3, 2: 4,
-            (1, 2): (5,)} == inst.node_helpers
-
-
 def test_mix_integration(two_to_one_graph_mix):
     inst = Combinatorics(two_to_one_graph_mix)
-    inst.composite_mix_activation()
+    inst.mixed()
     assert [(1, {'name': 'U'}),
             (2, {'name': 'V'}),
             (3, {'name': 'N'}),
@@ -135,12 +109,12 @@ def test_mix_integration(two_to_one_graph_mix):
             (5, {'name': 'not V'}),
             (6, {'name': 'not N'}),
             (7, {'name': 'U:N'}),
-            (8, {'name': 'V:not N'})] == inst.graph.nodes(data=True)
+            (8, {'name': 'V:N'})] == inst.graph.nodes(data=True)
 
 
 def test_mix_integration_helpers(two_to_one_graph_mix):
     inst = Combinatorics(two_to_one_graph_mix)
-    inst.composite_mix_activation()
+    inst.mixed()
     assert {1: 4, 2: 5, 3: 6,
             (1, 3): (7,),
             (2, 3): (8,)} == inst.node_helpers
