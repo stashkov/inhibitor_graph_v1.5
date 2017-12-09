@@ -10,6 +10,10 @@ class Combinatorics:
         self.graph = graph
         self.cur_node = max(self.graph.nodes())
         self.node_helpers = dict()
+        self.setup()
+
+    def setup(self):
+        self.negate_nodes()
 
     def negate_nodes(self):
         """
@@ -26,7 +30,6 @@ class Combinatorics:
         Equations 3.4 from thesis
         :return:
         """
-        self.negate_nodes()
         for u, v, d in self.graph.edges(data=True):
             if self._is_all_incoming_edges_are_activation_edges(v):
                 reaction_type_holder = ':{}'
@@ -41,7 +44,6 @@ class Combinatorics:
         Equations 3.3 from thesis
         :return:
         """
-        self.negate_nodes()
         for node in self.graph.nodes():
             if self._is_all_incoming_edges_are_activation_edges(node):
                 composite_enzyme = self.graph.predecessors(node) + [self.node_helpers[node]]
@@ -57,7 +59,6 @@ class Combinatorics:
         """
         Equations 3.2 from thesis
         """
-        self.negate_nodes()
         for node in self.graph.nodes():
             if self._is_all_incoming_edges_are_inhibition_edges(node):
                 composite_enzyme = self.graph.predecessors(node) + [node]
@@ -72,7 +73,6 @@ class Combinatorics:
         Equations 3.1 from thesis
         :return:
         """
-        self.negate_nodes()
         for u, v, d in self.graph.edges(data=True):
             if self._is_all_incoming_edges_are_mixed(v):
                 reaction_type_holder = ':{}'
