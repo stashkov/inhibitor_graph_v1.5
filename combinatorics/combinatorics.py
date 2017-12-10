@@ -17,7 +17,7 @@ class Combinatorics:
 
     def negate_nodes(self):
         """
-        each node U gets node "not U" in the graph
+        each node U gets node  "not U" in the graph
         """
         extra_nodes = list()
         for node, d in self.graph.nodes(data=True):
