@@ -28,6 +28,24 @@ class Combinatorics:
         for node, name in extra_nodes:
             self.graph.add_node(node, name=name)
 
+    def _prepare_node(self, left, right):
+        """
+        Prepares a composite enzyme which can be referred to later
+        as a tuple of its individual parts.
+
+        Left and right side can be different or the same.
+        Example 1: U+V+Z+notN -> U:V:Z:N
+        Example 2: U+N -> U:N
+        :type right: list
+        :type left: list
+        :param left: side of the equation
+        :param right: side of the equation
+        :return:
+        """
+        self.cur_node += 1
+        self.node_helpers[tuple(left)] = (self.cur_node,)
+        self._add_node(nodes=right)
+
     def activated_separate(self):
         """
         Equations 3.4 from thesis
@@ -35,10 +53,9 @@ class Combinatorics:
         """
         for u, v, d in self.graph.edges(data=True):
             if self._is_all_incoming_edges_are_activation_edges(v):
-                self.cur_node += 1
-                self.node_helpers[(u, self.node_helpers[v])] = (self.cur_node,)
-                enzyme = [u, v]
-                self._add_node(nodes=enzyme)
+                left = [u, self.node_helpers[v]]
+                right = [u, v]
+                self._prepare_node(left, right)
 
     def activated_combination(self):
         """
@@ -47,11 +64,9 @@ class Combinatorics:
         """
         for node in self.graph.nodes():
             if self._is_all_incoming_edges_are_activation_edges(node):
-                self.cur_node += 1
-                self.node_helpers[tuple(self.graph.predecessors(node) + [self.node_helpers[node]])] = (self.cur_node,)
-                # there is a different composite enzyme because we get U+V+Z+notN -> U:V:Z:N
-                composite_enzyme = self.graph.predecessors(node) + [node]
-                self._add_node(nodes=composite_enzyme)
+                left = self.graph.predecessors(node) + [self.node_helpers[node]]
+                right = self.graph.predecessors(node) + [node]
+                self._prepare_node(left, right)
 
     def inhibited(self):
         """
@@ -59,10 +74,8 @@ class Combinatorics:
         """
         for node in self.graph.nodes():
             if self._is_all_incoming_edges_are_inhibition_edges(node):
-                composite_enzyme = self.graph.predecessors(node) + [node]
-                self.cur_node += 1
-                self.node_helpers[tuple(composite_enzyme)] = (self.cur_node,)
-                self._add_node(nodes=composite_enzyme)
+                left = self.graph.predecessors(node) + [node]
+                self._prepare_node(left, left)
 
     def mixed(self):
         """
@@ -71,10 +84,8 @@ class Combinatorics:
         """
         for u, v, d in self.graph.edges(data=True):
             if self._is_all_incoming_edges_are_mixed(v):
-                composite_enzyme = [u, v]
-                self.cur_node += 1
-                self.node_helpers[tuple(composite_enzyme)] = (self.cur_node,)
-                self._add_node(nodes=composite_enzyme)
+                left = [u, v]
+                self._prepare_node(left, left)
 
     @staticmethod
     def _template(composite_enzyme):
