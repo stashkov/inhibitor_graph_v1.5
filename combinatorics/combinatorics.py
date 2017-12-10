@@ -36,11 +36,11 @@ class Combinatorics:
         for u, v, d in self.graph.edges(data=True):
             if self._is_all_incoming_edges_are_activation_edges(v):
                 reaction_type_holder = ':{}'
-                composite_enzyme = [1, 2]  # TODO refactor this is a dummy value
+                composite_enzyme = [u, v]
                 template = '{}' + reaction_type_holder * (len(composite_enzyme) - 1)
                 self.cur_node += 1
                 self.node_helpers[(u, self.node_helpers[v])] = (self.cur_node,)
-                self._add_node(nodes=[u, v], template=template)
+                self._add_node(nodes=composite_enzyme, template=template)
 
     def activated_combination(self):
         """
@@ -50,8 +50,7 @@ class Combinatorics:
         for node in self.graph.nodes():
             if self._is_all_incoming_edges_are_activation_edges(node):
                 composite_enzyme = self.graph.predecessors(node) + [self.node_helpers[node]]
-                reaction_type_holder = ':{}'
-                template = '{}' + reaction_type_holder * (len(composite_enzyme) - 1)
+                template = '{}' + ':{}' * (len(composite_enzyme) - 1)
                 self.cur_node += 1
                 self.node_helpers[tuple(composite_enzyme)] = (self.cur_node,)
                 # there is a different composite enzyme because we get U+V+Z+notN -> U:V:Z:N
@@ -65,11 +64,10 @@ class Combinatorics:
         for node in self.graph.nodes():
             if self._is_all_incoming_edges_are_inhibition_edges(node):
                 composite_enzyme = self.graph.predecessors(node) + [node]
-                reaction_type_holder = ':{}'
-                template = '{}' + reaction_type_holder * (len(composite_enzyme) - 1)
+                template = '{}' + ':{}' * (len(composite_enzyme) - 1)
                 self.cur_node += 1
                 self.node_helpers[tuple(composite_enzyme)] = (self.cur_node,)
-                self._add_node(composite_enzyme, template=template)
+                self._add_node(nodes=composite_enzyme, template=template)
 
     def mixed(self):
         """
@@ -78,12 +76,11 @@ class Combinatorics:
         """
         for u, v, d in self.graph.edges(data=True):
             if self._is_all_incoming_edges_are_mixed(v):
-                reaction_type_holder = ':{}'
-                composite_enzyme = [1, 2]  # TODO refactor this is a dummy value
-                template = '{}' + reaction_type_holder * (len(composite_enzyme) - 1)
+                composite_enzyme = [u, v]
+                template = '{}' + ':{}' * (len(composite_enzyme) - 1)
                 self.cur_node += 1
-                self.node_helpers[(u, v)] = (self.cur_node,)
-                self._add_node(nodes=[u, v], template=template)
+                self.node_helpers[tuple(composite_enzyme)] = (self.cur_node,)
+                self._add_node(nodes=composite_enzyme, template=template)
 
     def _is_all_incoming_edges_are_activation_edges(self, node):
         if self.graph.in_degree(node) > 1:
