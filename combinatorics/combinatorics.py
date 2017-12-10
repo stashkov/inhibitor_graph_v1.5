@@ -35,10 +35,10 @@ class Combinatorics:
         """
         for u, v, d in self.graph.edges(data=True):
             if self._is_all_incoming_edges_are_activation_edges(v):
-                composite_enzyme = [u, v]
                 self.cur_node += 1
                 self.node_helpers[(u, self.node_helpers[v])] = (self.cur_node,)
-                self._add_node(nodes=composite_enzyme, template=(self._template(composite_enzyme)))
+                enzyme = [u, v]
+                self._add_node(nodes=enzyme)
 
     def activated_combination(self):
         """
@@ -47,12 +47,11 @@ class Combinatorics:
         """
         for node in self.graph.nodes():
             if self._is_all_incoming_edges_are_activation_edges(node):
-                composite_enzyme = self.graph.predecessors(node) + [self.node_helpers[node]]
                 self.cur_node += 1
-                self.node_helpers[tuple(composite_enzyme)] = (self.cur_node,)
+                self.node_helpers[tuple(self.graph.predecessors(node) + [self.node_helpers[node]])] = (self.cur_node,)
                 # there is a different composite enzyme because we get U+V+Z+notN -> U:V:Z:N
                 composite_enzyme = self.graph.predecessors(node) + [node]
-                self._add_node(nodes=composite_enzyme, template=(self._template(composite_enzyme)))
+                self._add_node(nodes=composite_enzyme)
 
     def inhibited(self):
         """
@@ -63,7 +62,7 @@ class Combinatorics:
                 composite_enzyme = self.graph.predecessors(node) + [node]
                 self.cur_node += 1
                 self.node_helpers[tuple(composite_enzyme)] = (self.cur_node,)
-                self._add_node(nodes=composite_enzyme, template=(self._template(composite_enzyme)))
+                self._add_node(nodes=composite_enzyme)
 
     def mixed(self):
         """
@@ -75,7 +74,7 @@ class Combinatorics:
                 composite_enzyme = [u, v]
                 self.cur_node += 1
                 self.node_helpers[tuple(composite_enzyme)] = (self.cur_node,)
-                self._add_node(nodes=composite_enzyme, template=(self._template(composite_enzyme)))
+                self._add_node(nodes=composite_enzyme)
 
     @staticmethod
     def _template(composite_enzyme):
@@ -100,7 +99,8 @@ class Combinatorics:
         else:
             return False
 
-    def _add_node(self, nodes, template):
+    def _add_node(self, nodes):
+        template = (self._template(nodes))
         self.graph.add_node(self.cur_node, name=template.format(*self._node_name(nodes)))
 
     def _node_name(self, nodes):
