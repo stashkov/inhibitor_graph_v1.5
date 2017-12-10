@@ -65,10 +65,6 @@ class Combinatorics:
                 self.node_helpers[tuple(composite_enzyme)] = (self.cur_node,)
                 self._add_node(nodes=composite_enzyme, template=(self._template(composite_enzyme)))
 
-    def _template(self, composite_enzyme):
-        template = '{}' + ':{}' * (len(composite_enzyme) - 1)
-        return template
-
     def mixed(self):
         """
         Equations 3.1 from thesis
@@ -80,6 +76,10 @@ class Combinatorics:
                 self.cur_node += 1
                 self.node_helpers[tuple(composite_enzyme)] = (self.cur_node,)
                 self._add_node(nodes=composite_enzyme, template=(self._template(composite_enzyme)))
+
+    @staticmethod
+    def _template(composite_enzyme):
+        return '{}' + ':{}' * (len(composite_enzyme) - 1)
 
     def _is_all_incoming_edges_are_activation_edges(self, node):
         if self.graph.in_degree(node) > 1:
