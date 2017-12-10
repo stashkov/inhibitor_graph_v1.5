@@ -100,7 +100,7 @@ class Combinatorics:
             return False
 
     def _add_node(self, nodes):
-        template = (self._template(nodes))
+        template = self._template(nodes)
         self.graph.add_node(self.cur_node, name=template.format(*self._node_name(nodes)))
 
     def _node_name(self, nodes):
